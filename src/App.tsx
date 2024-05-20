@@ -1,10 +1,21 @@
-import Header from "./components/Header";
+// import { NotFound } from "./pages/404";
+// import { Blog } from "./pages/Blog";
+import { HomePage } from "./pages/HomePage";
+// import { Cart } from "./pages/Cart";
+// import { Checkout } from "./pages/Checkout";
+// import { Contact } from "./pages/Contact";
 
 function App() {
   return (
     <>
-      <Header />
+      <HomePage />
+      {/* <NotFound/> */}
+      {/* <Blog/> */}
+      {/* <Cart/> */}
+      {/* <Checkout/> */}
+      {/* <Contact/> */}
     </>
+
   );
 }
 
