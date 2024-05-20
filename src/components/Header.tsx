@@ -1,4 +1,4 @@
-const Header = () => {
+const Header = () => { 
   return (
     <div className="header-section section">
       {/* Header Top Start */}
