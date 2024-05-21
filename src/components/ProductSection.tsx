@@ -1,3 +1,4 @@
+import './js/ProductSection';
 export const ProductSection = () => {
   return (
     <>

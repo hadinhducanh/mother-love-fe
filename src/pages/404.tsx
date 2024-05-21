@@ -1,3 +1,4 @@
+import Banner from "../components/Banner";
 import { Brand } from "../components/Brand";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -6,30 +7,9 @@ export const NotFound = () => {
   return (
     <>
       <Header />
-      <div>
+      <Banner pageName={"404"} singleName={"404"} pictureUrl={"./src/assets/images/hero/hero-1.jpg"}/>
+      
         <div>
-          {/* Page Banner Section Start */}
-          <div
-            className="page-banner-section section"
-            style={{ backgroundImage: "url(./src/assets/images/hero/hero-1.jpg)" }}
-          >
-            <div className="container">
-              <div className="row">
-                <div className="page-banner-content col">
-                  <h1>404</h1>
-                  <ul className="page-breadcrumb">
-                    <li>
-                      <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                      <a href="404.html">404</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Page Banner Section End */}
           {/* Page Section Start */}
           <div className="page-section section section-padding">
             <div className="container">
@@ -64,7 +44,7 @@ export const NotFound = () => {
           </div>
           {/* Page Section End */}
         </div>
-      </div>
+      
       <Brand />
       <Footer />
     </>

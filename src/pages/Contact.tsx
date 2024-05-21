@@ -1,3 +1,4 @@
+import Banner from "../components/Banner";
 import { Brand } from "../components/Brand";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -6,32 +7,8 @@ export const Contact = () => {
   return (
     <>
       <Header />
-      <div>
+      <Banner pageName={"Contact"} singleName={"Contact"} pictureUrl={"./src/assets/images/hero/hero-1.jpg"} />
         <div>
-          {/* Page Banner Section Start */}
-          <div
-            className="page-banner-section section"
-            style={{
-              backgroundImage: "url(./src/assets/images/hero/hero-1.jpg)",
-            }}
-          >
-            <div className="container">
-              <div className="row">
-                <div className="page-banner-content col">
-                  <h1>Contact us</h1>
-                  <ul className="page-breadcrumb">
-                    <li>
-                      <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                      <a href="contact.html">Contact us</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Page Banner Section End */}
           {/* Contact Section Start */}
           <div className="page-section section section-padding">
             <div className="container">
@@ -106,7 +83,7 @@ export const Contact = () => {
           </div>
           {/* Contact Section End */}
         </div>
-      </div>
+  
       <Brand />
       <Footer />
     </>
