@@ -1,6 +1,15 @@
-const LoginRegisterForm = () => {
-    return(
-        <div className="page-section section section-padding">
+import Banner from "../../components/Banner";
+
+
+const LoginRegister = () => {
+  return (
+    <>
+      <Banner
+        pageName={"Login & Register"}
+        singleName={"Login & Register"}
+        pictureUrl="./src/assets/images/hero/hero-1.jpg"
+      />
+       <div className="page-section section section-padding">
         <div className="container">
             <div className="row mbn-40">
 
@@ -66,6 +75,11 @@ const LoginRegisterForm = () => {
             </div>
         </div>
     </div>
-    )
-}
-export default LoginRegisterForm
+
+      
+    </>
+  
+    
+  );
+};
+export default LoginRegister;
