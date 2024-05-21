@@ -1,4 +1,5 @@
-const Header = () => { 
+
+const Header = () => {
   return (
     <div className="header-section section">
       {/* Header Top Start */}
@@ -8,7 +9,7 @@ const Header = () => {
             <div className="col mt-10 mb-10 d-none d-md-flex">
               {/* Header Top Left Start */}
               <div className="header-top-left header-top-left-two">
-                <p>Welcome to Jadusona</p>
+                <p>Welcome to Mother Love</p>
                 <p>
                   Hotline: <a href="tel:0123456789">0123 456 789</a>
                 </p>
@@ -87,7 +88,7 @@ const Header = () => {
               {/* Logo Start */}
               <div className="header-logo">
                 <a href="index.html">
-                  <img src="./src/assets/images/logo.png" alt="Jadusona" />
+                  <img src="./src/assets/images/logo.png"  />
                 </a>
               </div>
               {/* Logo End */}
