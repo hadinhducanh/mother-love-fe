@@ -3,7 +3,7 @@
 
 /*-- Variables --*/
 var windows = $(window);
-var screenSize = windows.width();
+// var screenSize = windows.width();
     
 
 /*-- Product Hover Function --*/
