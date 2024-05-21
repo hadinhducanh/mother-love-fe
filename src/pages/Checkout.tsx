@@ -1,3 +1,4 @@
+import Banner from "../components/Banner";
 import { Brand } from "../components/Brand";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -8,30 +9,7 @@ export const Checkout = () => {
       <Header />
       <div>
         <div>
-          {/* Page Banner Section Start */}
-          <div
-            className="page-banner-section section"
-            style={{
-              backgroundImage: "url(./src/assets/images/hero/hero-1.jpg)",
-            }}
-          >
-            <div className="container">
-              <div className="row">
-                <div className="page-banner-content col">
-                  <h1>Checkout</h1>
-                  <ul className="page-breadcrumb">
-                    <li>
-                      <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                      <a href="checkout.html">Checkout</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Page Banner Section End */}
+          <Banner pageName={"Checkout"} singleName={"Checkout"} pictureUrl={"./src/assets/images/hero/hero-1.jpg"} />
           {/* Checkout Section Start */}
           <div className="page-section section section-padding">
             <div className="container">

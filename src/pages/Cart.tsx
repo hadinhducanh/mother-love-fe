@@ -1,3 +1,4 @@
+import Banner from "../components/Banner";
 import { Brand } from "../components/Brand";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -6,32 +7,9 @@ export const Cart = () => {
   return (
     <>
       <Header />
+      <Banner pageName={"Cart"} singleName={"Cart"} pictureUrl={"./src/assets/images/hero/hero-1.jpg"} />
       <div>
-        <div>
-          {/* Page Banner Section Start */}
-          <div
-            className="page-banner-section section"
-            style={{
-              backgroundImage: "url(./src/assets/images/hero/hero-1.jpg)",
-            }}
-          >
-            <div className="container">
-              <div className="row">
-                <div className="page-banner-content col">
-                  <h1>Cart</h1>
-                  <ul className="page-breadcrumb">
-                    <li>
-                      <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                      <a href="cart.html">Cart</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Page Banner Section End */}
+       
           {/* Cart Section Start */}
           <div className="page-section section section-padding">
             <div className="container">
@@ -145,7 +123,6 @@ export const Cart = () => {
           </div>
           {/* Cart Section End */}
         </div>
-      </div>
       <Brand />
       <Footer />
     </>
