@@ -1,5 +1,5 @@
-import Banner from "../../components/Banner";
-import Sidebar from "../../components/Sidebar";
+import Banner from "../components/Banner";
+import Sidebar from "../components/Sidebar";
 
 const Shop = () => {
   return (

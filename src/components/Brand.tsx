@@ -1,3 +1,5 @@
+import './js/Brand';
+
 export const Brand = () => {
   return (
     <>

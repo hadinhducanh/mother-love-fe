@@ -1,3 +1,5 @@
+
+import './js/HeroSection';
 const HeroSection = () => {
   return (
 <div>
