@@ -1,3 +1,4 @@
+import './js/TestimonialSection';
 export const TestimonialSection = () => {
   return (
     <>
