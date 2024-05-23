@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 var heroSlider = $('.hero-slider');
 heroSlider.slick({
     arrows: true,
