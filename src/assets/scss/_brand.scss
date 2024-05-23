@@ -1,19 +1,87 @@
-/*----------------------------------------*/
-/*  13. Brand CSS
-/*----------------------------------------*/
-
-.brand-slider {
-    width: 100%;
-    & .slick-track {
-        display: flex;
-        align-items: center;
-    }
+.hero-section {
+    position: relative;
+  }
+  
+  .hero-slider {
+    position: relative;
+  }
+  
+  .hero-item-2 {
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+  }
+  
+  .hero-content-2 {
+    text-align: left;
+  }
+  
+  .hero-content-2 h1 {
+    font-size: 3rem;
+    color: #fff;
+  }
+  
+  .hero-content-2 a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 30px;
+    background-color: #fff;
+    color: #ff708a;
+    text-decoration: none;
+  }
+  
+/* Basic styles for the custom buttons */
+.custom-prev,
+.custom-next {
+  position: absolute;
+  top: 50%;
+  border: none;
+  z-index: 9;
+  width: 60px;
+  height: 60px;
+  margin-top: -30px;
+  background-color: white;
+  color: #1a161e;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
 }
 
-.brand-item {
-    text-align: center;
-    & img {
-        margin: auto;
-        max-width: 100%;
-    }
-} 
+/* Styling the icons inside the buttons */
+.custom-prev .icofont,
+.custom-next .icofont {
+  font-size: 30px;
+  line-height: 60px;
+}
+
+/* Positioning the buttons */
+.custom-prev {
+  left: 40px;
+}
+
+.custom-next {
+  right: 40px;
+}
+
+/* Hover effects */
+.custom-prev:hover,
+.custom-next:hover {
+  background-color: #1a161e;
+  color: #fff;
+}
+
+.custom-prev:hover .icofont,
+.custom-next:hover .icofont {
+  color: #ffffff;
+}
+
+/* Focus styles */
+/* .custom-prev:focus,
+.custom-next:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); Focus ring */
+/* } */
