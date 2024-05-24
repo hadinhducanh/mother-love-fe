@@ -1,5 +1,24 @@
-import './js/TestimonialSection';
+import Slider from "react-slick";
+
+// import './js/TestimonialSection';
 export const TestimonialSection = () => {
+  const settings = {
+    arrows: false,
+    dots: false,
+    autoplay: true,
+    infinite: true,
+    slidesToShow: 2,
+    // prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+    // nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+    responsive: [
+      {
+        breakpoint: 767,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
   return (
     <>
       {/* Testimonial Section Start */}
@@ -11,7 +30,8 @@ export const TestimonialSection = () => {
               <p>Clients says abot us</p>
             </div>
           </div>
-          <div className="testimonial-slider row">
+
+          <Slider {...settings} className="testimonial-slider row">
             <div className="col">
               <div className="testimonial-item">
                 <p>
@@ -44,6 +64,7 @@ export const TestimonialSection = () => {
                 </div>
               </div>
             </div>
+
             <div className="col">
               <div className="testimonial-item">
                 <p>
@@ -76,7 +97,7 @@ export const TestimonialSection = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Slider>
         </div>
       </div>
       {/* Testimonial Section End */}

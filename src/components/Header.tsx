@@ -1,4 +1,25 @@
+import React, { useEffect } from "react";
+import "./../assets/js/vendor/jquery-3.4.1.min.js";
 const Header = () => {
+  useEffect(() => {
+    const searchToggle = $(".search-toggle");
+    const searchWrap = $(".header-search-wrap");
+
+    searchToggle.on("click", function () {
+      if (!$(this).hasClass("active")) {
+        $(this).addClass("active");
+        searchWrap.addClass("active");
+      } else {
+        $(this).removeClass("active");
+        searchWrap.removeClass("active");
+      }
+    });
+
+    // Cleanup function to remove event listener when the component unmounts
+    return () => {
+      searchToggle.off("click");
+    };
+  }, []);
   return (
     <div className="header-section section">
       {/* Header Top Start */}
@@ -152,7 +173,28 @@ const Header = () => {
                       <a href="/shop">SHOP</a>
                       <ul className="sub-menu">
                         <li>
-                          <a href="/single-product">Single Product</a>
+                          <a href="shop.html">Shop</a>
+                        </li>
+                        <li>
+                          <a href="shop-left-sidebar.html">Shop Left Sidebar</a>
+                        </li>
+                        <li>
+                          <a href="shop-right-sidebar.html">
+                            Shop Right Sidebar
+                          </a>
+                        </li>
+                        <li>
+                          <a href="single-product.html">Single Product</a>
+                        </li>
+                        <li>
+                          <a href="single-product-left-sidebar.html">
+                            Single Product Left Sidebar
+                          </a>
+                        </li>
+                        <li>
+                          <a href="single-product-right-sidebar.html">
+                            Single Product Right Sidebar
+                          </a>
                         </li>
                       </ul>
                     </li>
@@ -175,7 +217,7 @@ const Header = () => {
                           <a href="/wishlist">Wishlist</a>
                         </li>
                         <li>
-                          <a href="/404">404 Error</a>
+                          <a href="404.html">404 Error</a>
                         </li>
                       </ul>
                     </li>
@@ -183,7 +225,10 @@ const Header = () => {
                       <a href="/blog">BLOG</a>
                       <ul className="sub-menu">
                         <li>
-                          <a href="/single-blog">Single Blog</a>
+                          <a href="blog.html">Blog</a>
+                        </li>
+                        <li>
+                          <a href="single-blog.html">Single Blog</a>
                         </li>
                       </ul>
                     </li>
