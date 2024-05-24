@@ -1,4 +1,3 @@
-
 const Header = () => {
   return (
     <div className="header-section section">
@@ -66,11 +65,11 @@ const Header = () => {
               {/* Header Shop Links Start */}
               <div className="header-top-right header-top-right-two">
                 <p>
-                  <a href="my-account.html">My Account</a>
+                  <a href="/my-account">My Account</a>
                 </p>
                 <p>
-                  <a href="login-register.html">Register</a>
-                  <a href="login-register.html">Login</a>
+                  <a href="/login-register">Register</a>
+                  <a href="/login-register">Login</a>
                 </p>
               </div>
               {/* Header Shop Links End */}
@@ -87,8 +86,8 @@ const Header = () => {
             <div className="col mt-15 mb-15">
               {/* Logo Start */}
               <div className="header-logo">
-                <a href="index.html">
-                  <img src="./src/assets/images/logo.png"  />
+                <a href="/">
+                  <img src="./src/assets/images/logo.png" />
                 </a>
               </div>
               {/* Logo End */}
@@ -123,7 +122,7 @@ const Header = () => {
                 </div>
 
                 <div className="header-wishlist">
-                  <a href="wishlist.html">
+                  <a href="/wishlist">
                     <img
                       src="./src/assets/images/icons/wishlist.png"
                       alt="Wishlist"
@@ -133,7 +132,7 @@ const Header = () => {
                 </div>
 
                 <div className="header-mini-cart">
-                  <a href="cart.html">
+                  <a href="/cart">
                     <img src="./src/assets/images/icons/cart.png" alt="Cart" />{" "}
                     <span>02($250)</span>
                   </a>
@@ -147,48 +146,13 @@ const Header = () => {
                 <nav>
                   <ul>
                     <li className="active">
-                      <a href="index.html">HOME</a>
-                      <ul className="sub-menu">
-                        <li>
-                          <a href="index.html">Home One</a>
-                        </li>
-                        <li className="active">
-                          <a href="index-2.html">Home Two</a>
-                        </li>
-                        <li>
-                          <a href="index-3.html">Home Three</a>
-                        </li>
-                        <li>
-                          <a href="index-box.html">Home Box</a>
-                        </li>
-                      </ul>
+                      <a href="/">HOME</a>
                     </li>
                     <li>
-                      <a href="shop.html">SHOP</a>
+                      <a href="/shop">SHOP</a>
                       <ul className="sub-menu">
                         <li>
-                          <a href="shop.html">Shop</a>
-                        </li>
-                        <li>
-                          <a href="shop-left-sidebar.html">Shop Left Sidebar</a>
-                        </li>
-                        <li>
-                          <a href="shop-right-sidebar.html">
-                            Shop Right Sidebar
-                          </a>
-                        </li>
-                        <li>
-                          <a href="single-product.html">Single Product</a>
-                        </li>
-                        <li>
-                          <a href="single-product-left-sidebar.html">
-                            Single Product Left Sidebar
-                          </a>
-                        </li>
-                        <li>
-                          <a href="single-product-right-sidebar.html">
-                            Single Product Right Sidebar
-                          </a>
+                          <a href="/single-product">Single Product</a>
                         </li>
                       </ul>
                     </li>
@@ -196,38 +160,35 @@ const Header = () => {
                       <a href="#">PAGES</a>
                       <ul className="sub-menu">
                         <li>
-                          <a href="cart.html">Cart</a>
+                          <a href="/cart">Cart</a>
                         </li>
                         <li>
-                          <a href="checkout.html">Checkout</a>
+                          <a href="/checkout">Checkout</a>
                         </li>
                         <li>
-                          <a href="login-register.html">Login & Register</a>
+                          <a href="/login-register">Login & Register</a>
                         </li>
                         <li>
-                          <a href="my-account.html">My Account</a>
+                          <a href="/my-account">My Account</a>
                         </li>
                         <li>
-                          <a href="wishlist.html">Wishlist</a>
+                          <a href="/wishlist">Wishlist</a>
                         </li>
                         <li>
-                          <a href="404.html">404 Error</a>
+                          <a href="/404">404 Error</a>
                         </li>
                       </ul>
                     </li>
                     <li>
-                      <a href="blog.html">BLOG</a>
+                      <a href="/blog">BLOG</a>
                       <ul className="sub-menu">
                         <li>
-                          <a href="blog.html">Blog</a>
-                        </li>
-                        <li>
-                          <a href="single-blog.html">Single Blog</a>
+                          <a href="/single-blog">Single Blog</a>
                         </li>
                       </ul>
                     </li>
                     <li>
-                      <a href="contact.html">CONTACT</a>
+                      <a href="/contact">CONTACT</a>
                     </li>
                   </ul>
                 </nav>

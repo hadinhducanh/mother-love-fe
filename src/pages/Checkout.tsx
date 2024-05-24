@@ -1,15 +1,16 @@
 import Banner from "../components/Banner";
 import { Brand } from "../components/Brand";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
 
 export const Checkout = () => {
   return (
     <>
-      <Header />
       <div>
         <div>
-          <Banner pageName={"Checkout"} singleName={"Checkout"} pictureUrl={"./src/assets/images/hero/hero-1.jpg"} />
+          <Banner
+            pageName={"Checkout"}
+            singleName={"Checkout"}
+            pictureUrl={"./src/assets/images/hero/hero-1.jpg"}
+          />
           {/* Checkout Section Start */}
           <div className="page-section section section-padding">
             <div className="container">
@@ -273,7 +274,6 @@ export const Checkout = () => {
         </div>
       </div>
       <Brand />
-      <Footer />
     </>
   );
 };
