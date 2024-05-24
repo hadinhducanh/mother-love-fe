@@ -1,7 +1,116 @@
+import { useEffect } from "react";
+import $ from 'jquery';
+import 'slick-carousel';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import Banner from "../components/Banner";
 import Sidebar from "../components/Sidebar";
 
 const Product = () => {
+  useEffect(() => {
+    const initializeSlick = () => {
+      $('#pro-thumb-img').slick({
+        arrows: true,
+        dots: false,
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 4,
+        prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              slidesToShow: 3,
+            },
+          },
+          {
+            breakpoint: 991,
+            settings: {
+              slidesToShow: 4,
+            },
+          },
+          {
+            breakpoint: 767,
+            settings: {
+              slidesToShow: 4,
+            },
+          },
+          {
+            breakpoint: 479,
+            settings: {
+              slidesToShow: 3,
+            },
+          },
+        ],
+      });
+
+      $('.product-slider, .related-product-slider-1').slick({
+        arrows: true,
+        dots: false,
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 4,
+        prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              slidesToShow: 3,
+            },
+          },
+          {
+            breakpoint: 991,
+            settings: {
+              slidesToShow: 2,
+            },
+          },
+          {
+            breakpoint: 767,
+            settings: {
+              autoplay: true,
+              slidesToShow: 1,
+              arrows: false,
+            },
+          },
+        ],
+      });
+
+      $('.related-product-slider-2').slick({
+        arrows: true,
+        dots: false,
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 3,
+        prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              slidesToShow: 2,
+            },
+          },
+          {
+            breakpoint: 991,
+            settings: {
+              slidesToShow: 2,
+            },
+          },
+          {
+            breakpoint: 767,
+            settings: {
+              autoplay: true,
+              slidesToShow: 1,
+              arrows: false,
+            },
+          },
+        ],
+      });
+    };
+    setTimeout(initializeSlick, 0);
+  }, []);
   return (
     <>
     <Banner

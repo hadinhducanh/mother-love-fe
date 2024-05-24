@@ -60,7 +60,7 @@ const HeroSection = () => {
             <div
               className="hero-item-2"
               style={{
-                backgroundImage: "url(./src/assets/images/hero/hero-2-bg.jpg)",
+                backgroundImage: "url(./src/assets/images/hero/hero-1-bg.jpg)",
               }}
             >
               <div className="container">
@@ -91,7 +91,7 @@ const HeroSection = () => {
             <div
               className="hero-item-2"
               style={{
-                backgroundImage: "url(./src/assets/images/hero/hero-2-bg.jpg)",
+                backgroundImage: "url(./src/assets/images/hero/hero-1-bg.jpg)",
               }}
             >
               <div className="container">
