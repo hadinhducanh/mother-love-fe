@@ -1,5 +1,55 @@
-import './js/ProductSection';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 export const ProductSection = () => {
+  const smallProductSliderSettings = {
+    arrows: false,
+    dots: false,
+    autoplay: true,
+    infinite: true,
+    slidesToShow: 4,
+    rows: 2,
+    responsive: [
+      {
+        breakpoint: 1199,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 767,
+        settings: {
+          autoplay: true,
+          slidesToShow: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 479,
+        settings: {
+          autoplay: true,
+          slidesToShow: 1,
+          arrows: false,
+        },
+      },
+    ],
+  };
+
+  const bestDealSliderSettings = {
+    arrows: false,
+    dots: false,
+    autoplay: true,
+    infinite: true,
+    slidesToShow: 1,
+  };
+
   return (
     <>
       {/* Product Section Start */}
@@ -13,11 +63,14 @@ export const ProductSection = () => {
                   <p>Exclusive deals for you</p>
                 </div>
               </div>
-              <div className="best-deal-slider w-100">
+              <Slider
+                {...bestDealSliderSettings}
+                className="best-deal-slider w-100"
+              >
                 <div className="slide-item">
                   <div className="best-deal-product">
                     <div className="image">
-                      <img src="./src/assets/images/product/best-deal-1.jpg"  />
+                      <img src="./src/assets/images/product/best-deal-1.jpg" />
                     </div>
                     <div className="content-top">
                       <div className="content-top-left">
@@ -49,7 +102,7 @@ export const ProductSection = () => {
                 <div className="slide-item">
                   <div className="best-deal-product">
                     <div className="image">
-                      <img src="./src/assets/images/product/best-deal-2.jpg"  />
+                      <img src="./src/assets/images/product/best-deal-2.jpg" />
                     </div>
                     <div className="content-top">
                       <div className="content-top-left">
@@ -78,7 +131,7 @@ export const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Slider>
             </div>
             <div className="col-lg-8 col-md-6 col-12 pr-3 pr-lg-4 pr-xl-5 order-2 order-md-1 mb-40">
               <div className="row">
@@ -87,11 +140,14 @@ export const ProductSection = () => {
                   <p>All featured product find here</p>
                 </div>
               </div>
-              <div className="small-product-slider row row-7 mbn-40">
+              <Slider
+                {...smallProductSliderSettings}
+                className="small-product-slider row row-7 mbn-40"
+              >
                 <div className="col mb-40">
                   <div className="on-sale-product">
                     <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-1.jpg"  />
+                      <img src="./src/assets/images/product/on-sale-1.jpg" />
                     </a>
                     <div className="content text-center">
                       <h4 className="title">
@@ -113,7 +169,7 @@ export const ProductSection = () => {
                 <div className="col mb-40">
                   <div className="on-sale-product">
                     <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-2.jpg"  />
+                      <img src="./src/assets/images/product/on-sale-2.jpg" />
                     </a>
                     <div className="content text-center">
                       <h4 className="title">
@@ -135,7 +191,7 @@ export const ProductSection = () => {
                 <div className="col mb-40">
                   <div className="on-sale-product">
                     <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-3.jpg"  />
+                      <img src="./src/assets/images/product/on-sale-3.jpg" />
                     </a>
                     <div className="content text-center">
                       <h4 className="title">
@@ -157,7 +213,7 @@ export const ProductSection = () => {
                 <div className="col mb-40">
                   <div className="on-sale-product">
                     <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-4.jpg"  />
+                      <img src="./src/assets/images/product/on-sale-4.jpg" />
                     </a>
                     <div className="content text-center">
                       <h4 className="title">
@@ -179,7 +235,7 @@ export const ProductSection = () => {
                 <div className="col mb-40">
                   <div className="on-sale-product">
                     <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-5.jpg"  />
+                      <img src="./src/assets/images/product/on-sale-5.jpg" />
                     </a>
                     <div className="content text-center">
                       <h4 className="title">
@@ -201,7 +257,7 @@ export const ProductSection = () => {
                 <div className="col mb-40">
                   <div className="on-sale-product">
                     <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-6.jpg"  />
+                      <img src="./src/assets/images/product/on-sale-6.jpg" />
                     </a>
                     <div className="content text-center">
                       <h4 className="title">
@@ -223,7 +279,7 @@ export const ProductSection = () => {
                 <div className="col mb-40">
                   <div className="on-sale-product">
                     <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-7.jpg"  />
+                      <img src="./src/assets/images/product/on-sale-7.jpg" />
                     </a>
                     <div className="content text-center">
                       <h4 className="title">
@@ -245,7 +301,7 @@ export const ProductSection = () => {
                 <div className="col mb-40">
                   <div className="on-sale-product">
                     <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-8.jpg"  />
+                      <img src="./src/assets/images/product/on-sale-8.jpg" />
                     </a>
                     <div className="content text-center">
                       <h4 className="title">
@@ -264,7 +320,7 @@ export const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Slider>
             </div>
           </div>
         </div>
