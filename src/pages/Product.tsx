@@ -16,8 +16,8 @@ const Product = () => {
         autoplay: true,
         infinite: true,
         slidesToShow: 4,
-        prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        // prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+        // nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
         responsive: [
           {
             breakpoint: 1199,
@@ -52,8 +52,8 @@ const Product = () => {
         autoplay: true,
         infinite: true,
         slidesToShow: 4,
-        prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        // prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+        // nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
         responsive: [
           {
             breakpoint: 1199,
@@ -84,8 +84,8 @@ const Product = () => {
         autoplay: true,
         infinite: true,
         slidesToShow: 3,
-        prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+        // prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+        // nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
         responsive: [
           {
             breakpoint: 1199,
