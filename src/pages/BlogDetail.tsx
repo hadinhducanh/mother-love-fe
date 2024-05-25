@@ -1,5 +1,8 @@
+import { Brand } from "../components/Brand"
+
 const BlogDetail = () => {
     return(
+        <>
         <div className="blog-section section section-padding">
         <div className="container">
             <div className="row row-30 mbn-40">
@@ -175,6 +178,8 @@ const BlogDetail = () => {
             </div>
         </div>
     </div>
+    <Brand/>
+    </>
     )
 }
 export default BlogDetail

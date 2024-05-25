@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Banner from "../components/Banner";
 import Sidebar from "../components/Sidebar";
+import { Brand } from "../components/Brand";
 
 const Product = () => {
   useEffect(() => {
@@ -660,7 +661,9 @@ const Product = () => {
             <Sidebar />
           </div>
         </div>
+        
       </div>
+      <Brand/>
     </>
   );
 };

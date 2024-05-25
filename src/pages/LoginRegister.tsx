@@ -1,4 +1,5 @@
 import Banner from "../components/Banner";
+import { Brand } from "../components/Brand";
 
 
 const LoginRegister = () => {
@@ -75,7 +76,7 @@ const LoginRegister = () => {
             </div>
         </div>
     </div>
-
+    <Brand/>
       
     </>
   

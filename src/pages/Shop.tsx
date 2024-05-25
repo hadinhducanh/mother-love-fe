@@ -1,4 +1,5 @@
 import Banner from "../components/Banner";
+import { Brand } from "../components/Brand";
 import Sidebar from "../components/Sidebar";
 
 const Shop = () => {
@@ -556,6 +557,7 @@ const Shop = () => {
           </div>
         </div>
       </div>
+      <Brand/>
     </>
   );
 };

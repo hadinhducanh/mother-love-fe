@@ -1,4 +1,5 @@
 import Banner from "../components/Banner";
+import { Brand } from "../components/Brand";
 
 const MyAccount = () => {
   return (
@@ -329,6 +330,7 @@ const MyAccount = () => {
           </div>
         </div>
       </div>
+      <Brand/>
     </>
   );
 };
