@@ -1,5 +1,4 @@
 import Banner from "../components/Banner";
-import { Brand } from "../components/Brand";
 import Sidebar from "../components/Sidebar";
 
 const Shop = () => {
@@ -58,7 +57,7 @@ const Shop = () => {
                       <div className="content">
                         <div className="content-left">
                           <h4 className="title">
-                            <a href="single-product.html">Tmart Baby Dress</a>
+                            <a href="/single-product">Tmart Baby Dress</a>
                           </h4>
 
                           <div className="ratting">
@@ -112,7 +111,7 @@ const Shop = () => {
                       <div className="content">
                         <div className="content-left">
                           <h4 className="title">
-                            <a href="single-product.html">Jumpsuit Outfits</a>
+                            <a href="/single-product">Jumpsuit Outfits</a>
                           </h4>
 
                           <div className="ratting">
@@ -166,7 +165,7 @@ const Shop = () => {
                       <div className="content">
                         <div className="content-left">
                           <h4 className="title">
-                            <a href="single-product.html">Smart Shirt</a>
+                            <a href="/single-product">Smart Shirt</a>
                           </h4>
 
                           <div className="ratting">
@@ -220,7 +219,7 @@ const Shop = () => {
                       <div className="content">
                         <div className="content-left">
                           <h4 className="title">
-                            <a href="single-product.html">Kids Shoe</a>
+                            <a href="/single-product">Kids Shoe</a>
                           </h4>
 
                           <div className="ratting">
@@ -258,7 +257,10 @@ const Shop = () => {
                   <div className="product-item">
                     <div className="product-inner">
                       <div className="image">
-                        <img src="assets/images/product/product-5.jpg" alt="" />
+                        <img
+                          src="src/assets/images/product/product-5.jpg"
+                          alt=""
+                        />
 
                         <div className="image-overlay">
                           <div className="action-buttons">
@@ -271,7 +273,7 @@ const Shop = () => {
                       <div className="content">
                         <div className="content-left">
                           <h4 className="title">
-                            <a href="single-product.html"> Bowknot Bodysuit</a>
+                            <a href="/single-product"> Bowknot Bodysuit</a>
                           </h4>
 
                           <div className="ratting">
@@ -325,7 +327,7 @@ const Shop = () => {
                       <div className="content">
                         <div className="content-left">
                           <h4 className="title">
-                            <a href="single-product.html">Striped T-Shirt</a>
+                            <a href="/single-product">Striped T-Shirt</a>
                           </h4>
 
                           <div className="ratting">
@@ -379,7 +381,7 @@ const Shop = () => {
                       <div className="content">
                         <div className="content-left">
                           <h4 className="title">
-                            <a href="single-product.html">Kislen Jak Tops</a>
+                            <a href="/single-product">Kislen Jak Tops</a>
                           </h4>
 
                           <div className="ratting">
@@ -433,7 +435,7 @@ const Shop = () => {
                       <div className="content">
                         <div className="content-left">
                           <h4 className="title">
-                            <a href="single-product.html">Lattic Shirt</a>
+                            <a href="/single-product">Lattic Shirt</a>
                           </h4>
 
                           <div className="ratting">
@@ -487,7 +489,7 @@ const Shop = () => {
                       <div className="content">
                         <div className="content-left">
                           <h4 className="title">
-                            <a href="single-product.html">Skily Girld Dress</a>
+                            <a href="/single-product">Skily Girld Dress</a>
                           </h4>
 
                           <div className="ratting">
@@ -557,7 +559,6 @@ const Shop = () => {
           </div>
         </div>
       </div>
-      <Brand/>
     </>
   );
 };

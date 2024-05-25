@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import $ from 'jquery';
-import 'slick-carousel';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import $ from "jquery";
+import "slick-carousel";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import Banner from "../components/Banner";
 import Sidebar from "../components/Sidebar";
 import { Brand } from "../components/Brand";
@@ -10,7 +10,7 @@ import { Brand } from "../components/Brand";
 const Product = () => {
   useEffect(() => {
     const initializeSlick = () => {
-      $('#pro-thumb-img').slick({
+      $("#pro-thumb-img").slick({
         arrows: true,
         dots: false,
         autoplay: true,
@@ -46,7 +46,7 @@ const Product = () => {
         ],
       });
 
-      $('.product-slider, .related-product-slider-1').slick({
+      $(".product-slider, .related-product-slider-1").slick({
         arrows: true,
         dots: false,
         autoplay: true,
@@ -78,7 +78,7 @@ const Product = () => {
         ],
       });
 
-      $('.related-product-slider-2').slick({
+      $(".related-product-slider-2").slick({
         arrows: true,
         dots: false,
         autoplay: true,
@@ -114,7 +114,7 @@ const Product = () => {
   }, []);
   return (
     <>
-    <Banner
+      <Banner
         pageName={"Product"}
         singleName={"Product"}
         pictureUrl="./src/assets/images/hero/hero-1.jpg"
@@ -126,9 +126,9 @@ const Product = () => {
               <div className="row row-20">
                 <div className="col-lg-6 col-12 mb-40">
                   <div className="pro-large-img mb-10 fix easyzoom easyzoom--overlay easyzoom--with-thumbnails">
-                    <a href="assets/images/product/product-zoom-1.jpg">
+                    <a href="src/assets/images/product/product-zoom-1.jpg">
                       <img
-                        src="assets/images/product/product-big-1.jpg"
+                        src="src/assets/images/product/product-big-1.jpg"
                         alt=""
                       />
                     </a>
@@ -137,42 +137,57 @@ const Product = () => {
                   <ul id="pro-thumb-img" className="pro-thumb-img">
                     <li>
                       <a
-                        href="assets/images/product/product-zoom-1.jpg"
-                        data-standard="assets/images/product/product-big-1.jpg"
+                        href="src/assets/images/product/product-zoom-1.jpg"
+                        data-standard="src/assets/images/product/product-big-1.jpg"
                       >
-                        <img src="assets/images/product/product-1.jpg" alt="" />
+                        <img
+                          src="src/assets/images/product/product-1.jpg"
+                          alt=""
+                        />
                       </a>
                     </li>
                     <li>
                       <a
-                        href="assets/images/product/product-zoom-2.jpg"
-                        data-standard="assets/images/product/product-big-2.jpg"
+                        href="src/assets/images/product/product-zoom-2.jpg"
+                        data-standard="src/assets/images/product/product-big-2.jpg"
                       >
-                        <img src="assets/images/product/product-2.jpg" alt="" />
+                        <img
+                          src="src/assets/images/product/product-2.jpg"
+                          alt=""
+                        />
                       </a>
                     </li>
                     <li>
                       <a
-                        href="assets/images/product/product-zoom-3.jpg"
-                        data-standard="assets/images/product/product-big-3.jpg"
+                        href="src/assets/images/product/product-zoom-3.jpg"
+                        data-standard="src/assets/images/product/product-big-3.jpg"
                       >
-                        <img src="assets/images/product/product-3.jpg" alt="" />
+                        <img
+                          src="src/assets/images/product/product-3.jpg"
+                          alt=""
+                        />
                       </a>
                     </li>
                     <li>
                       <a
-                        href="assets/images/product/product-zoom-4.jpg"
-                        data-standard="assets/images/product/product-big-4.jpg"
+                        href="src/assets/images/product/product-zoom-4.jpg"
+                        data-standard="src/assets/images/product/product-big-4.jpg"
                       >
-                        <img src="assets/images/product/product-4.jpg" alt="" />
+                        <img
+                          src="src/assets/images/product/product-4.jpg"
+                          alt=""
+                        />
                       </a>
                     </li>
                     <li>
                       <a
-                        href="assets/images/product/product-zoom-5.jpg"
-                        data-standard="assets/images/product/product-big-5.jpg"
+                        href="src/assets/images/product/product-zoom-5.jpg"
+                        data-standard="src/assets/images/product/product-big-5.jpg"
                       >
-                        <img src="assets/images/product/product-5.jpg" alt="" />
+                        <img
+                          src="src/assets/images/product/product-5.jpg"
+                          alt=""
+                        />
                       </a>
                     </li>
                   </ul>
@@ -363,7 +378,7 @@ const Product = () => {
                         <div className="content">
                           <div className="content-left">
                             <h4 className="title">
-                              <a href="single-product.html">Tmart Baby Dress</a>
+                              <a href="/single-product">Tmart Baby Dress</a>
                             </h4>
 
                             <div className="ratting">
@@ -425,7 +440,7 @@ const Product = () => {
                         <div className="content">
                           <div className="content-left">
                             <h4 className="title">
-                              <a href="single-product.html">Jumpsuit Outfits</a>
+                              <a href="/single-product">Jumpsuit Outfits</a>
                             </h4>
 
                             <div className="ratting">
@@ -487,7 +502,7 @@ const Product = () => {
                         <div className="content">
                           <div className="content-left">
                             <h4 className="title">
-                              <a href="single-product.html">Smart Shirt</a>
+                              <a href="/single-product">Smart Shirt</a>
                             </h4>
 
                             <div className="ratting">
@@ -549,7 +564,7 @@ const Product = () => {
                         <div className="content">
                           <div className="content-left">
                             <h4 className="title">
-                              <a href="single-product.html">Kids Shoe</a>
+                              <a href="/single-product">Kids Shoe</a>
                             </h4>
 
                             <div className="ratting">
@@ -611,10 +626,7 @@ const Product = () => {
                         <div className="content">
                           <div className="content-left">
                             <h4 className="title">
-                              <a href="single-product.html">
-                                {" "}
-                                Bowknot Bodysuit
-                              </a>
+                              <a href="/single-product"> Bowknot Bodysuit</a>
                             </h4>
 
                             <div className="ratting">
@@ -661,9 +673,8 @@ const Product = () => {
             <Sidebar />
           </div>
         </div>
-        
       </div>
-      <Brand/>
+      <Brand />
     </>
   );
 };
