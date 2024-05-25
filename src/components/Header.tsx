@@ -47,37 +47,12 @@ const Header = () => {
                       <a href="#">english</a>
                     </li>
                     <li>
-                      <a href="#">spanish</a>
+                      <a href="#">vietnamese</a>
                     </li>
-                    <li>
-                      <a href="#">france</a>
-                    </li>
-                    <li>
-                      <a href="#">russian</a>
-                    </li>
-                    <li>
-                      <a href="#">chinese</a>
-                    </li>
+                    
                   </ul>
                 </li>
 
-                <li>
-                  <a href="#">$usd</a>
-                  <ul>
-                    <li>
-                      <a href="#">pound</a>
-                    </li>
-                    <li>
-                      <a href="#">dollar</a>
-                    </li>
-                    <li>
-                      <a href="#">euro</a>
-                    </li>
-                    <li>
-                      <a href="#">yen</a>
-                    </li>
-                  </ul>
-                </li>
               </ul>
               {/* Header Language Currency End */}
             </div>
@@ -171,66 +146,28 @@ const Header = () => {
                     </li>
                     <li>
                       <a href="/shop">SHOP</a>
-                      <ul className="sub-menu">
-                        <li>
-                          <a href="shop.html">Shop</a>
-                        </li>
-                        <li>
-                          <a href="shop-left-sidebar.html">Shop Left Sidebar</a>
-                        </li>
-                        <li>
-                          <a href="shop-right-sidebar.html">
-                            Shop Right Sidebar
-                          </a>
-                        </li>
-                        <li>
-                          <a href="single-product.html">Single Product</a>
-                        </li>
-                        <li>
-                          <a href="single-product-left-sidebar.html">
-                            Single Product Left Sidebar
-                          </a>
-                        </li>
-                        <li>
-                          <a href="single-product-right-sidebar.html">
-                            Single Product Right Sidebar
-                          </a>
-                        </li>
-                      </ul>
                     </li>
                     <li>
                       <a href="#">PAGES</a>
                       <ul className="sub-menu">
-                        <li>
+                        {/* <li>
                           <a href="/cart">Cart</a>
-                        </li>
-                        <li>
+                        </li> */}
+                        {/* <li>
                           <a href="/checkout">Checkout</a>
-                        </li>
-                        <li>
-                          <a href="/login-register">Login & Register</a>
-                        </li>
+                        </li> */}
                         <li>
                           <a href="/my-account">My Account</a>
                         </li>
                         <li>
                           <a href="/wishlist">Wishlist</a>
                         </li>
-                        <li>
-                          <a href="404.html">404 Error</a>
-                        </li>
+                        
                       </ul>
                     </li>
                     <li>
                       <a href="/blog">BLOG</a>
-                      <ul className="sub-menu">
-                        <li>
-                          <a href="blog.html">Blog</a>
-                        </li>
-                        <li>
-                          <a href="single-blog.html">Single Blog</a>
-                        </li>
-                      </ul>
+                     
                     </li>
                     <li>
                       <a href="/contact">CONTACT</a>

@@ -174,15 +174,6 @@ const Sidebar = () => {
               </div>
 
               <div className="sidebar">
-                <h3 className="sidebar-title">Price</h3>
-
-                <div className="sidebar-price">
-                  <div id="price-range"></div>
-                  <input type="text" id="price-amount" readOnly />
-                </div>
-              </div>
-
-              <div className="sidebar">
                 <h3 className="sidebar-title">Tags</h3>
                 <ul className="sidebar-tag">
                   <li>
