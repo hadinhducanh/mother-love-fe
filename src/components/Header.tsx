@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import "./../assets/js/vendor/jquery-3.4.1.min.js";
+import $ from 'jquery';
 const Header = () => {
   useEffect(() => {
     const searchToggle = $(".search-toggle");
     const searchWrap = $(".header-search-wrap");
 
-    searchToggle.on("click", function () {
+    searchToggle.on("click", function (this: HTMLElement) {
       if (!$(this).hasClass("active")) {
         $(this).addClass("active");
         searchWrap.addClass("active");
@@ -147,15 +148,15 @@ const Header = () => {
                     <li>
                       <a href="/shop">SHOP</a>
                     </li>
-                    <li>
+                    {/* <li>
                       <a href="#">PAGES</a>
                       <ul className="sub-menu">
-                        {/* <li>
+                        <li>
                           <a href="/cart">Cart</a>
-                        </li> */}
-                        {/* <li>
+                        </li>
+                        <li>
                           <a href="/checkout">Checkout</a>
-                        </li> */}
+                        </li>
                         <li>
                           <a href="/my-account">My Account</a>
                         </li>
@@ -164,7 +165,7 @@ const Header = () => {
                         </li>
                         
                       </ul>
-                    </li>
+                    </li> */}
                     <li>
                       <a href="/blog">BLOG</a>
                      
