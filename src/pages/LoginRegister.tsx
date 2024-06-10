@@ -32,11 +32,7 @@ const LoginRegister = () => {
                         </form>
                         <h4>You can also login with...</h4>
                         <div className="social-login">
-                            <a href="#"><i className="fa fa-facebook"></i></a>
-                            <a href="#"><i className="fa fa-twitter"></i></a>
-                            <a href="#"><i className="fa fa-google-plus"></i></a>
-                            <a href="#"><i className="fa fa-pinterest"></i></a>
-                            <a href="#"><i className="fa fa-linkedin"></i></a>
+                            <a href="#"><i className="fa fa-google-plus"></i></a>     
                         </div>
                     </div>
                 </div>
