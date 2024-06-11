@@ -112,6 +112,7 @@ const Product = () => {
     };
     setTimeout(initializeSlick, 0);
   }, []);
+
   return (
     <>
       <Banner

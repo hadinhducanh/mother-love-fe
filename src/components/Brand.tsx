@@ -1,6 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-useless-escape */
+import { FC, useEffect, useState } from "react";
 import Slider from "react-slick";
+import agent from "../api/agent";
+import { BrandObj } from "../model/Brand";
 
-export const Brand = () => {
+export const Brand: FC = () => {
   const settings = {
     arrows: false,
     dots: false,
@@ -34,30 +39,55 @@ export const Brand = () => {
       },
     ],
   };
+  const [brands, setBrands] = useState<BrandObj[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pageNo, setPageNo] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(10);
+
+  const fetchProducts = (pageNo: number, pageSize: number) => {
+    setLoading(true);
+    setError(null);
+
+    agent.Products.list(pageNo, pageSize)
+      .then((response) => {
+        if (response && Array.isArray(response.content)) {
+          setBrands(response.content);
+        } else {
+          setError("Fetched data is not in expected format");
+        }
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchProducts(pageNo, pageSize);
+  }, [pageNo, pageSize]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="brand-section section section-padding pt-0">
       <div className="container-fluid">
         <div className="row">
           <Slider {...settings} className="brand-slider">
-            <div className="brand-item col">
-              <img src="./src/assets/images/brands/brand-1.png" alt="Brand 1" />
-            </div>
-            <div className="brand-item col">
-              <img src="./src/assets/images/brands/brand-2.png" alt="Brand 2" />
-            </div>
-            <div className="brand-item col">
-              <img src="./src/assets/images/brands/brand-3.png" alt="Brand 3" />
-            </div>
-            <div className="brand-item col">
-              <img src="./src/assets/images/brands/brand-4.png" alt="Brand 4" />
-            </div>
-            <div className="brand-item col">
-              <img src="./src/assets/images/brands/brand-5.png" alt="Brand 5" />
-            </div>
-            <div className="brand-item col">
-              <img src="./src/assets/images/brands/brand-6.png" alt="Brand 6" />
-            </div>
+            {brands.map((brand) => {
+              const images = brand.image
+                .replace(/[\[\]]/g, "") // Remove square brackets
+                .split(",");
+              return (
+                <div key={brand.brandId} className="brand-item col">
+                  <img src={images[0]} alt="Brand 1" />
+                </div>
+              );
+            })}
           </Slider>
         </div>
       </div>

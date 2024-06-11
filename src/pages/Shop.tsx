@@ -1,7 +1,49 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState, useEffect } from "react";
+import agent from "../api/agent";
 import Banner from "../components/Banner";
 import Sidebar from "../components/Sidebar";
+import { ProductsObj } from "../model/Product";
 
 const Shop = () => {
+  const [products, setProducts] = useState<ProductsObj[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pageNo, setPageNo] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(8);
+  const [totalPages, setTotalPages] = useState<number>(1);
+
+  const fetchProducts = (pageNo: number, pageSize: number) => {
+    setLoading(true);
+    setError(null);
+
+    agent.Products.list(pageNo, pageSize)
+      .then((response) => {
+        if (response && Array.isArray(response.content)) {
+          setProducts(response.content);
+        } else {
+          setError("Fetched data is not in expected format");
+        }
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchProducts(pageNo, pageSize);
+  }, [pageNo, pageSize]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+  const handlePageClick = (pageNumber: number) => {
+    setPageNo(pageNumber - 1);
+  };
   return (
     <>
       <Banner
@@ -36,519 +78,92 @@ const Shop = () => {
                     </select>
                   </div>
                 </div>
+                {products.map((product) => {
+                  const images = product.image
+                    .replace(/[\[\]]/g, "") // Remove square brackets
+                    .split(",");
+                  return (
+                    <div className="col-xl-4 col-md-6 col-12 mb-40">
+                      <div key={product.productId} className="product-item">
+                        <div className="product-inner">
+                          <div className="image">
+                            <img src={images[0]} alt="" />
 
-                <div className="col-xl-4 col-md-6 col-12 mb-40">
-                  <div className="product-item">
-                    <div className="product-inner">
-                      <div className="image">
-                        <img
-                          src="/src/assets/images/product/product-1.jpg"
-                          alt=""
-                        />
-
-                        <div className="image-overlay">
-                          <div className="action-buttons">
-                            <button>add to cart</button>
-                            <button>add to wishlist</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="content">
-                        <div className="content-left">
-                          <h4 className="title">
-                            <a href="/single-product">Tmart Baby Dress</a>
-                          </h4>
-
-                          <div className="ratting">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star-half-o"></i>
-                            <i className="fa fa-star-o"></i>
+                            <div className="image-overlay">
+                              <div className="action-buttons">
+                                <button>add to cart</button>
+                                <button>add to wishlist</button>
+                              </div>
+                            </div>
                           </div>
 
-                          <h5 className="size">
-                            Size: <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                          </h5>
-                          <h5 className="color">
-                            Color:
-                            <span style={{ backgroundColor: "#ffb2b0" }}></span>
-                            <span style={{ backgroundColor: "#0271bc" }}></span>
-                            <span style={{ backgroundColor: "#efc87c" }}></span>
-                            <span style={{ backgroundColor: "#00c183" }}></span>
-                          </h5>
-                        </div>
+                          <div className="content">
+                            <div className="content-left">
+                              <h4 className="title">
+                                <a href="/single-product">
+                                  {product.productName}
+                                </a>
+                              </h4>
 
-                        <div className="content-right">
-                          <span className="price">$25</span>
+                              <div className="ratting">
+                                <i className="fa fa-star"></i>
+                                <i className="fa fa-star"></i>
+                                <i className="fa fa-star"></i>
+                                <i className="fa fa-star-half-o"></i>
+                                <i className="fa fa-star-o"></i>
+                              </div>
+                            </div>
+
+                            <div className="content-right">
+                              <span className="price">{product.price}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  );
+                })}
 
-                <div className="col-xl-4 col-md-6 col-12 mb-40">
-                  <div className="product-item">
-                    <div className="product-inner">
-                      <div className="image">
-                        <img
-                          src="/src/assets/images/product/product-2.jpg"
-                          alt=""
-                        />
-
-                        <div className="image-overlay">
-                          <div className="action-buttons">
-                            <button>add to cart</button>
-                            <button>add to wishlist</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="content">
-                        <div className="content-left">
-                          <h4 className="title">
-                            <a href="/single-product">Jumpsuit Outfits</a>
-                          </h4>
-
-                          <div className="ratting">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                          </div>
-
-                          <h5 className="size">
-                            Size: <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                          </h5>
-                          <h5 className="color">
-                            Color:
-                            <span style={{ backgroundColor: "#ffb2b0" }}></span>
-                            <span style={{ backgroundColor: "#0271bc" }}></span>
-                            <span style={{ backgroundColor: "#efc87c" }}></span>
-                            <span style={{ backgroundColor: "#00c183" }}></span>
-                          </h5>
-                        </div>
-
-                        <div className="content-right">
-                          <span className="price">$09</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4 col-md-6 col-12 mb-40">
-                  <div className="product-item">
-                    <div className="product-inner">
-                      <div className="image">
-                        <img
-                          src="/src/assets/images/product/product-3.jpg"
-                          alt=""
-                        />
-
-                        <div className="image-overlay">
-                          <div className="action-buttons">
-                            <button>add to cart</button>
-                            <button>add to wishlist</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="content">
-                        <div className="content-left">
-                          <h4 className="title">
-                            <a href="/single-product">Smart Shirt</a>
-                          </h4>
-
-                          <div className="ratting">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star-o"></i>
-                          </div>
-
-                          <h5 className="size">
-                            Size: <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                          </h5>
-                          <h5 className="color">
-                            Color:
-                            <span style={{ backgroundColor: "#ffb2b0" }}></span>
-                            <span style={{ backgroundColor: "#0271bc" }}></span>
-                            <span style={{ backgroundColor: "#efc87c" }}></span>
-                            <span style={{ backgroundColor: "#00c183" }}></span>
-                          </h5>
-                        </div>
-
-                        <div className="content-right">
-                          <span className="price">$18</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4 col-md-6 col-12 mb-40">
-                  <div className="product-item">
-                    <div className="product-inner">
-                      <div className="image">
-                        <img
-                          src="/src/assets/images/product/product-4.jpg"
-                          alt=""
-                        />
-
-                        <div className="image-overlay">
-                          <div className="action-buttons">
-                            <button>add to cart</button>
-                            <button>add to wishlist</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="content">
-                        <div className="content-left">
-                          <h4 className="title">
-                            <a href="/single-product">Kids Shoe</a>
-                          </h4>
-
-                          <div className="ratting">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star-half-o"></i>
-                            <i className="fa fa-star-o"></i>
-                          </div>
-
-                          <h5 className="size">
-                            Size: <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                          </h5>
-                          <h5 className="color">
-                            Color:
-                            <span style={{ backgroundColor: "#ffb2b0" }}></span>
-                            <span style={{ backgroundColor: "#0271bc" }}></span>
-                            <span style={{ backgroundColor: "#efc87c" }}></span>
-                            <span style={{ backgroundColor: "#00c183" }}></span>
-                          </h5>
-                        </div>
-
-                        <div className="content-right">
-                          <span className="price">$15</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4 col-md-6 col-12 mb-40">
-                  <div className="product-item">
-                    <div className="product-inner">
-                      <div className="image">
-                        <img
-                          src="src/assets/images/product/product-5.jpg"
-                          alt=""
-                        />
-
-                        <div className="image-overlay">
-                          <div className="action-buttons">
-                            <button>add to cart</button>
-                            <button>add to wishlist</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="content">
-                        <div className="content-left">
-                          <h4 className="title">
-                            <a href="/single-product"> Bowknot Bodysuit</a>
-                          </h4>
-
-                          <div className="ratting">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star-half-o"></i>
-                          </div>
-
-                          <h5 className="size">
-                            Size: <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                          </h5>
-                          <h5 className="color">
-                            Color:
-                            <span style={{ backgroundColor: "#ffb2b0" }}></span>
-                            <span style={{ backgroundColor: "#0271bc" }}></span>
-                            <span style={{ backgroundColor: "#efc87c" }}></span>
-                            <span style={{ backgroundColor: "#00c183" }}></span>
-                          </h5>
-                        </div>
-
-                        <div className="content-right">
-                          <span className="price">$12</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4 col-md-6 col-12 mb-40">
-                  <div className="product-item">
-                    <div className="product-inner">
-                      <div className="image">
-                        <img
-                          src="/src/assets/images/product/product-6.jpg"
-                          alt=""
-                        />
-
-                        <div className="image-overlay">
-                          <div className="action-buttons">
-                            <button>add to cart</button>
-                            <button>add to wishlist</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="content">
-                        <div className="content-left">
-                          <h4 className="title">
-                            <a href="/single-product">Striped T-Shirt</a>
-                          </h4>
-
-                          <div className="ratting">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star-o"></i>
-                          </div>
-
-                          <h5 className="size">
-                            Size: <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                          </h5>
-                          <h5 className="color">
-                            Color:
-                            <span style={{ backgroundColor: "#ffb2b0" }}></span>
-                            <span style={{ backgroundColor: "#0271bc" }}></span>
-                            <span style={{ backgroundColor: "#efc87c" }}></span>
-                            <span style={{ backgroundColor: "#00c183" }}></span>
-                          </h5>
-                        </div>
-
-                        <div className="content-right">
-                          <span className="price">$12</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4 col-md-6 col-12 mb-40">
-                  <div className="product-item">
-                    <div className="product-inner">
-                      <div className="image">
-                        <img
-                          src="/src/assets/images/product/product-7.jpg"
-                          alt=""
-                        />
-
-                        <div className="image-overlay">
-                          <div className="action-buttons">
-                            <button>add to cart</button>
-                            <button>add to wishlist</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="content">
-                        <div className="content-left">
-                          <h4 className="title">
-                            <a href="/single-product">Kislen Jak Tops</a>
-                          </h4>
-
-                          <div className="ratting">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                          </div>
-
-                          <h5 className="size">
-                            Size: <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                          </h5>
-                          <h5 className="color">
-                            Color:
-                            <span style={{ backgroundColor: "#ffb2b0" }}></span>
-                            <span style={{ backgroundColor: "#0271bc" }}></span>
-                            <span style={{ backgroundColor: "#efc87c" }}></span>
-                            <span style={{ backgroundColor: "#00c183" }}></span>
-                          </h5>
-                        </div>
-
-                        <div className="content-right">
-                          <span className="price">$29</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4 col-md-6 col-12 mb-40">
-                  <div className="product-item">
-                    <div className="product-inner">
-                      <div className="image">
-                        <img
-                          src="/src/assets/images/product/product-8.jpg"
-                          alt=""
-                        />
-
-                        <div className="image-overlay">
-                          <div className="action-buttons">
-                            <button>add to cart</button>
-                            <button>add to wishlist</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="content">
-                        <div className="content-left">
-                          <h4 className="title">
-                            <a href="/single-product">Lattic Shirt</a>
-                          </h4>
-
-                          <div className="ratting">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star-o"></i>
-                          </div>
-
-                          <h5 className="size">
-                            Size: <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                          </h5>
-                          <h5 className="color">
-                            Color:
-                            <span style={{ backgroundColor: "#ffb2b0" }}></span>
-                            <span style={{ backgroundColor: "#0271bc" }}></span>
-                            <span style={{ backgroundColor: "#efc87c" }}></span>
-                            <span style={{ backgroundColor: "#00c183" }}></span>
-                          </h5>
-                        </div>
-
-                        <div className="content-right">
-                          <span className="price">$08</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4 col-md-6 col-12 mb-40">
-                  <div className="product-item">
-                    <div className="product-inner">
-                      <div className="image">
-                        <img
-                          src="/src/assets/images/product/product-9.jpg"
-                          alt=""
-                        />
-
-                        <div className="image-overlay">
-                          <div className="action-buttons">
-                            <button>add to cart</button>
-                            <button>add to wishlist</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="content">
-                        <div className="content-left">
-                          <h4 className="title">
-                            <a href="/single-product">Skily Girld Dress</a>
-                          </h4>
-
-                          <div className="ratting">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star-half-o"></i>
-                            <i className="fa fa-star-o"></i>
-                          </div>
-
-                          <h5 className="size">
-                            Size: <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                          </h5>
-                          <h5 className="color">
-                            Color:
-                            <span style={{ backgroundColor: "#ffb2b0" }}></span>
-                            <span style={{ backgroundColor: "#0271bc" }}></span>
-                            <span style={{ backgroundColor: "#efc87c" }}></span>
-                            <span style={{ backgroundColor: "#00c183" }}></span>
-                          </h5>
-                        </div>
-
-                        <div className="content-right">
-                          <span className="price">
-                            $19 <span className="old">$35</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-12">
-                  <ul className="page-pagination">
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-angle-left"></i>
-                      </a>
+                <div className="col-12 d-flex justify-content-center">
+                  <ul className="pagination">
+                    <li
+                      className={`page-item ${pageNo === 0 ? "disabled" : ""}`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageClick(pageNo - 1)}
+                        disabled={pageNo === 0}
+                      >
+                        Previous
+                      </button>
                     </li>
-                    <li className="active">
-                      <a href="#">1</a>
-                    </li>
-                    <li>
-                      <a href="#">2</a>
-                    </li>
-                    <li>
-                      <a href="#">3</a>
-                    </li>
-                    <li>
-                      <a href="#">4</a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-angle-right"></i>
-                      </a>
+                    {Array.from(Array(totalPages).keys()).map((pageNumber) => (
+                      <li
+                        key={pageNumber}
+                        className={`page-item ${
+                          pageNumber === pageNo ? "active" : ""
+                        }`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageClick(pageNumber + 1)}
+                        >
+                          {pageNumber + 1}
+                        </button>
+                      </li>
+                    ))}
+                    <li
+                      className={`page-item ${
+                        pageNo === totalPages - 1 ? "disabled" : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageClick(pageNo + 1)}
+                        disabled={pageNo === totalPages - 1}
+                      >
+                        Next
+                      </button>
                     </li>
                   </ul>
                 </div>

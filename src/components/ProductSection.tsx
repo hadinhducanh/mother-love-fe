@@ -1,6 +1,11 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useState, useEffect } from "react";
+import agent from "../api/agent";
+import { ProductsObj } from "../model/Product";
 
 export const ProductSection = () => {
   const smallProductSliderSettings = {
@@ -49,6 +54,39 @@ export const ProductSection = () => {
     infinite: true,
     slidesToShow: 1,
   };
+  const [products, setProducts] = useState<ProductsObj[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pageNo, setPageNo] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(10);
+
+  const fetchProducts = (pageNo: number, pageSize: number) => {
+    setLoading(true);
+    setError(null);
+
+    agent.Products.list(pageNo, pageSize)
+      .then((response) => {
+        if (response && Array.isArray(response.content)) {
+          setProducts(response.content);
+        } else {
+          setError("Fetched data is not in expected format");
+        }
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchProducts(pageNo, pageSize);
+  }, [pageNo, pageSize]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <>
@@ -67,70 +105,48 @@ export const ProductSection = () => {
                 {...bestDealSliderSettings}
                 className="best-deal-slider w-100"
               >
-                <div className="slide-item">
-                  <div className="best-deal-product">
-                    <div className="image">
-                      <img src="./src/assets/images/product/best-deal-1.jpg" />
-                    </div>
-                    <div className="content-top">
-                      <div className="content-top-left">
-                        <h4 className="title">
-                          <a href="#">2 Piece Shirt Set</a>
-                        </h4>
-                        <div className="ratting">
-                          <i className="fa fa-star" />
-                          <i className="fa fa-star" />
-                          <i className="fa fa-star" />
-                          <i className="fa fa-star" />
-                          <i className="fa fa-star-half-o" />
+                {products.map((product) => {
+                  const images = product.image
+                    .replace(/[\[\]]/g, "") // Remove square brackets
+                    .split(",");
+                  return (
+                    <div key={product.productId} className="slide-item">
+                      <div className="best-deal-product">
+                        <div className="image">
+                          <img src={images[0]} />
+                        </div>
+                        <div className="content-top">
+                          <div className="content-top-left">
+                            <h4 className="title">
+                              <a href="#">{product.productName}</a>
+                            </h4>
+                            <div className="ratting">
+                              <i className="fa fa-star" />
+                              <i className="fa fa-star" />
+                              <i className="fa fa-star" />
+                              <i className="fa fa-star" />
+                              <i className="fa fa-star-half-o" />
+                            </div>
+                          </div>
+                          <div className="content-top-right">
+                            <span className="price">
+                              $13 <span className="old">{product.price}</span>
+                            </span>
+                          </div>
+                        </div>
+                        <div className="content-bottom">
+                          <div
+                            className="countdown"
+                            data-countdown="2021/06/20"
+                          />
+                          <a href="#" data-hover="SHOP NOW">
+                            SHOP NOW
+                          </a>
                         </div>
                       </div>
-                      <div className="content-top-right">
-                        <span className="price">
-                          $13 <span className="old">$28</span>
-                        </span>
-                      </div>
                     </div>
-                    <div className="content-bottom">
-                      <div className="countdown" data-countdown="2021/06/20" />
-                      <a href="#" data-hover="SHOP NOW">
-                        SHOP NOW
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="slide-item">
-                  <div className="best-deal-product">
-                    <div className="image">
-                      <img src="./src/assets/images/product/best-deal-2.jpg" />
-                    </div>
-                    <div className="content-top">
-                      <div className="content-top-left">
-                        <h4 className="title">
-                          <a href="#">Kelly Shirt Set</a>
-                        </h4>
-                        <div className="ratting">
-                          <i className="fa fa-star" />
-                          <i className="fa fa-star" />
-                          <i className="fa fa-star" />
-                          <i className="fa fa-star" />
-                          <i className="fa fa-star-o" />
-                        </div>
-                      </div>
-                      <div className="content-top-right">
-                        <span className="price">
-                          $09 <span className="old">$25</span>
-                        </span>
-                      </div>
-                    </div>
-                    <div className="content-bottom">
-                      <div className="countdown" data-countdown="2021/06/20" />
-                      <a href="#" data-hover="SHOP NOW">
-                        SHOP NOW
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })}
               </Slider>
             </div>
             <div className="col-lg-8 col-md-6 col-12 pr-3 pr-lg-4 pr-xl-5 order-2 order-md-1 mb-40">
@@ -144,182 +160,36 @@ export const ProductSection = () => {
                 {...smallProductSliderSettings}
                 className="small-product-slider row row-7 mbn-40"
               >
-                <div className="col mb-40">
-                  <div className="on-sale-product">
-                    <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-1.jpg" />
-                    </a>
-                    <div className="content text-center">
-                      <h4 className="title">
-                        <a href="single-product.html">Skily Girld Dress</a>
-                      </h4>
-                      <span className="price">
-                        $19 <span className="old">$35</span>
-                      </span>
-                      <div className="ratting">
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star-half-o" />
-                        <i className="fa fa-star-o" />
+                {products.map((products) => {
+                  const images = products.image
+                    .replace(/[\[\]]/g, "")
+                    .split(",");
+                  return (
+                    <div className="col mb-40">
+                      <div key={products.productId} className="on-sale-product">
+                        <a href="/single-product" className="image">
+                          <img src={images[0]} />
+                        </a>
+                        <div className="content text-center">
+                          <h4 className="title">
+                            <a href="/single-product">{products.productName}</a>
+                          </h4>
+                          <span className="price">
+                            $19{" "}
+                            <span className="old">{products.productName}</span>
+                          </span>
+                          <div className="ratting">
+                            <i className="fa fa-star" />
+                            <i className="fa fa-star" />
+                            <i className="fa fa-star" />
+                            <i className="fa fa-star-half-o" />
+                            <i className="fa fa-star-o" />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="col mb-40">
-                  <div className="on-sale-product">
-                    <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-2.jpg" />
-                    </a>
-                    <div className="content text-center">
-                      <h4 className="title">
-                        <a href="single-product.html">Kelly Shirt Set</a>
-                      </h4>
-                      <span className="price">
-                        $08 <span className="old">$25</span>
-                      </span>
-                      <div className="ratting">
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star-o" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col mb-40">
-                  <div className="on-sale-product">
-                    <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-3.jpg" />
-                    </a>
-                    <div className="content text-center">
-                      <h4 className="title">
-                        <a href="single-product.html">Sleeveless Tops</a>
-                      </h4>
-                      <span className="price">
-                        $05 <span className="old">$12</span>
-                      </span>
-                      <div className="ratting">
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col mb-40">
-                  <div className="on-sale-product">
-                    <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-4.jpg" />
-                    </a>
-                    <div className="content text-center">
-                      <h4 className="title">
-                        <a href="single-product.html">Babysuit Bundle</a>
-                      </h4>
-                      <span className="price">
-                        $25 <span className="old">$45</span>
-                      </span>
-                      <div className="ratting">
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star-half-o" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col mb-40">
-                  <div className="on-sale-product">
-                    <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-5.jpg" />
-                    </a>
-                    <div className="content text-center">
-                      <h4 className="title">
-                        <a href="single-product.html">Xshuai Baby Frock</a>
-                      </h4>
-                      <span className="price">
-                        $13 <span className="old">$28</span>
-                      </span>
-                      <div className="ratting">
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col mb-40">
-                  <div className="on-sale-product">
-                    <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-6.jpg" />
-                    </a>
-                    <div className="content text-center">
-                      <h4 className="title">
-                        <a href="single-product.html">Stylish Hat</a>
-                      </h4>
-                      <span className="price">
-                        $03 <span className="old">$10</span>
-                      </span>
-                      <div className="ratting">
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star-half-o" />
-                        <i className="fa fa-star-o" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col mb-40">
-                  <div className="on-sale-product">
-                    <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-7.jpg" />
-                    </a>
-                    <div className="content text-center">
-                      <h4 className="title">
-                        <a href="single-product.html">Aolvo Kids Munch</a>
-                      </h4>
-                      <span className="price">
-                        $25 <span className="old">$35</span>
-                      </span>
-                      <div className="ratting">
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star-half-o" />
-                        <i className="fa fa-star-o" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col mb-40">
-                  <div className="on-sale-product">
-                    <a href="single-product.html" className="image">
-                      <img src="./src/assets/images/product/on-sale-8.jpg" />
-                    </a>
-                    <div className="content text-center">
-                      <h4 className="title">
-                        <a href="single-product.html">Tmart Baby Dress</a>
-                      </h4>
-                      <span className="price">
-                        $48 <span className="old">$65</span>
-                      </span>
-                      <div className="ratting">
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star-half-o" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })}
               </Slider>
             </div>
           </div>
