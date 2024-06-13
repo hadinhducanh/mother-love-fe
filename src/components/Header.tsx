@@ -1,26 +1,14 @@
-import React, { useEffect } from "react";
-import "./../assets/js/vendor/jquery-3.4.1.min.js";
-import $ from 'jquery';
+import React, { useEffect, useState } from "react";
+import { Link, NavLink } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
+
 const Header = () => {
-  useEffect(() => {
-    const searchToggle = $(".search-toggle");
-    const searchWrap = $(".header-search-wrap");
+  const { isLoggedIn, logout } = useAuth();
 
-    searchToggle.on("click", function (this: HTMLElement) {
-      if (!$(this).hasClass("active")) {
-        $(this).addClass("active");
-        searchWrap.addClass("active");
-      } else {
-        $(this).removeClass("active");
-        searchWrap.removeClass("active");
-      }
-    });
+  const handleLogout = () => {
+    logout();
+  };
 
-    // Cleanup function to remove event listener when the component unmounts
-    return () => {
-      searchToggle.off("click");
-    };
-  }, []);
   return (
     <div className="header-section section">
       {/* Header Top Start */}
@@ -50,26 +38,35 @@ const Header = () => {
                     <li>
                       <a href="#">vietnamese</a>
                     </li>
-                    
                   </ul>
                 </li>
-
               </ul>
               {/* Header Language Currency End */}
             </div>
 
             <div className="col mt-10 mb-10">
-              {/* Header Shop Links Start */}
               <div className="header-top-right header-top-right-two">
-                <p>
-                  <a href="/my-account">My Account</a>
-                </p>
-                <p>
-                  <a href="/login-register">Register</a>
-                  <a href="/login-register">Login</a>
-                </p>
+                {isLoggedIn ? (
+                  <>
+                    <ul className="header-lan-curr header-lan-curr-two">
+                      <p>Xin chào,</p>
+                      <li>
+                        <a href="#">User</a>
+                        <ul>
+                          <li><a onClick={logout}>Logout</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </>
+                ) : (
+                  <>
+                    <p>
+                      <Link to="/login-register">Register</Link>
+                      <Link to="/login-register">Login</Link>
+                    </p>
+                  </>
+                )}
               </div>
-              {/* Header Shop Links End */}
             </div>
           </div>
         </div>
@@ -83,9 +80,9 @@ const Header = () => {
             <div className="col mt-15 mb-15">
               {/* Logo Start */}
               <div className="header-logo">
-                <a href="/">
-                  <img src="./src/assets/images/logo.png" />
-                </a>
+                <Link to="/">
+                  <img src="./src/assets/images/logo.png" alt="Logo" />
+                </Link>
               </div>
               {/* Logo End */}
             </div>
@@ -95,44 +92,29 @@ const Header = () => {
               <div className="header-shop-links">
                 <div className="header-search">
                   <button className="search-toggle">
-                    <img
-                      src="./src/assets/images/icons/search.png"
-                      alt="Search Toggle"
-                    />
-                    <img
-                      className="toggle-close"
-                      src="./src/assets/images/icons/close.png"
-                      alt="Search Toggle"
-                    />
+                    <img src="./src/assets/images/icons/search.png" alt="Search Toggle" />
+                    <img className="toggle-close" src="./src/assets/images/icons/close.png" alt="Search Toggle" />
                   </button>
                   <div className="header-search-wrap">
                     <form action="#">
                       <input type="text" placeholder="Type and hit enter" />
                       <button>
-                        <img
-                          src="./src/assets/images/icons/search.png"
-                          alt="Search"
-                        />
+                        <img src="./src/assets/images/icons/search.png" alt="Search" />
                       </button>
                     </form>
                   </div>
                 </div>
 
                 <div className="header-wishlist">
-                  <a href="/wishlist">
-                    <img
-                      src="./src/assets/images/icons/wishlist.png"
-                      alt="Wishlist"
-                    />{" "}
-                    <span>02</span>
-                  </a>
+                  <Link to="/wishlist">
+                    <img src="./src/assets/images/icons/wishlist.png" alt="Wishlist" /> <span>02</span>
+                  </Link>
                 </div>
 
                 <div className="header-mini-cart">
-                  <a href="/cart">
-                    <img src="./src/assets/images/icons/cart.png" alt="Cart" />{" "}
-                    <span>02($250)</span>
-                  </a>
+                  <Link to="/cart">
+                    <img src="./src/assets/images/icons/cart.png" alt="Cart" /> <span>02($250)</span>
+                  </Link>
                 </div>
               </div>
               {/* Header Advance Search End */}
@@ -142,36 +124,17 @@ const Header = () => {
               <div className="main-menu">
                 <nav>
                   <ul>
-                    <li className="active">
-                      <a href="/">HOME</a>
+                    <li>
+                      <NavLink className='nav-link' to='/'>HOME</NavLink>
                     </li>
                     <li>
-                      <a href="/shop">SHOP</a>
-                    </li>
-                    {/* <li>
-                      <a href="#">PAGES</a>
-                      <ul className="sub-menu">
-                        <li>
-                          <a href="/cart">Cart</a>
-                        </li>
-                        <li>
-                          <a href="/checkout">Checkout</a>
-                        </li>
-                        <li>
-                          <a href="/my-account">My Account</a>
-                        </li>
-                        <li>
-                          <a href="/wishlist">Wishlist</a>
-                        </li>
-                        
-                      </ul>
-                    </li> */}
-                    <li>
-                      <a href="/blog">BLOG</a>
-                     
+                      <NavLink className='nav-link' to='/shop'>SHOP</NavLink>
                     </li>
                     <li>
-                      <a href="/contact">CONTACT</a>
+                      <NavLink className='nav-link' to='/blog'>BLOG</NavLink>
+                    </li>
+                    <li>
+                      <NavLink className='nav-link' to='/contact'>CONTACT</NavLink>
                     </li>
                   </ul>
                 </nav>
@@ -187,4 +150,5 @@ const Header = () => {
     </div>
   );
 };
+
 export default Header;
