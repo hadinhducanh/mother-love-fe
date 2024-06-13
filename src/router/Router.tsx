@@ -12,11 +12,20 @@ import { Contact } from "../pages/Contact";
 import Product from "../pages/Product";
 import BlogDetail from "../pages/BlogDetail";
 import { NotFound } from "../pages/404";
+import { AuthProvider } from "../auth/AuthContext";
+
+const AppWithProvider = () => {
+  return (
+    <AuthProvider>
+      <App/>
+    </AuthProvider>
+  );
+}
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <AppWithProvider />,
     children: [
       { path: "", element: <HomePage /> },
       { path: "shop", element: <Shop /> },
