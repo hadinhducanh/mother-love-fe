@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-useless-escape */
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductsObj } from "../model/Product";
 import agent from "../api/agent";
-import { useAuth } from "../auth/AuthContext";
+import { useCart } from "../cart/CartContext";
 
 const PopularProduct: FC = () => {
-  const { isLoggedIn } = useAuth();
+  const { addToCart } = useCart(); // Destructure addToCart from useCart hook
   const navigate = useNavigate();
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -36,12 +36,11 @@ const PopularProduct: FC = () => {
   }, [pageNo, pageSize]);
 
   const handleAddToCart = (productId: number) => {
-    if (!isLoggedIn) {
-      navigate('/login');
-      return;
+    const productToAdd = products.find(product => product.productId === productId);
+    if (productToAdd) {
+      addToCart(productToAdd); // Thêm sản phẩm vào giỏ hàng
+      console.log(`Adding product ${productId} to cart`);
     }
-    // Handle adding to cart functionality here
-    console.log(`Adding product ${productId} to cart`);
   };
 
   if (loading) {
