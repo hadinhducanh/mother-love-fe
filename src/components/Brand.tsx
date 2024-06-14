@@ -49,7 +49,7 @@ export const Brand: FC = () => {
     setLoading(true);
     setError(null);
 
-    agent.Products.list(pageNo, pageSize)
+    agent.Brand.list(pageNo, pageSize)
       .then((response) => {
         if (response && Array.isArray(response.content)) {
           setBrands(response.content);

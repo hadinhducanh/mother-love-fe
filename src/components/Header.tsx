@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext';
-import { useCart } from '../cart/CartContext';
-
+import React, { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
+import { useCart } from "../cart/CartContext";
 
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();
-  const { cartItems } = useCart(); 
+  const { cartItems } = useCart();
 
   const [fullName, setFullName] = useState<string | null>(null);
 
@@ -18,7 +17,7 @@ const Header = () => {
           setFullName(userInfo.fullName);
         }
       } catch (error) {
-        console.error('Failed to fetch user info:', error);
+        console.error("Failed to fetch user info:", error);
       }
     };
 
@@ -75,7 +74,9 @@ const Header = () => {
                       <li>
                         <a href="#">User</a>
                         <ul>
-                          <li><a onClick={handleLogout}>Logout</a></li>
+                          <li>
+                            <a onClick={handleLogout}>Logout</a>
+                          </li>
                         </ul>
                       </li>
                     </ul>
@@ -114,14 +115,24 @@ const Header = () => {
               <div className="header-shop-links">
                 <div className="header-search">
                   <button className="search-toggle">
-                    <img src="./src/assets/images/icons/search.png" alt="Search Toggle" />
-                    <img className="toggle-close" src="./src/assets/images/icons/close.png" alt="Search Toggle" />
+                    <img
+                      src="./src/assets/images/icons/search.png"
+                      alt="Search Toggle"
+                    />
+                    <img
+                      className="toggle-close"
+                      src="./src/assets/images/icons/close.png"
+                      alt="Search Toggle"
+                    />
                   </button>
                   <div className="header-search-wrap">
                     <form action="#">
                       <input type="text" placeholder="Type and hit enter" />
                       <button>
-                        <img src="./src/assets/images/icons/search.png" alt="Search" />
+                        <img
+                          src="./src/assets/images/icons/search.png"
+                          alt="Search"
+                        />
                       </button>
                     </form>
                   </div>
@@ -129,13 +140,18 @@ const Header = () => {
 
                 <div className="header-wishlist">
                   <Link to="/wishlist">
-                    <img src="./src/assets/images/icons/wishlist.png" alt="Wishlist" /> <span>02</span>
+                    <img
+                      src="./src/assets/images/icons/wishlist.png"
+                      alt="Wishlist"
+                    />{" "}
+                    <span>02</span>
                   </Link>
                 </div>
 
                 <div className="header-mini-cart">
                   <Link to="/cart">
-                    <img src="./src/assets/images/icons/cart.png" alt="Cart" /> <span>{cartItems.length}</span>
+                    <img src="./src/assets/images/icons/cart.png" alt="Cart" />{" "}
+                    <span>{cartItems.length}</span>
                   </Link>
                 </div>
               </div>
@@ -147,16 +163,24 @@ const Header = () => {
                 <nav>
                   <ul>
                     <li>
-                      <NavLink className='nav-link' to='/'>HOME</NavLink>
+                      <NavLink className="nav-link" to="/">
+                        HOME
+                      </NavLink>
                     </li>
                     <li>
-                      <NavLink className='nav-link' to='/shop'>SHOP</NavLink>
+                      <NavLink className="nav-link" to="/shop">
+                        SHOP
+                      </NavLink>
                     </li>
                     <li>
-                      <NavLink className='nav-link' to='/blog'>BLOG</NavLink>
+                      <NavLink className="nav-link" to="/blog">
+                        BLOG
+                      </NavLink>
                     </li>
                     <li>
-                      <NavLink className='nav-link' to='/contact'>CONTACT</NavLink>
+                      <NavLink className="nav-link" to="/contact">
+                        CONTACT
+                      </NavLink>
                     </li>
                   </ul>
                 </nav>

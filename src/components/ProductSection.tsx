@@ -1,5 +1,5 @@
-/* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-useless-escape */
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,20 +19,20 @@ export const ProductSection = () => {
       {
         breakpoint: 1199,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
         },
       },
       {
         breakpoint: 991,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
         },
       },
       {
         breakpoint: 767,
         settings: {
           autoplay: true,
-          slidesToShow: 2,
+          slidesToShow: 3,
           arrows: false,
         },
       },
@@ -40,7 +40,7 @@ export const ProductSection = () => {
         breakpoint: 479,
         settings: {
           autoplay: true,
-          slidesToShow: 1,
+          slidesToShow: 2,
           arrows: false,
         },
       },
@@ -160,22 +160,27 @@ export const ProductSection = () => {
                 {...smallProductSliderSettings}
                 className="small-product-slider row row-7 mbn-40"
               >
-                {products.map((products) => {
-                  const images = products.image
+                {products.map((product) => {
+                  const images = product.image
                     .replace(/[\[\]]/g, "")
                     .split(",");
                   return (
-                    <div className="col mb-40">
-                      <div key={products.productId} className="on-sale-product">
-                        <a href="/single-product" className="image">
+                    <div key={product.productId} className="col mb-40">
+                      <div className="on-sale-product">
+                        <a
+                          href={`/single-product/${product.productId}`}
+                          className="image"
+                        >
                           <img src={images[0]} />
                         </a>
                         <div className="content text-center">
                           <h4 className="title">
-                            <a href="/single-product">{products.productName}</a>
+                            <a href={`/single-product/${product.productId}`}>
+                              {product.productName}
+                            </a>
                           </h4>
                           <span className="price">
-                            $19 <span className="old">{products.price}</span>
+                            $19 <span className="old">{product.price}</span>
                           </span>
                           <div className="ratting">
                             <i className="fa fa-star" />

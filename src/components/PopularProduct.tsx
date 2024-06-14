@@ -36,7 +36,9 @@ const PopularProduct: FC = () => {
   }, [pageNo, pageSize]);
 
   const handleAddToCart = (productId: number) => {
-    const productToAdd = products.find(product => product.productId === productId);
+    const productToAdd = products.find(
+      (product) => product.productId === productId
+    );
     if (productToAdd) {
       addToCart(productToAdd); // Thêm sản phẩm vào giỏ hàng
       console.log(`Adding product ${productId} to cart`);
@@ -76,7 +78,11 @@ const PopularProduct: FC = () => {
                       <img src={images[0]} alt={product.productName} />
                       <div className="image-overlay">
                         <div className="action-buttons">
-                          <button onClick={() => handleAddToCart(product.productId)}>add to cart</button>
+                          <button
+                            onClick={() => handleAddToCart(product.productId)}
+                          >
+                            add to cart
+                          </button>
                           <button>add to wishlist</button>
                         </div>
                       </div>
@@ -84,7 +90,7 @@ const PopularProduct: FC = () => {
                     <div className="content">
                       <div className="content-left">
                         <h4 className="title">
-                          <a href="single-product.html">
+                          <a href={`/single-product/${product.productId}`}>
                             {product.productName}
                           </a>
                         </h4>

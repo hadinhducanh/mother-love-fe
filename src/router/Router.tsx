@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Shop from "../pages/Shop";
 import { HomePage } from "../pages/HomePage";
-import  Cart  from "../pages/Cart";
+import Cart from "../pages/Cart";
 import { Checkout } from "../pages/Checkout";
 import LoginRegister from "../pages/LoginRegister";
 import MyAccount from "../pages/MyAccount";
@@ -19,12 +19,11 @@ const AppWithProvider = () => {
   return (
     <AuthProvider>
       <CartProvider>
-      <App/>
+        <App />
       </CartProvider>
-      
     </AuthProvider>
   );
-}
+};
 
 export const router = createBrowserRouter([
   {
@@ -40,7 +39,7 @@ export const router = createBrowserRouter([
       { path: "wishlist", element: <Wishlist /> },
       { path: "blog", element: <Blog /> },
       { path: "contact", element: <Contact /> },
-      { path: "single-product", element: <Product /> },
+      { path: "single-product/:id", element: <Product /> },
       { path: "single-blog", element: <BlogDetail /> },
       { path: "404", element: <NotFound /> },
     ],
