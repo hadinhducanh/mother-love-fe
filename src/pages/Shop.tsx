@@ -1,16 +1,14 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
+import React, { useState, useEffect } from "react";
 import agent from "../api/agent";
 import Banner from "../components/Banner";
 import Sidebar from "../components/Sidebar";
 import { ProductsObj } from "../model/Product";
-import { useAuth } from "../auth/AuthContext";
+import { useCart } from "../cart/CartContext";
 
 const Shop = () => {
-  const { isLoggedIn } = useAuth();
-  const navigate = useNavigate();
+ 
+  const { addToCart } = useCart();
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +24,7 @@ const Shop = () => {
       .then((response) => {
         if (response && Array.isArray(response.content)) {
           setProducts(response.content);
-          setTotalPages(response.totalPages); // Update total pages
+          setTotalPages(response.totalPages);
         } else {
           setError("Fetched data is not in expected format");
         }
@@ -40,16 +38,15 @@ const Shop = () => {
   }, [pageNo, pageSize]);
 
   const handleAddToCart = (productId: number) => {
-    if (!isLoggedIn) {
-      navigate('/login-register');
-      return;
+    const productToAdd = products.find(product => product.productId === productId);
+    if (productToAdd) {
+      addToCart(productToAdd);
+      console.log(`Adding product ${productId} to cart`);
     }
-    // Handle adding to cart functionality here
-    console.log(`Adding product ${productId} to cart`);
   };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (error) {
@@ -193,4 +190,5 @@ const Shop = () => {
     </>
   );
 };
+
 export default Shop;

@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import { useCart } from '../cart/CartContext';
+
 
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();
+  const { cartItems } = useCart(); 
+
   const [fullName, setFullName] = useState<string | null>(null);
 
   useEffect(() => {
@@ -131,7 +135,7 @@ const Header = () => {
 
                 <div className="header-mini-cart">
                   <Link to="/cart">
-                    <img src="./src/assets/images/icons/cart.png" alt="Cart" /> <span>02($250)</span>
+                    <img src="./src/assets/images/icons/cart.png" alt="Cart" /> <span>{cartItems.length}</span>
                   </Link>
                 </div>
               </div>

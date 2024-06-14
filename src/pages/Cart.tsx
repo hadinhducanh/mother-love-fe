@@ -1,7 +1,23 @@
-import Banner from "../components/Banner";
-import { Brand } from "../components/Brand";
+// src/pages/Cart.tsx
+import React from 'react';
+import Banner from '../components/Banner';
+import { useCart } from '../cart/CartContext';
 
-export const Cart = () => {
+const Cart = () => {
+  const { cartItems, removeItem, updateQuantity } = useCart();
+
+  const handleRemoveItem = (productId: number) => {
+    removeItem(productId);
+  };
+
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
+    updateQuantity(productId, newQuantity);
+  };
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
   return (
     <>
       <Banner
@@ -29,66 +45,48 @@ export const Cart = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td className="pro-thumbnail">
-                            <a href="#">
-                              <img src="./src/assets/images/product/product-1.jpg" />
-                            </a>
-                          </td>
-                          <td className="pro-title">
-                            <a href="#">Tamra Baby Dress</a>
-                          </td>
-                          <td className="pro-price">
-                            <span className="amount">$25</span>
-                          </td>
-                          <td className="pro-quantity">
-                            <div className="pro-qty">
-                              <input type="text" defaultValue={1} />
-                            </div>
-                          </td>
-                          <td className="pro-subtotal">$25</td>
-                          <td className="pro-remove">
-                            <a href="#">×</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pro-thumbnail">
-                            <a href="#">
-                              <img src="./src/assets/images/product/product-2.jpg" />
-                            </a>
-                          </td>
-                          <td className="pro-title">
-                            <a href="#">Jumpsuit Outfits</a>
-                          </td>
-                          <td className="pro-price">
-                            <span className="amount">$09</span>
-                          </td>
-                          <td className="pro-quantity">
-                            <div className="pro-qty">
-                              <input type="text" defaultValue={1} />
-                            </div>
-                          </td>
-                          <td className="pro-subtotal">$09</td>
-                          <td className="pro-remove">
-                            <a href="#">×</a>
-                          </td>
-                        </tr>
+                        {cartItems.map((item) => {
+                          const image = item.image
+                          .replace(/[\[\]]/g, "")
+                          .split(",");
+                          return (
+                            <tr key={item.productId}>
+                            <td className="pro-thumbnail">
+                              <a href="#">
+                                <img src={image[0]} alt={item.productName} />
+                              </a>
+                            </td>
+                            <td className="pro-title">
+                              <a href="#">{item.productName}</a>
+                            </td>
+                            <td className="pro-price">
+                              <span className="amount">${item.price}</span>
+                            </td>
+                            <td className="pro-quantity">
+                              <div className="pro-qty">
+                                <input
+                                  type="number"
+                                  value={item.quantity}
+                                  onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
+                                />
+                              </div>
+                            </td>
+                            <td className="pro-subtotal">${item.price * item.quantity}</td>
+                            <td className="pro-remove">
+                              <a onClick={() => handleRemoveItem(item.productId)}>×</a>
+                            </td>
+                          </tr>
+                          )
+                        } 
+                          
+                        )}
                       </tbody>
                     </table>
                   </div>
                 </div>
                 <div className="col-lg-8 col-md-7 col-12 mb-40">
                   <div className="cart-buttons mb-30">
-                    <input type="submit" defaultValue="Update Cart" />
                     <a href="#">Continue Shopping</a>
-                  </div>
-                  <div className="cart-coupon">
-                    <h4>Coupon</h4>
-                    <p>Enter your coupon code if you have one.</p>
-                    <div className="cuppon-form">
-                      <input type="text" placeholder="Coupon code" />
-                      <input type="submit" defaultValue="Apply Coupon" />
-                    </div>
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-5 col-12 mb-40">
@@ -99,22 +97,19 @@ export const Cart = () => {
                         <tr className="cart-subtotal">
                           <th>Subtotal</th>
                           <td>
-                            <span className="amount">$306.00</span>
+                            <span className="amount">${calculateTotal()}</span>
                           </td>
                         </tr>
                         <tr className="order-total">
                           <th>Total</th>
                           <td>
                             <strong>
-                              <span className="amount">$306.00</span>
+                              <span className="amount">${calculateTotal()}</span>
                             </strong>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                    <div className="proceed-to-checkout section mt-30">
-                      <a href="#">Proceed to Checkout</a>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -123,7 +118,8 @@ export const Cart = () => {
         </div>
         {/* Cart Section End */}
       </div>
-      <Brand />
     </>
   );
 };
+
+export default Cart;

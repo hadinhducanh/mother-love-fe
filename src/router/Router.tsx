@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Shop from "../pages/Shop";
 import { HomePage } from "../pages/HomePage";
-import { Cart } from "../pages/Cart";
+import  Cart  from "../pages/Cart";
 import { Checkout } from "../pages/Checkout";
 import LoginRegister from "../pages/LoginRegister";
 import MyAccount from "../pages/MyAccount";
@@ -13,11 +13,15 @@ import Product from "../pages/Product";
 import BlogDetail from "../pages/BlogDetail";
 import { NotFound } from "../pages/404";
 import { AuthProvider } from "../auth/AuthContext";
+import { CartProvider } from "../cart/CartContext";
 
 const AppWithProvider = () => {
   return (
     <AuthProvider>
+      <CartProvider>
       <App/>
+      </CartProvider>
+      
     </AuthProvider>
   );
 }

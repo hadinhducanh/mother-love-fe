@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-useless-escape */
-import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { FC, useEffect, useState } from "react";
 import { ProductsObj } from "../model/Product";
 import agent from "../api/agent";
-import { useAuth } from "../auth/AuthContext";
+import { useCart } from "../cart/CartContext";
 
 const PopularProduct: FC = () => {
-  const { isLoggedIn } = useAuth();
-  const navigate = useNavigate();
+  const { addToCart } = useCart(); 
+  
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,12 +35,11 @@ const PopularProduct: FC = () => {
   }, [pageNo, pageSize]);
 
   const handleAddToCart = (productId: number) => {
-    if (!isLoggedIn) {
-      navigate('/login');
-      return;
+    const productToAdd = products.find(product => product.productId === productId);
+    if (productToAdd) {
+      addToCart(productToAdd); 
+      console.log(`Adding product ${productId} to cart`);
     }
-    // Handle adding to cart functionality here
-    console.log(`Adding product ${productId} to cart`);
   };
 
   if (loading) {
@@ -64,8 +62,7 @@ const PopularProduct: FC = () => {
         <div className="row mbn-40">
           {products.map((product) => {
             const images = product.image
-              .replace(/[\[\]]/g, "") // Remove square brackets
-              .split(","); // Split by comma
+              .replace(/[\[\]]/g, "") 
             return (
               <div
                 className="col-xl-3 col-lg-4 col-md-6 col-12 mb-40"
