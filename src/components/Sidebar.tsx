@@ -51,44 +51,6 @@ const Sidebar = () => {
 
       <SidebarPopular />
 
-      <div className="sidebar">
-        <h3 className="sidebar-title">Tags</h3>
-        <ul className="sidebar-tag">
-          <li>
-            <a href="#">New</a>
-          </li>
-          <li>
-            <a href="#">brand</a>
-          </li>
-          <li>
-            <a href="#">black</a>
-          </li>
-          <li>
-            <a href="#">white</a>
-          </li>
-          <li>
-            <a href="#">chire</a>
-          </li>
-          <li>
-            <a href="#">table</a>
-          </li>
-          <li>
-            <a href="#">Lorem</a>
-          </li>
-          <li>
-            <a href="#">ipsum</a>
-          </li>
-          <li>
-            <a href="#">dolor</a>
-          </li>
-          <li>
-            <a href="#">sit</a>
-          </li>
-          <li>
-            <a href="#">amet</a>
-          </li>
-        </ul>
-      </div>
     </div>
   );
 };

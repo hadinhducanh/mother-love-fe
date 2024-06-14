@@ -41,8 +41,8 @@ const SidebarPopular = () => {
       <div className="sidebar-product-wrap">
         {products.slice(0, 2).map((product) => {
           const images = product.image
-            .replace(/[\[\]]/g, "") // Remove square brackets
-            .split(","); // Split by comma
+            .replace(/[\[\]]/g, "") 
+            .split(","); 
           return (
             <div className="sidebar-product">
               <a href="single-product.html" className="image">
@@ -53,7 +53,7 @@ const SidebarPopular = () => {
                   {product.productName}
                 </a>
                 <span className="price">
-                  $25 <span className="old">{product.price}</span>
+                   <span>{product.price}</span>
                 </span>
                 <div className="ratting">
                   <i className="fa fa-star"></i>
@@ -70,5 +70,4 @@ const SidebarPopular = () => {
     </div>
   );
 };
-
 export default SidebarPopular;

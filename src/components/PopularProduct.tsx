@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-useless-escape */
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ProductsObj } from "../model/Product";
 import agent from "../api/agent";
+import { useCart } from "../cart/CartContext";
 
 const PopularProduct: FC = () => {
+  const { addToCart } = useCart(); // Destructure addToCart from useCart hook
+  const navigate = useNavigate();
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +34,14 @@ const PopularProduct: FC = () => {
   useEffect(() => {
     fetchProducts(pageNo, pageSize);
   }, [pageNo, pageSize]);
+
+  const handleAddToCart = (productId: number) => {
+    const productToAdd = products.find(product => product.productId === productId);
+    if (productToAdd) {
+      addToCart(productToAdd); // Thêm sản phẩm vào giỏ hàng
+      console.log(`Adding product ${productId} to cart`);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -64,7 +76,7 @@ const PopularProduct: FC = () => {
                       <img src={images[0]} alt={product.productName} />
                       <div className="image-overlay">
                         <div className="action-buttons">
-                          <button>add to cart</button>
+                          <button onClick={() => handleAddToCart(product.productId)}>add to cart</button>
                           <button>add to wishlist</button>
                         </div>
                       </div>
@@ -83,18 +95,6 @@ const PopularProduct: FC = () => {
                           <i className="fa fa-star-half-o" />
                           <i className="fa fa-star-o" />
                         </div>
-                        <h5 className="size">
-                          Size: <span>S</span>
-                          <span>M</span>
-                          <span>L</span>
-                          <span>XL</span>
-                        </h5>
-                        <h5 className="color">
-                          Color: <span style={{ backgroundColor: "#ffb2b0" }} />
-                          <span style={{ backgroundColor: "#0271bc" }} />
-                          <span style={{ backgroundColor: "#efc87c" }} />
-                          <span style={{ backgroundColor: "#00c183" }} />
-                        </h5>
                       </div>
                       <div className="content-right">
                         <span className="price">${product.price}</span>
