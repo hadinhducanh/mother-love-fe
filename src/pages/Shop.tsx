@@ -1,12 +1,16 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import agent from "../api/agent";
 import Banner from "../components/Banner";
 import Sidebar from "../components/Sidebar";
 import { ProductsObj } from "../model/Product";
+import { useAuth } from "../auth/AuthContext";
 
 const Shop = () => {
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,6 +26,7 @@ const Shop = () => {
       .then((response) => {
         if (response && Array.isArray(response.content)) {
           setProducts(response.content);
+          setTotalPages(response.totalPages); // Update total pages
         } else {
           setError("Fetched data is not in expected format");
         }
@@ -34,6 +39,15 @@ const Shop = () => {
     fetchProducts(pageNo, pageSize);
   }, [pageNo, pageSize]);
 
+  const handleAddToCart = (productId: number) => {
+    if (!isLoggedIn) {
+      navigate('/login-register');
+      return;
+    }
+    // Handle adding to cart functionality here
+    console.log(`Adding product ${productId} to cart`);
+  };
+
   if (loading) {
     return <div>Loading...</div>
   }
@@ -41,9 +55,11 @@ const Shop = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
   const handlePageClick = (pageNumber: number) => {
     setPageNo(pageNumber - 1);
   };
+
   return (
     <>
       <Banner
@@ -59,11 +75,11 @@ const Shop = () => {
                 <div className="col-12">
                   <div className="product-show">
                     <h4>Show:</h4>
-                    <select className="nice-select">
-                      <option>8</option>
-                      <option>12</option>
-                      <option>16</option>
-                      <option>20</option>
+                    <select className="nice-select" onChange={(e) => setPageSize(Number(e.target.value))}>
+                      <option value="8">8</option>
+                      <option value="12">12</option>
+                      <option value="16">16</option>
+                      <option value="20">20</option>
                     </select>
                   </div>
                   <div className="product-short">
@@ -83,15 +99,15 @@ const Shop = () => {
                     .replace(/[\[\]]/g, "") // Remove square brackets
                     .split(",");
                   return (
-                    <div className="col-xl-4 col-md-6 col-12 mb-40">
-                      <div key={product.productId} className="product-item">
+                    <div className="col-xl-4 col-md-6 col-12 mb-40" key={product.productId}>
+                      <div className="product-item">
                         <div className="product-inner">
                           <div className="image">
                             <img src={images[0]} alt="" />
 
                             <div className="image-overlay">
                               <div className="action-buttons">
-                                <button>add to cart</button>
+                                <button onClick={() => handleAddToCart(product.productId)}>add to cart</button>
                                 <button>add to wishlist</button>
                               </div>
                             </div>
@@ -131,7 +147,7 @@ const Shop = () => {
                     >
                       <button
                         className="page-link"
-                        onClick={() => handlePageClick(pageNo - 1)}
+                        onClick={() => handlePageClick(pageNo)}
                         disabled={pageNo === 0}
                       >
                         Previous
@@ -159,7 +175,7 @@ const Shop = () => {
                     >
                       <button
                         className="page-link"
-                        onClick={() => handlePageClick(pageNo + 1)}
+                        onClick={() => handlePageClick(pageNo + 2)}
                         disabled={pageNo === totalPages - 1}
                       >
                         Next
