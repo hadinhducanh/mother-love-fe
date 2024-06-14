@@ -175,8 +175,7 @@ export const ProductSection = () => {
                             <a href="/single-product">{products.productName}</a>
                           </h4>
                           <span className="price">
-                            $19{" "}
-                            <span className="old">{products.productName}</span>
+                            $19 <span className="old">{products.price}</span>
                           </span>
                           <div className="ratting">
                             <i className="fa fa-star" />
