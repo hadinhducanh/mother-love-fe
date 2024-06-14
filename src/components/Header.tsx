@@ -1,9 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 
 const Header = () => {
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout, getUserInfo } = useAuth();
+  const [fullName, setFullName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userInfo = await getUserInfo();
+        if (userInfo) {
+          setFullName(userInfo.fullName);
+        }
+      } catch (error) {
+        console.error('Failed to fetch user info:', error);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchUserInfo();
+    }
+  }, [isLoggedIn, getUserInfo]);
 
   const handleLogout = () => {
     logout();
@@ -49,11 +67,11 @@ const Header = () => {
                 {isLoggedIn ? (
                   <>
                     <ul className="header-lan-curr header-lan-curr-two">
-                      <p>Xin chào,</p>
+                      <p>Xin chào, {fullName}</p>
                       <li>
                         <a href="#">User</a>
                         <ul>
-                          <li><a onClick={logout}>Logout</a></li>
+                          <li><a onClick={handleLogout}>Logout</a></li>
                         </ul>
                       </li>
                     </ul>

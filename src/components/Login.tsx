@@ -4,7 +4,11 @@ import { useAuth } from '../auth/AuthContext';
 
 export const Login: React.FC = () => {
     const { login } = useAuth();
-    const [formData, setFormData] = useState({
+    interface FormData {
+        username: string;
+        password: string;
+    }
+    const [formData, setFormData] = useState<FormData>({
         username: '',
         password: ''
     });
@@ -18,13 +22,23 @@ export const Login: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (formData.username.trim() === '' || formData.password.trim() === '') {
+            setError('Username and password are required.');
+            return;
+        }
         try {
             await login(formData.username, formData.password);
             navigate('/');
-        } catch (error: any) { // Explicitly type error as 'any' to resolve 'unknown' issue
-            setError(error.message || 'Invalid username or password');
+        } catch (error) { 
+            if (error instanceof Error) {
+                setError(error.message);
+            } else {
+                setError('Login failed. Please check your credentials.');
+            }
         }
     };
+    
+    
 
     return (
         <div className="col-lg-4 col-12 mb-40">

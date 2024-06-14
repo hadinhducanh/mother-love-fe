@@ -1,51 +1,61 @@
-import React, { createContext, useContext, useState } from 'react';
-import axios from 'axios';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { refreshTokenIfNeeded, login, getUserInfo } from '../api/auth';
+import { User } from '../model/User';
+
+
 
 interface AuthContextType {
     isLoggedIn: boolean;
     login: (username: string, password: string) => Promise<void>;
     logout: () => void;
+    getUserInfo: () => Promise<User | null>;
 }
 
 const AuthContext = createContext<AuthContextType>({
     isLoggedIn: false,
     login: async (username: string, password: string) => {},
-    logout: () => {}
+    logout: () => {},
+    getUserInfo: async () => null
 });
 
 export const useAuth = () => useContext(AuthContext);
 
 interface AuthProviderProps {
-    children: React.ReactNode; 
+    children: React.ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const login = async (username: string, password: string) => {
-        try {
-            const response = await axios.post('auth/user/login', {
-                userNameOrEmailOrPhone: username,
-                password: password
-            });
-            const { access_token, refresh_token } = response.data;
-            Cookies.set('accessToken', access_token, { expires: 1 }); 
-            Cookies.set('refreshToken', refresh_token, { expires: 15 });
+    useEffect(() => {
+        const initializeAuth = async () => {
+            const isAuthenticated = await refreshTokenIfNeeded();
+            setIsLoggedIn(isAuthenticated);
+        };
+
+        initializeAuth();
+    }, []);
+
+    const handleLogin = async (username: string, password: string) => {
+        const success = await login(username, password);
+        if (success) {
             setIsLoggedIn(true);
-        } catch (error) {
-            console.error('Login failed', error);
+        } else {
+            setIsLoggedIn(false);
             throw new Error('Login failed. Please check your credentials.');
         }
     };
 
-    const logout = () => {
+    const handleLogout = () => {
         Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
         setIsLoggedIn(false);
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, login: handleLogin, logout: handleLogout, getUserInfo }}>
             {children}
         </AuthContext.Provider>
     );
