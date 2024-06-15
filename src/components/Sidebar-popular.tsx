@@ -40,20 +40,24 @@ const SidebarPopular = () => {
       <h4 className="sidebar-title">Popular Product</h4>
       <div className="sidebar-product-wrap">
         {products.slice(0, 2).map((product) => {
-          const images = product.image
-            .replace(/[\[\]]/g, "") 
-            .split(","); 
+          const images = product.image.replace(/[\[\]]/g, "").split(",");
           return (
             <div className="sidebar-product">
-              <a href="single-product.html" className="image">
+              <a
+                href={`/single-product/${product.productId}`}
+                className="image"
+              >
                 <img src={images[0]} alt="" />
               </a>
               <div className="content">
-                <a href="single-product.html" className="title">
+                <a
+                  href={`/single-product/${product.productId}`}
+                  className="title"
+                >
                   {product.productName}
                 </a>
                 <span className="price">
-                   <span>{product.price}</span>
+                  <span>{product.price}</span>
                 </span>
                 <div className="ratting">
                   <i className="fa fa-star"></i>

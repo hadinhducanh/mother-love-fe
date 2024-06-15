@@ -94,7 +94,7 @@ const PopularProduct: FC = () => {
                     <div className="content">
                       <div className="content-left">
                         <h4 className="title">
-                          <a href="single-product.html">
+                          <a href={`/single-product/${product.productId}`}>
                             {product.productName}
                           </a>
                         </h4>

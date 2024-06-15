@@ -57,7 +57,7 @@ const requests = {
 
 const Products = {
     list: (pageNo: number, pageSize: number) => requests.get(`product?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=productId&sortDir=asc`),
-    // details: (id: number) => requests.get(`News/get-news?id=${id}`),
+    details: (id: number) => requests.get(`http://localhost:8080/api/v1/product/${id}`),
 };
 const Brand = {
     list: (pageNo: number, pageSize: number) => requests.get(`brand?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=brandId&sortDir=asc`),

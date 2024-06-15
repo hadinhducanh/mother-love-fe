@@ -56,7 +56,7 @@ const Shop = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
@@ -82,7 +82,10 @@ const Shop = () => {
                 <div className="col-12">
                   <div className="product-show">
                     <h4>Show:</h4>
-                    <select className="nice-select" onChange={(e) => setPageSize(Number(e.target.value))}>
+                    <select
+                      className="nice-select"
+                      onChange={(e) => setPageSize(Number(e.target.value))}
+                    >
                       <option value="8">8</option>
                       <option value="12">12</option>
                       <option value="16">16</option>
@@ -106,7 +109,10 @@ const Shop = () => {
                     .replace(/[\[\]]/g, "") // Remove square brackets
                     .split(",");
                   return (
-                    <div className="col-xl-4 col-md-6 col-12 mb-40" key={product.productId}>
+                    <div
+                      className="col-xl-4 col-md-6 col-12 mb-40"
+                      key={product.productId}
+                    >
                       <div className="product-item">
                         <div className="product-inner">
                           <div className="image">
@@ -123,7 +129,9 @@ const Shop = () => {
                           <div className="content">
                             <div className="content-left">
                               <h4 className="title">
-                                <a href="/single-product">
+                                <a
+                                  href={`/single-product/${product.productId}`}
+                                >
                                   {product.productName}
                                 </a>
                               </h4>

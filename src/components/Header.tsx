@@ -21,7 +21,7 @@ const Header = () => {
           setFullName(userInfo.fullName);
         }
       } catch (error) {
-        console.error('Failed to fetch user info:', error);
+        console.error("Failed to fetch user info:", error);
       }
     };
 
@@ -117,14 +117,24 @@ const Header = () => {
               <div className="header-shop-links">
                 <div className="header-search">
                   <button className="search-toggle">
-                    <img src="./src/assets/images/icons/search.png" alt="Search Toggle" />
-                    <img className="toggle-close" src="./src/assets/images/icons/close.png" alt="Search Toggle" />
+                    <img
+                      src="./src/assets/images/icons/search.png"
+                      alt="Search Toggle"
+                    />
+                    <img
+                      className="toggle-close"
+                      src="./src/assets/images/icons/close.png"
+                      alt="Search Toggle"
+                    />
                   </button>
                   <div className="header-search-wrap">
                     <form action="#">
                       <input type="text" placeholder="Type and hit enter" />
                       <button>
-                        <img src="./src/assets/images/icons/search.png" alt="Search" />
+                        <img
+                          src="./src/assets/images/icons/search.png"
+                          alt="Search"
+                        />
                       </button>
                     </form>
                   </div>
@@ -150,16 +160,24 @@ const Header = () => {
                 <nav>
                   <ul>
                     <li>
-                      <NavLink className='nav-link' to='/'>HOME</NavLink>
+                      <NavLink className="nav-link" to="/">
+                        HOME
+                      </NavLink>
                     </li>
                     <li>
-                      <NavLink className='nav-link' to='/shop'>SHOP</NavLink>
+                      <NavLink className="nav-link" to="/shop">
+                        SHOP
+                      </NavLink>
                     </li>
                     <li>
-                      <NavLink className='nav-link' to='/blog'>BLOG</NavLink>
+                      <NavLink className="nav-link" to="/blog">
+                        BLOG
+                      </NavLink>
                     </li>
                     <li>
-                      <NavLink className='nav-link' to='/contact'>CONTACT</NavLink>
+                      <NavLink className="nav-link" to="/contact">
+                        CONTACT
+                      </NavLink>
                     </li>
                   </ul>
                 </nav>
