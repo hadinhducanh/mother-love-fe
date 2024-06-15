@@ -15,21 +15,8 @@ const MyAccount = () => {
             {/* My Account Tab Menu Start */}
             <div className="col-lg-3 col-12 mb-30">
               <div className="myaccount-tab-menu nav" role="tablist">
-                <a href="#dashboad" className="active" data-toggle="tab">
-                  <i className="fa fa-dashboard"></i>
-                  Dashboard
-                </a>
-
-                <a href="#orders" data-toggle="tab">
+                <a href="#orders" className="active" data-toggle="tab">
                   <i className="fa fa-cart-arrow-down"></i> Orders
-                </a>
-
-                <a href="#download" data-toggle="tab">
-                  <i className="fa fa-cloud-download"></i> Download
-                </a>
-
-                <a href="#payment-method" data-toggle="tab">
-                  <i className="fa fa-credit-card"></i> Payment Method
                 </a>
 
                 <a href="#address-edit" data-toggle="tab">
@@ -50,36 +37,6 @@ const MyAccount = () => {
             {/* My Account Tab Content Start */}
             <div className="col-lg-9 col-12 mb-30">
               <div className="tab-content" id="myaccountContent">
-                {/* Single Tab Content Start */}
-                <div
-                  className="tab-pane fade show active"
-                  id="dashboad"
-                  role="tabpanel"
-                >
-                  <div className="myaccount-content">
-                    <h3>Dashboard</h3>
-
-                    <div className="welcome">
-                      <p>
-                        Hello, <strong>Alex Tuntuni</strong> (If Not{" "}
-                        <strong>Tuntuni !</strong>
-                        <a href="login-register.html" className="logout">
-                          {" "}
-                          Logout
-                        </a>
-                        )
-                      </p>
-                    </div>
-
-                    <p className="mb-0">
-                      From your account dashboard. you can easily check &amp;
-                      view your recent orders, manage your shipping and billing
-                      addresses and edit your password and account details.
-                    </p>
-                  </div>
-                </div>
-                {/* Single Tab Content End */}
-
                 {/* Single Tab Content Start */}
                 <div className="tab-pane fade" id="orders" role="tabpanel">
                   <div className="myaccount-content">
@@ -147,66 +104,6 @@ const MyAccount = () => {
                         </tbody>
                       </table>
                     </div>
-                  </div>
-                </div>
-                {/* Single Tab Content End */}
-
-                {/* Single Tab Content Start */}
-                <div className="tab-pane fade" id="download" role="tabpanel">
-                  <div className="myaccount-content">
-                    <h3>Downloads</h3>
-
-                    <div className="myaccount-table table-responsive text-center">
-                      <table className="table table-bordered">
-                        <thead className="thead-light">
-                          <tr>
-                            <th>Product</th>
-                            <th>Date</th>
-                            <th>Expire</th>
-                            <th>Download</th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          <tr>
-                            <td>Moisturizing Oil</td>
-                            <td>Aug 22, 2018</td>
-                            <td>Yes</td>
-                            <td>
-                              <a href="#" className="btn btn-dark btn-round">
-                                Download File
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Katopeno Altuni</td>
-                            <td>Sep 12, 2018</td>
-                            <td>Never</td>
-                            <td>
-                              <a href="#" className="btn btn-dark btn-round">
-                                Download File
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                {/* Single Tab Content End */}
-
-                {/* Single Tab Content Start */}
-                <div
-                  className="tab-pane fade"
-                  id="payment-method"
-                  role="tabpanel"
-                >
-                  <div className="myaccount-content">
-                    <h3>Payment Method</h3>
-
-                    <p className="saved-message">
-                      You can't save your payment method yet.
-                    </p>
                   </div>
                 </div>
                 {/* Single Tab Content End */}
@@ -330,7 +227,7 @@ const MyAccount = () => {
           </div>
         </div>
       </div>
-      <Brand/>
+      <Brand />
     </>
   );
 };

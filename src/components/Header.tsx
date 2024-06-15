@@ -33,23 +33,19 @@ const Header = () => {
 
   return (
     <div className="header-section section">
-      {/* Header Top Start */}
       <div className="header-top header-top-two bg-theme-one">
         <div className="container-fluid">
           <div className="row align-items-center justify-content-center">
             <div className="col mt-10 mb-10 d-none d-md-flex">
-              {/* Header Top Left Start */}
               <div className="header-top-left header-top-left-two">
                 <p>Welcome to Mother Love</p>
                 <p>
                   Hotline: <a href="tel:0123456789">0123 456 789</a>
                 </p>
               </div>
-              {/* Header Top Left End */}
             </div>
 
             <div className="col mt-10 mb-10">
-              {/* Header Language Currency Start */}
               <ul className="header-lan-curr header-lan-curr-two">
                 <li>
                   <a href="#">eng</a>
@@ -63,7 +59,6 @@ const Header = () => {
                   </ul>
                 </li>
               </ul>
-              {/* Header Language Currency End */}
             </div>
 
             <div className="col mt-10 mb-10">
@@ -71,7 +66,7 @@ const Header = () => {
                 {isLoggedIn ? (
                   <>
                     <ul className="header-lan-curr header-lan-curr-two">
-                      <p>Xin chào, {fullName}</p>
+                      <p>Hello, {fullName}</p>
                       <li>
                         <a href="#">User</a>
                         <ul>
@@ -93,24 +88,19 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {/* Header Top End */}
 
-      {/* Header Bottom Start */}
       <div className="header-bottom header-bottom-one header-sticky">
         <div className="container-fluid">
           <div className="row menu-center align-items-center justify-content-between">
             <div className="col mt-15 mb-15">
-              {/* Logo Start */}
               <div className="header-logo">
                 <Link to="/">
                   <img src="./src/assets/images/logo.png" alt="Logo" />
                 </Link>
               </div>
-              {/* Logo End */}
             </div>
 
             <div className="col order-2 order-lg-3">
-              {/* Header Advance Search Start */}
               <div className="header-shop-links">
                 <div className="header-search">
                   <button className="search-toggle">
@@ -135,7 +125,7 @@ const Header = () => {
 
                 <div className="header-mini-cart">
                   <Link to="/cart">
-                    <img src="./src/assets/images/icons/cart.png" alt="Cart" /> <span>{cartItems.length}</span>
+                    <img src="./src/assets/images/icons/cart.png" alt="Cart" /><span>{cartItems.length}</span>
                   </Link>
                 </div>
               </div>
@@ -168,7 +158,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {/* Header Bottom End */}
     </div>
   );
 };

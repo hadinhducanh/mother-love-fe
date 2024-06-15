@@ -110,6 +110,9 @@ const Cart = () => {
                         </tr>
                       </tbody>
                     </table>
+                    <div className="proceed-to-checkout section mt-30">
+                                <a href="#">Proceed to Checkout</a>
+                            </div>
                   </div>
                 </div>
               </div>
