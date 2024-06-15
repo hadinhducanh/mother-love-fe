@@ -146,7 +146,7 @@ const Header = () => {
                       src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435825/tu5i5dlrzuygf8vfgkgn.png"
                       alt="Wishlist"
                     />{" "}
-                    <span>02</span>
+                    <span>{wishlistItems.length}</span>
                   </Link>
                 </div>
 

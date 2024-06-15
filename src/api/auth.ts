@@ -68,3 +68,23 @@ export const getUserInfo = async (): Promise<User | null> => {
         return null;
     }
 };
+export const register = async (username: string, fullName: string, email: string, phone: string, password: string, gender: string): Promise<boolean> => {
+    try {
+        const response = await axios.post('/auth/register', {
+            username,
+            fullName,
+            email,
+            phone,
+            password,
+            gender
+        });
+        const { access_token, refresh_token } = response.data;
+        Cookies.set('accessToken', access_token, { expires: 1 });
+        Cookies.set('refreshToken', refresh_token, { expires: 15 });
+        console.log('Registration successful');
+        return true;
+    } catch (error) {
+        console.error('Registration failed', error);
+        return false;
+    }
+};

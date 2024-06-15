@@ -18,7 +18,7 @@ const Wishlist = () => {
   const handleAddToCart = (item: WishlistItem) => {
     addToCart(item);
     removeFromWishlist(item.productId);
-    toast.success("Product added to cart!"); // Thông báo thành công
+    toast.success("Product added to cart!"); 
   };
 
   return (
