@@ -118,7 +118,7 @@ const Header = () => {
                 <div className="header-search">
                   <button className="search-toggle">
                     <img
-                      src="./src/assets/images/icons/search.png"
+                      src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435826/h4uucmb4drdjyoienlzg.png"
                       alt="Search Toggle"
                     />
                     <img
@@ -132,7 +132,7 @@ const Header = () => {
                       <input type="text" placeholder="Type and hit enter" />
                       <button>
                         <img
-                          src="./src/assets/images/icons/search.png"
+                          src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435826/h4uucmb4drdjyoienlzg.png"
                           alt="Search"
                         />
                       </button>
@@ -142,13 +142,21 @@ const Header = () => {
 
                 <div className="header-wishlist">
                   <Link to="/wishlist">
-                    <img src="./src/assets/images/icons/wishlist.png" alt="Wishlist" /> <span>{wishlistItems.length}</span> {/* Display wishlist count */}
+                    <img
+                      src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435825/tu5i5dlrzuygf8vfgkgn.png"
+                      alt="Wishlist"
+                    />{" "}
+                    <span>02</span>
                   </Link>
                 </div>
 
                 <div className="header-mini-cart">
                   <Link to="/cart">
-                    <img src="./src/assets/images/icons/cart.png" alt="Cart" /><span>{cartItems.length}</span>
+                    <img
+                      src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435825/exlbleuphlrgthue8lhc.png"
+                      alt="Cart"
+                    />{" "}
+                    <span>{cartItems.length}</span>
                   </Link>
                 </div>
               </div>
