@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-useless-escape */
 import React, { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ProductsObj } from "../model/Product";
 import agent from "../api/agent";
 import { useCart } from "../cart/CartContext";
+import { useWishlist } from "../wishlist/WishlistContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PopularProduct: FC = () => {
-  const { addToCart } = useCart(); // Destructure addToCart from useCart hook
-  const navigate = useNavigate();
+  const { addToCart } = useCart(); 
+  const { addToWishlist } = useWishlist();
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +41,15 @@ const PopularProduct: FC = () => {
     const productToAdd = products.find(product => product.productId === productId);
     if (productToAdd) {
       addToCart(productToAdd); // Thêm sản phẩm vào giỏ hàng
-      console.log(`Adding product ${productId} to cart`);
+      toast.success("Product added to cart!"); // Thông báo thành công
+    }
+  };
+
+  const handleAddToWishlist = (productId: number) => {
+    const productToAdd = products.find(product => product.productId === productId);
+    if (productToAdd) {
+      addToWishlist(productToAdd);
+      toast.success("Product added to wishlist!"); // Thông báo thành công
     }
   };
 
@@ -63,8 +73,8 @@ const PopularProduct: FC = () => {
         <div className="row mbn-40">
           {products.map((product) => {
             const images = product.image
-              .replace(/[\[\]]/g, "") // Remove square brackets
-              .split(","); // Split by comma
+              .replace(/[\[\]]/g, "") 
+              .split(","); 
             return (
               <div
                 className="col-xl-3 col-lg-4 col-md-6 col-12 mb-40"
@@ -77,7 +87,7 @@ const PopularProduct: FC = () => {
                       <div className="image-overlay">
                         <div className="action-buttons">
                           <button onClick={() => handleAddToCart(product.productId)}>add to cart</button>
-                          <button>add to wishlist</button>
+                          <button onClick={() => handleAddToWishlist(product.productId)}>add to wishlist</button>
                         </div>
                       </div>
                     </div>

@@ -3,14 +3,15 @@ import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { useCart } from '../cart/CartContext';
 import { useWishlist } from '../wishlist/WishlistContext';
-
+import AlertModal from './AlertModal'; // Import AlertModal
 
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();
   const { cartItems } = useCart();
-  const { wishlistItems } = useWishlist();  // Use wishlistItems from WishlistContext
+  const { wishlistItems } = useWishlist(); // Use wishlistItems from WishlistContext
 
   const [fullName, setFullName] = useState<string | null>(null);
+  const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -30,7 +31,16 @@ const Header = () => {
   }, [isLoggedIn, getUserInfo]);
 
   const handleLogout = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleConfirmLogout = () => {
     logout();
+    setShowLogoutModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowLogoutModal(false);
   };
 
   return (
@@ -72,6 +82,7 @@ const Header = () => {
                       <li>
                         <a href="#">User</a>
                         <ul>
+                          <li><Link to="/my-account">Account</Link></li>
                           <li><a onClick={handleLogout}>Logout</a></li>
                         </ul>
                       </li>
@@ -91,7 +102,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="header-bottom header-bottom-one header-sticky">
+      <div className="header-bottom header-bottom-one header-sticky" style={{backgroundColor:'white'}}>
         <div className="container-fluid">
           <div className="row menu-center align-items-center justify-content-between">
             <div className="col mt-15 mb-15">
@@ -160,6 +171,14 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      <AlertModal
+        show={showLogoutModal}
+        handleClose={handleCloseModal}
+        handleConfirm={handleConfirmLogout}
+        title="Confirm Logout"
+        body="Do you really want to logout?"
+      />
     </div>
   );
 };

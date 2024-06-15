@@ -5,7 +5,8 @@ import Sidebar from "../components/Sidebar";
 import { ProductsObj } from "../model/Product";
 import { useCart } from "../cart/CartContext";
 import { useWishlist } from "../wishlist/WishlistContext";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Shop = () => {
   const { addToCart } = useCart();
@@ -42,7 +43,7 @@ const Shop = () => {
     const productToAdd = products.find(product => product.productId === productId);
     if (productToAdd) {
       addToCart(productToAdd);
-      console.log(`Adding product ${productId} to cart`);
+      toast.success("Product added to cart!"); // Thông báo thành công
     }
   };
 
@@ -50,7 +51,7 @@ const Shop = () => {
     const productToAdd = products.find(product => product.productId === productId);
     if (productToAdd) {
       addToWishlist(productToAdd);
-      console.log(`Adding product ${productId} to wishlist`);
+      toast.success("Product added to wishlist!"); // Thông báo thành công
     }
   };
 
