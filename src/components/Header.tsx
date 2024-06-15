@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { useCart } from '../cart/CartContext';
+import { useWishlist } from '../wishlist/WishlistContext';
 
 
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();
-  const { cartItems } = useCart(); 
+  const { cartItems } = useCart();
+  const { wishlistItems } = useWishlist();  // Use wishlistItems from WishlistContext
 
   const [fullName, setFullName] = useState<string | null>(null);
 
@@ -119,7 +121,7 @@ const Header = () => {
 
                 <div className="header-wishlist">
                   <Link to="/wishlist">
-                    <img src="./src/assets/images/icons/wishlist.png" alt="Wishlist" /> <span>02</span>
+                    <img src="./src/assets/images/icons/wishlist.png" alt="Wishlist" /> <span>{wishlistItems.length}</span> {/* Display wishlist count */}
                   </Link>
                 </div>
 

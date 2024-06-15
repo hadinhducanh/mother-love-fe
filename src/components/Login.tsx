@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 
 export const Login: React.FC = () => {
     const { login } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     interface FormData {
         username: string;
         password: string;
     }
+
     const [formData, setFormData] = useState<FormData>({
         username: '',
         password: ''
     });
+
     const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -28,7 +32,8 @@ export const Login: React.FC = () => {
         }
         try {
             await login(formData.username, formData.password);
-            navigate('/');
+            const from = location.state?.from || '/'; // Lấy URL mục tiêu từ state, nếu không có thì chuyển về trang chủ
+            navigate(from);
         } catch (error) { 
             if (error instanceof Error) {
                 setError(error.message);
@@ -37,8 +42,6 @@ export const Login: React.FC = () => {
             }
         }
     };
-    
-    
 
     return (
         <div className="col-lg-4 col-12 mb-40">

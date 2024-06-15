@@ -1,10 +1,13 @@
-// src/pages/Cart.tsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Banner from '../components/Banner';
 import { useCart } from '../cart/CartContext';
+import { useAuth } from '../auth/AuthContext';
 
 const Cart = () => {
+  const navigate = useNavigate();
   const { cartItems, removeItem, updateQuantity } = useCart();
+  const { isLoggedIn } = useAuth();
 
   const handleRemoveItem = (productId: number) => {
     removeItem(productId);
@@ -16,6 +19,18 @@ const Cart = () => {
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  const handleProceedToCheckout = () => {
+    if (isLoggedIn) {
+      navigate('/checkout');
+    } else {
+      navigate('/login-register', { state: { from: '/cart' } }); 
+    }
+  };
+
+  const handleContinueShopping = () => {
+    navigate('/');
   };
 
   return (
@@ -47,46 +62,44 @@ const Cart = () => {
                       <tbody>
                         {cartItems.map((item) => {
                           const image = item.image
-                          .replace(/[\[\]]/g, "")
-                          .split(",");
+                            .replace(/[\[\]]/g, "")
+                            .split(",");
                           return (
                             <tr key={item.productId}>
-                            <td className="pro-thumbnail">
-                              <a href="#">
-                                <img src={image[0]} alt={item.productName} />
-                              </a>
-                            </td>
-                            <td className="pro-title">
-                              <a href="#">{item.productName}</a>
-                            </td>
-                            <td className="pro-price">
-                              <span className="amount">${item.price}</span>
-                            </td>
-                            <td className="pro-quantity">
-                              <div className="pro-qty">
-                                <input
-                                  type="number"
-                                  value={item.quantity}
-                                  onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
-                                />
-                              </div>
-                            </td>
-                            <td className="pro-subtotal">${item.price * item.quantity}</td>
-                            <td className="pro-remove">
-                              <a onClick={() => handleRemoveItem(item.productId)}>×</a>
-                            </td>
-                          </tr>
+                              <td className="pro-thumbnail">
+                                <a href="#">
+                                  <img src={image[0]} alt={item.productName} />
+                                </a>
+                              </td>
+                              <td className="pro-title">
+                                <a href="#">{item.productName}</a>
+                              </td>
+                              <td className="pro-price">
+                                <span className="amount">${item.price}</span>
+                              </td>
+                              <td className="pro-quantity">
+                                <div className="pro-qty">
+                                  <input
+                                    type="number"
+                                    value={item.quantity}
+                                    onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
+                                  />
+                                </div>
+                              </td>
+                              <td className="pro-subtotal">${item.price * item.quantity}</td>
+                              <td className="pro-remove">
+                                <a onClick={() => handleRemoveItem(item.productId)}>×</a>
+                              </td>
+                            </tr>
                           )
-                        } 
-                          
-                        )}
+                        })}
                       </tbody>
                     </table>
                   </div>
                 </div>
                 <div className="col-lg-8 col-md-7 col-12 mb-40">
                   <div className="cart-buttons mb-30">
-                    <a href="#">Continue Shopping</a>
+                    <a style={{color:'white'}} onClick={handleContinueShopping}>Continue Shopping</a>
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-5 col-12 mb-40">
@@ -111,8 +124,8 @@ const Cart = () => {
                       </tbody>
                     </table>
                     <div className="proceed-to-checkout section mt-30">
-                                <a href="#">Proceed to Checkout</a>
-                            </div>
+                      <a onClick={handleProceedToCheckout}>Proceed to Checkout</a>
+                    </div>
                   </div>
                 </div>
               </div>

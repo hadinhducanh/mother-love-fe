@@ -1,14 +1,15 @@
-
 import React, { useState, useEffect } from "react";
 import agent from "../api/agent";
 import Banner from "../components/Banner";
 import Sidebar from "../components/Sidebar";
 import { ProductsObj } from "../model/Product";
 import { useCart } from "../cart/CartContext";
+import { useWishlist } from "../wishlist/WishlistContext";
+
 
 const Shop = () => {
- 
   const { addToCart } = useCart();
+  const { addToWishlist } = useWishlist();
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,6 +43,14 @@ const Shop = () => {
     if (productToAdd) {
       addToCart(productToAdd);
       console.log(`Adding product ${productId} to cart`);
+    }
+  };
+
+  const handleAddToWishlist = (productId: number) => {
+    const productToAdd = products.find(product => product.productId === productId);
+    if (productToAdd) {
+      addToWishlist(productToAdd);
+      console.log(`Adding product ${productId} to wishlist`);
     }
   };
 
@@ -105,7 +114,7 @@ const Shop = () => {
                             <div className="image-overlay">
                               <div className="action-buttons">
                                 <button onClick={() => handleAddToCart(product.productId)}>add to cart</button>
-                                <button>add to wishlist</button>
+                                <button onClick={() => handleAddToWishlist(product.productId)}>add to wishlist</button>
                               </div>
                             </div>
                           </div>
@@ -160,35 +169,35 @@ const Shop = () => {
                         <button
                           className="page-link"
                           onClick={() => handlePageClick(pageNumber + 1)}
+                          >
+                            {pageNumber + 1}
+                          </button>
+                        </li>
+                      ))}
+                      <li
+                        className={`page-item ${
+                          pageNo === totalPages - 1 ? "disabled" : ""
+                        }`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageClick(pageNo + 1)}
+                          disabled={pageNo === totalPages - 1}
                         >
-                          {pageNumber + 1}
+                          Next
                         </button>
                       </li>
-                    ))}
-                    <li
-                      className={`page-item ${
-                        pageNo === totalPages - 1 ? "disabled" : ""
-                      }`}
-                    >
-                      <button
-                        className="page-link"
-                        onClick={() => handlePageClick(pageNo + 2)}
-                        disabled={pageNo === totalPages - 1}
-                      >
-                        Next
-                      </button>
-                    </li>
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
               </div>
+  
+              <Sidebar />
             </div>
-
-            <Sidebar />
           </div>
         </div>
-      </div>
-    </>
-  );
-};
-
-export default Shop;
+      </>
+    );
+  };
+  
+  export default Shop;

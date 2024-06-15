@@ -14,12 +14,16 @@ import BlogDetail from "../pages/BlogDetail";
 import { NotFound } from "../pages/404";
 import { AuthProvider } from "../auth/AuthContext";
 import { CartProvider } from "../cart/CartContext";
+import { WishlistProvider } from "../wishlist/WishlistContext";
 
 const AppWithProvider = () => {
   return (
     <AuthProvider>
       <CartProvider>
-      <App/>
+        <WishlistProvider>
+        <App/>
+        </WishlistProvider>
+      
       </CartProvider>
       
     </AuthProvider>
