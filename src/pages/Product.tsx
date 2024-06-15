@@ -1,9 +1,6 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
-import "slick-carousel";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import agent from "../api/agent";
 import { ProductsObj } from "../model/Product";
 import { useParams } from "react-router";
@@ -20,10 +17,6 @@ const Product = () => {
     autoplay: true,
     infinite: true,
     slidesToShow: 4,
-    // prevArrow:
-    //   '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
-    // nextArrow:
-    //   '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
     responsive: [
       {
         breakpoint: 1199,
@@ -65,7 +58,6 @@ const Product = () => {
     if (!isNaN(productId)) {
       agent.Products.details(productId)
         .then((response) => {
-          // Ensure the response is an array
           if (Array.isArray(response)) {
             setProducts(response);
             setCurrentImg(

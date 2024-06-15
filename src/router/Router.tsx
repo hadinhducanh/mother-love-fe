@@ -23,7 +23,6 @@ const AppWithProvider = () => {
         <WishlistProvider>
         <App/>
         </WishlistProvider>
-      
       </CartProvider>
     </AuthProvider>
   );
