@@ -102,9 +102,13 @@ const Header = () => {
           <div className="row menu-center align-items-center justify-content-between">
             <div className="col mt-15 mb-15">
               {/* Logo Start */}
-              <div className="header-logo">
+              <div className="header-logo ">
                 <Link to="/">
-                  <img src="./src/assets/images/logo.png" alt="Logo" />
+                  <img
+                    src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718436967/vmmt1mwdsqltem1hcp7v.png"
+                    alt="Logo"
+                    style={{ width: "100px" }}
+                  />
                 </Link>
               </div>
               {/* Logo End */}
