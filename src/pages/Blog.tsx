@@ -297,7 +297,6 @@ export const Blog = () => {
         </div>
         {/* Blog Section End */}
       </div>
-      <Brand />
     </>
   );
 };

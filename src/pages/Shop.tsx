@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import agent from "../api/agent";
 import Banner from "../components/Banner";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/Shop/Sidebar";
 import { ProductsObj } from "../model/Product";
 import { useCart } from "../cart/CartContext";
 import Loading from "../components/Loading";
@@ -70,7 +70,7 @@ const Shop = () => {
       <div className="page-section section section-padding">
         <div className="container">
           <div className="row row-30 mbn-40">
-            <div className="col-xl-9 col-lg-8 col-12 order-1 order-lg-2 mb-40">
+            <div className="col-xl-9 col-lg-8 col-12 order-2 order-lg-2 mb-40">
               <div className="row">
                 <div className="col-12">
                   <div className="product-show">

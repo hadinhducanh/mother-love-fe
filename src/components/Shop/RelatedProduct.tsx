@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-useless-escape */
 import { FC, useEffect, useState } from "react";
-import { ProductsObj } from "../model/Product";
-import agent from "../api/agent";
+import { ProductsObj } from "../../model/Product";
+import agent from "../../api/agent";
 import Slider from "react-slick";
 
 interface ProductProps {

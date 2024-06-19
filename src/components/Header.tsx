@@ -114,7 +114,7 @@ const Header = () => {
               {/* Logo End */}
             </div>
 
-            <div className="col order-2 order-lg-3">
+            <div className="col order-3 order-lg-3">
               {/* Header Advance Search Start */}
               <div className="header-shop-links">
                 <div className="header-search">
@@ -165,7 +165,7 @@ const Header = () => {
               {/* Header Advance Search End */}
             </div>
 
-            <div className="col order-3 order-lg-2">
+            <div className="col order-2 order-lg-2">
               <div className="main-menu">
                 <nav>
                   <ul>

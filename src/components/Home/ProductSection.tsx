@@ -4,8 +4,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState, useEffect } from "react";
-import agent from "../api/agent";
-import { ProductsObj } from "../model/Product";
+import agent from "../../api/agent";
+import { ProductsObj } from "../../model/Product";
 
 export const ProductSection = () => {
   const smallProductSliderSettings = {
@@ -94,7 +94,7 @@ export const ProductSection = () => {
       <div className="product-section section section-padding pt-0">
         <div className="container">
           <div className="row mbn-40">
-            <div className="col-lg-4 col-md-6 col-12 order-1 order-md-2 mb-40">
+            <div className="col-lg-4 col-md-6 col-12 order-2 order-md-2 mb-40">
               <div className="row">
                 <div className="section-title text-left col col mb-30">
                   <h1>BEST DEAL</h1>
@@ -149,7 +149,7 @@ export const ProductSection = () => {
                 })}
               </Slider>
             </div>
-            <div className="col-lg-8 col-md-6 col-12 pr-3 pr-lg-4 pr-xl-5 order-2 order-md-1 mb-40">
+            <div className="col-lg-8 col-md-6 col-12 pr-3 pr-lg-4 pr-xl-5 order-1 order-md-1 mb-40">
               <div className="row">
                 <div className="section-title text-left col mb-30">
                   <h1>ON SALE PRODUCTS</h1>

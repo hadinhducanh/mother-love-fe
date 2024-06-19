@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-useless-escape */
+import agent from "@/api/agent";
+import { useCart } from "@/cart/CartContext";
+import { ProductsObj } from "@/model/Product";
 import React, { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ProductsObj } from "../model/Product";
-import agent from "../api/agent";
-import { useCart } from "../cart/CartContext";
 
 const PopularProduct: FC = () => {
   const { addToCart } = useCart(); // Destructure addToCart from useCart hook

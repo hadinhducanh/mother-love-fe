@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
-import agent from "../api/agent";
-import { CategoryObj } from "../model/Category";
+import { CategoryObj } from "../../model/Category";
 import SidebarPopular from "./Sidebar-popular";
+import agent from "@/api/agent";
 
 const Sidebar = () => {
   const [category, setCategory] = useState<CategoryObj[]>([]);
@@ -36,7 +36,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="col-xl-3 col-lg-4 col-12 order-2 order-lg-1 mb-40">
+    <div className="col-xl-3 col-lg-4 col-12 order-1 order-lg-1 mb-40">
       <div className="sidebar">
         <h4 className="sidebar-title">Category</h4>
 
@@ -50,7 +50,6 @@ const Sidebar = () => {
       </div>
 
       <SidebarPopular />
-
     </div>
   );
 };

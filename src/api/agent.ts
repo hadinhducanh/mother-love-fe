@@ -1,15 +1,34 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { router } from "../router/Router";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 
 axios.defaults.baseURL = "http://localhost:8080/api/v1/";
 axios.defaults.withCredentials = true;
 
+const axiosInstance = axios.create({
+    baseURL: 'http://localhost:8080/api/v1/', // Replace with your actual API base URL
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 const responseBody = (response: AxiosResponse) => response.data;
-
-axios.interceptors.response.use(
+axiosInstance.interceptors.request.use(
+    (config) => {
+      const accessToken = Cookies.get("accessToken");
+      console.log("Access Token:", accessToken);
+      if (accessToken) {
+        config.headers["Authorization"] = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  axiosInstance.interceptors.response.use(
     async (response) => {
         await sleep();
         return response;
@@ -47,12 +66,12 @@ axios.interceptors.response.use(
 );
 
 const requests = {
-    get: (url: string) => axios.get(url).then(responseBody),
+    get: (url: string) => axiosInstance.get(url).then(responseBody),
     // eslint-disable-next-line @typescript-eslint/ban-types
-    post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
+    post: (url: string, body: {}) => axiosInstance.post(url, body).then(responseBody),
     // eslint-disable-next-line @typescript-eslint/ban-types
-    put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
-    delete: (url: string) => axios.delete(url).then(responseBody),
+    put: (url: string, body: {}) => axiosInstance.put(url, body).then(responseBody),
+    delete: (url: string) => axiosInstance.delete(url).then(responseBody),
 };
 
 const Products = {
@@ -67,10 +86,17 @@ const Category = {
     list: (pageNo: number, pageSize: number) => requests.get(`categories?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=categoryId&sortDir=asc`),
     // details: (id: number) => requests.get(`News/get-news?id=${id}`),
 };
-
+const Address = {
+    listByUserId:  (userId: number, pageNo: number, pageSize: number) => {
+        return requests.get(
+            `address/user?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=addressId&sortDir=asc&userId=${userId}`,
+            
+        );
+    }
+};
 
 const agent = {
-    Products, Brand, Category
+    Products, Brand, Category, Address
 };
 
 export default agent;
