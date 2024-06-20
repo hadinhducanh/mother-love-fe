@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 import { Brand } from "../components/Brand";
 import Banner from "../components/Banner";
 import Slider from "react-slick";
-import { RelatedProduct } from "../components/RelatedProduct";
+import { RelatedProduct } from "../components/Shop/RelatedProduct";
 import Loading from "../components/Loading";
 
 const Product = () => {

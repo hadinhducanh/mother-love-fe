@@ -1,8 +1,7 @@
 import Banner from "../components/Banner";
 import { Brand } from "../components/Brand";
-import { Login } from "../components/Login";
-import { Register } from "../components/Register";
-
+import { Login } from "../components/Auth/Login";
+import { Register } from "@/components/Auth/Register";
 
 const LoginRegister = () => {
   return (
@@ -12,9 +11,10 @@ const LoginRegister = () => {
         singleName={"Login & Register"}
         pictureUrl="./src/assets/images/hero/hero-1.jpg"
       />
-       <div className="page-section section section-padding justify-content-center">
+      <div className="page-section section section-padding justify-content-center">
         <div className="container">
-            <div className="row mbn-40">
+          <div className="row mbn-40">
+            <Login />
 
                 <Login/>
 
@@ -26,12 +26,9 @@ const LoginRegister = () => {
 
             </div>
         </div>
-    </div>
-    <Brand/>
-      
+      </div>
+      <Brand />
     </>
-  
-    
   );
 };
 export default LoginRegister;

@@ -1,13 +1,14 @@
 // import Banner from "../components/Banner";
-import { Blog } from "../components/Blog";
-import { Brand } from "../components/Brand";
-import { Feature } from "../components/Feature";
-import HeroSection from "../components/HeroSection";
-import { HomePageBanner } from "../components/HomePageBanner";
-import { HomePageBanner2 } from "../components/HomePageBanner2";
-import PopularProduct from "../components/PopularProduct";
-import { ProductSection } from "../components/ProductSection";
-import { TestimonialSection } from "../components/TestimonialSection";
+
+import { Brand } from "@/components/Brand";
+import { Feature } from "@/components/Home/Feature";
+import HeroSection from "@/components/Home/HeroSection";
+import { HomePageBanner } from "@/components/Home/HomePageBanner";
+import { HomePageBanner2 } from "@/components/Home/HomePageBanner2";
+import PopularProduct from "@/components/Home/PopularProduct";
+import { TestimonialSection } from "@/components/Home/TestimonialSection";
+import { ProductSection } from "@/components/Home/ProductSection";
+import { Blog } from "./Blog";
 
 export const HomePage = () => {
   return (

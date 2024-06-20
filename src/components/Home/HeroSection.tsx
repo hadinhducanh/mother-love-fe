@@ -1,5 +1,5 @@
 import Slider from "react-slick";
-import "./../assets/css/style.css";
+import "./../../assets/css/style.css";
 const HeroSection = () => {
   const settings = {
     arrows: true,

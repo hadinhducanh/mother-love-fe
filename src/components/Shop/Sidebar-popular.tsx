@@ -1,8 +1,8 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import agent from "@/api/agent";
+import { ProductsObj } from "@/model/Product";
 import { useState, useEffect } from "react";
-import agent from "../api/agent";
-import { ProductsObj } from "../model/Product";
 
 const SidebarPopular = () => {
   const [products, setProducts] = useState<ProductsObj[]>([]);

@@ -108,7 +108,11 @@ const Header = () => {
             <div className="col mt-15 mb-15">
               <div className="header-logo">
                 <Link to="/">
-                  <img src="./src/assets/images/logo.png" alt="Logo" />
+                  <img
+                    src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718436967/vmmt1mwdsqltem1hcp7v.png"
+                    alt="Logo"
+                    style={{ width: "100px" }}
+                  />
                 </Link>
               </div>
             </div>
@@ -163,7 +167,7 @@ const Header = () => {
               {/* Header Advance Search End */}
             </div>
 
-            <div className="col order-3 order-lg-2">
+            <div className="col order-2 order-lg-2">
               <div className="main-menu">
                 <nav>
                   <ul>

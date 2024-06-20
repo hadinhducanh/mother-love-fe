@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-useless-escape */
+import agent from "@/api/agent";
+import { useCart } from "@/cart/CartContext";
+import { ProductsObj } from "@/model/Product";
 import React, { FC, useEffect, useState } from "react";
-import { ProductsObj } from "../model/Product";
-import agent from "../api/agent";
-import { useCart } from "../cart/CartContext";
-import { useWishlist } from "../wishlist/WishlistContext";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 const PopularProduct: FC = () => {
-  const { addToCart } = useCart(); 
-  const { addToWishlist } = useWishlist();
+  const { addToCart } = useCart(); // Destructure addToCart from useCart hook
+  const navigate = useNavigate();
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,18 +36,12 @@ const PopularProduct: FC = () => {
   }, [pageNo, pageSize]);
 
   const handleAddToCart = (productId: number) => {
-    const productToAdd = products.find(product => product.productId === productId);
+    const productToAdd = products.find(
+      (product) => product.productId === productId
+    );
     if (productToAdd) {
       addToCart(productToAdd); // Thêm sản phẩm vào giỏ hàng
-      toast.success("Product added to cart!"); // Thông báo thành công
-    }
-  };
-
-  const handleAddToWishlist = (productId: number) => {
-    const productToAdd = products.find(product => product.productId === productId);
-    if (productToAdd) {
-      addToWishlist(productToAdd);
-      toast.success("Product added to wishlist!"); // Thông báo thành công
+      console.log(`Adding product ${productId} to cart`);
     }
   };
 
@@ -73,8 +65,8 @@ const PopularProduct: FC = () => {
         <div className="row mbn-40">
           {products.map((product) => {
             const images = product.image
-              .replace(/[\[\]]/g, "") 
-              .split(","); 
+              .replace(/[\[\]]/g, "") // Remove square brackets
+              .split(","); // Split by comma
             return (
               <div
                 className="col-xl-3 col-lg-4 col-md-6 col-12 mb-40"
@@ -86,8 +78,12 @@ const PopularProduct: FC = () => {
                       <img src={images[0]} alt={product.productName} />
                       <div className="image-overlay">
                         <div className="action-buttons">
-                          <button onClick={() => handleAddToCart(product.productId)}>add to cart</button>
-                          <button onClick={() => handleAddToWishlist(product.productId)}>add to wishlist</button>
+                          <button
+                            onClick={() => handleAddToCart(product.productId)}
+                          >
+                            add to cart
+                          </button>
+                          <button>add to wishlist</button>
                         </div>
                       </div>
                     </div>
