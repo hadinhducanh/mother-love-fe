@@ -1,29 +1,28 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { User } from '../model/User';
 
 const isAccessTokenExpired = (accessToken: string): boolean => {
     try {
-        const decodedToken: { exp: number } = jwtDecode(accessToken); 
-        const expirationTime = decodedToken.exp * 1000; 
+        const decodedToken: { exp: number } = jwtDecode(accessToken);
+        const expirationTime = decodedToken.exp * 1000;
         const currentTime = new Date().getTime();
-        return currentTime > expirationTime; 
+        return currentTime > expirationTime;
     } catch (error) {
         console.error('Error decoding access token:', error);
-        return true; 
+        return true;
     }
 };
 
 export const refreshTokenIfNeeded = async (): Promise<boolean> => {
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = localStorage.getItem('accessToken');
     if (!accessToken || isAccessTokenExpired(accessToken)) {
         try {
             const response = await axios.post('/auth/refresh_token', {
-                refresh_token: Cookies.get('refreshToken')
+                refresh_token: localStorage.getItem('refreshToken')
             });
             const newAccessToken = response.data.access_token;
-            Cookies.set('accessToken', newAccessToken, { expires: 1 });
+            localStorage.setItem('accessToken', newAccessToken);
             console.log('Refreshed access token successfully');
             return true;
         } catch (error) {
@@ -41,8 +40,8 @@ export const login = async (username: string, password: string): Promise<boolean
             password: password
         });
         const { access_token, refresh_token } = response.data;
-        Cookies.set('accessToken', access_token, { expires: 1 }); 
-        Cookies.set('refreshToken', refresh_token, { expires: 15 });
+        localStorage.setItem('accessToken', access_token);
+        localStorage.setItem('refreshToken', refresh_token);
         console.log('Login successful');
         return true;
     } catch (error) {
@@ -53,7 +52,7 @@ export const login = async (username: string, password: string): Promise<boolean
 
 export const getUserInfo = async (): Promise<User | null> => {
     try {
-        const accessToken = Cookies.get('accessToken');
+        const accessToken = localStorage.getItem('accessToken');
         if (!accessToken || isAccessTokenExpired(accessToken)) {
             throw new Error('Access token is missing or expired');
         }
@@ -68,6 +67,7 @@ export const getUserInfo = async (): Promise<User | null> => {
         return null;
     }
 };
+
 export const register = async (username: string, fullName: string, email: string, phone: string, password: string, gender: string): Promise<boolean> => {
     try {
         const response = await axios.post('/auth/register', {
@@ -79,8 +79,8 @@ export const register = async (username: string, fullName: string, email: string
             gender
         });
         const { access_token, refresh_token } = response.data;
-        Cookies.set('accessToken', access_token, { expires: 1 });
-        Cookies.set('refreshToken', refresh_token, { expires: 15 });
+        localStorage.setItem('accessToken', access_token);
+        localStorage.setItem('refreshToken', refresh_token);
         console.log('Registration successful');
         return true;
     } catch (error) {

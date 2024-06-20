@@ -58,8 +58,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const handleLogout = () => {
-        Cookies.remove('accessToken');
-        Cookies.remove('refreshToken');
+        localStorage.remove('accessToken');
+        localStorage.remove('refreshToken');
         setIsLoggedIn(false);
     };
 

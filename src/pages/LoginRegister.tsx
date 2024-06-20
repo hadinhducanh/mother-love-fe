@@ -16,8 +16,7 @@ const LoginRegister = () => {
           <div className="row mbn-40">
             <Login />
 
-                <Login/>
-
+               
                 <div className="col-lg-2 col-12 mb-40 text-center">
                     <span className="login-register-separator"></span>
                 </div>

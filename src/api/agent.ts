@@ -17,7 +17,7 @@ const axiosInstance = axios.create({
 const responseBody = (response: AxiosResponse) => response.data;
 axiosInstance.interceptors.request.use(
     (config) => {
-      const accessToken = Cookies.get("accessToken");
+      const accessToken = localStorage.getItem("accessToken");
       console.log("Access Token:", accessToken);
       if (accessToken) {
         config.headers["Authorization"] = `Bearer ${accessToken}`;
