@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext';
-import { useCart } from '../cart/CartContext';
+import { useAuth } from '../context/auth/AuthContext';
+import { useCart } from '../context/cart/CartContext';
 import { useWishlist } from '../wishlist/WishlistContext';
 import AlertModal from './AlertModal'; // Import AlertModal
 
@@ -83,6 +83,7 @@ const Header = () => {
                         <a href="#">User</a>
                         <ul>
                           <li><Link to="/my-account">Account</Link></li>
+                          <li><Link to="/voucher-list">Voucher</Link></li>
                           <li><a onClick={handleLogout}>Logout</a></li>
                         </ul>
                       </li>

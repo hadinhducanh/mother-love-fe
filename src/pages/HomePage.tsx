@@ -9,15 +9,16 @@ import PopularProduct from "@/components/Home/PopularProduct";
 import { TestimonialSection } from "@/components/Home/TestimonialSection";
 import { ProductSection } from "@/components/Home/ProductSection";
 import { Blog } from "./Blog";
+import Vouchers from "@/components/Home/Vouchers";
+
 
 export const HomePage = () => {
   return (
     <>
       <HeroSection />
       <PopularProduct />
-      <HomePageBanner />
       <ProductSection />
-      <HomePageBanner2 />
+      <Vouchers />
       <TestimonialSection />
       <Feature />
       <Blog />

@@ -9,5 +9,6 @@ export interface ProductsObj {
       status: number,
       image: string,
       category: CategoryObj,
-      brand:BrandObj
+      brand:BrandObj,
+      quantityProduct: number
     }

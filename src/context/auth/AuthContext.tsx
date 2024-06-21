@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
-import { refreshTokenIfNeeded, login, register, getUserInfo } from '../api/auth';
-import { User } from '../model/User';
+import { refreshTokenIfNeeded, login, register, getUserInfo } from '../../api/auth';
+import { User } from '../../model/User';
 
 interface AuthContextType {
     isLoggedIn: boolean;

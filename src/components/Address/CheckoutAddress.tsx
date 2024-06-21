@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import agent from "@/api/agent";
 import { AddressObj } from "@/model/Address";
-import { useAuth } from "@/auth/AuthContext";
+import { useAuth } from "@/context/auth/AuthContext";
 import AddressDetail from "./AddressDetail";
 import AddressDialog from "./AddressDialog";
 
