@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-useless-escape */
 import agent from "@/api/agent";
-import { useCart } from "@/cart/CartContext";
-import { ProductsObj } from "@/model/Product";
+import { CartItems, useCart } from "@/context/cart/CartContext";
 import React, { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const PopularProduct: FC = () => {
   const { addToCart } = useCart(); // Destructure addToCart from useCart hook
   const navigate = useNavigate();
-  const [products, setProducts] = useState<ProductsObj[]>([]);
+  const [products, setProducts] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);

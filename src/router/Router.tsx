@@ -12,18 +12,22 @@ import { Contact } from "../pages/Contact";
 import Product from "../pages/Product";
 import BlogDetail from "../pages/BlogDetail";
 import { NotFound } from "../pages/404";
-import { AuthProvider } from "../auth/AuthContext";
-import { CartProvider } from "../cart/CartContext";
+import { AuthProvider } from "../context/auth/AuthContext";
+import { CartProvider } from "../context/cart/CartContext";
 import { WishlistProvider } from "../wishlist/WishlistContext";
+import VoucherList from "@/pages/VoucherList";
+
 
 const AppWithProvider = () => {
   return (
     <AuthProvider>
-      <CartProvider>
-        <WishlistProvider>
-        <App/>
-        </WishlistProvider>
-      </CartProvider>
+      
+        <CartProvider>
+          <WishlistProvider>
+            <App />
+          </WishlistProvider>
+        </CartProvider>
+     
     </AuthProvider>
   );
 };
@@ -37,6 +41,7 @@ export const router = createBrowserRouter([
       { path: "shop", element: <Shop /> },
       { path: "cart", element: <Cart /> },
       { path: "checkout", element: <Checkout /> },
+      { path: "voucher-list", element: <VoucherList /> },
       { path: "login-register", element: <LoginRegister /> },
       { path: "my-account", element: <MyAccount /> },
       { path: "wishlist", element: <Wishlist /> },

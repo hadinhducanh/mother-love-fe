@@ -6,7 +6,5 @@ export interface AddressObj{
   district: string;
   city: string;
   user: User;
-}
-export interface AddressObjExtend extends AddressObj{
-  isDefault: boolean; // Thêm thuộc tính này để xác định địa chỉ mặc định
+  default: boolean;
 }

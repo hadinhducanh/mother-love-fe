@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import agent from "../api/agent";
 import Banner from "../components/Banner";
 import Sidebar from "../components/Shop/Sidebar";
-import { ProductsObj } from "../model/Product";
-import { useCart } from "../cart/CartContext";
 import { useWishlist } from "../wishlist/WishlistContext";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Loading from "../components/Loading";
+import { CartItems, useCart } from "@/context/cart/CartContext";
 
 const Shop = () => {
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
-  const [products, setProducts] = useState<ProductsObj[]>([]);
+  const [products, setProducts] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);
@@ -41,7 +40,9 @@ const Shop = () => {
   }, [pageNo, pageSize]);
 
   const handleAddToCart = (productId: number) => {
-    const productToAdd = products.find(product => product.productId === productId);
+    const productToAdd = products.find(
+      (product) => product.productId === productId
+    );
     if (productToAdd) {
       addToCart(productToAdd);
       toast.success("Product added to cart!"); // Thông báo thành công
@@ -49,7 +50,9 @@ const Shop = () => {
   };
 
   const handleAddToWishlist = (productId: number) => {
-    const productToAdd = products.find(product => product.productId === productId);
+    const productToAdd = products.find(
+      (product) => product.productId === productId
+    );
     if (productToAdd) {
       addToWishlist(productToAdd);
       toast.success("Product added to wishlist!"); // Thông báo thành công
@@ -121,8 +124,24 @@ const Shop = () => {
 
                             <div className="image-overlay">
                               <div className="action-buttons">
-                                <button onClick={() => handleAddToCart(product.productId)}>add to cart</button>
-                                <button onClick={() => handleAddToWishlist(product.productId)}>add to wishlist</button>
+                                {product.quantityProduct > 0 ? (
+                                  <button
+                                    onClick={() =>
+                                      handleAddToCart(product.productId)
+                                    }
+                                  >
+                                    add to cart
+                                  </button>
+                                ) : (
+                                  <button disabled>Sold out</button>
+                                )}
+                                <button
+                                  onClick={() =>
+                                    handleAddToWishlist(product.productId)
+                                  }
+                                >
+                                  add to wishlist
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -144,10 +163,17 @@ const Shop = () => {
                                 <i className="fa fa-star-half-o"></i>
                                 <i className="fa fa-star-o"></i>
                               </div>
-                            </div>
 
-                            <div className="content-right">
-                              <span className="price">{product.price}</span>
+                              <span
+                                style={{
+                                  fontFamily: "Dosis, sans-serif",
+                                  fontSize: "24px",
+                                  fontWeight: 600,
+                                  color: "#ff708a",
+                                }}
+                              >
+                                {product.price}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -179,35 +205,35 @@ const Shop = () => {
                         <button
                           className="page-link"
                           onClick={() => handlePageClick(pageNumber + 1)}
-                          >
-                            {pageNumber + 1}
-                          </button>
-                        </li>
-                      ))}
-                      <li
-                        className={`page-item ${
-                          pageNo === totalPages - 1 ? "disabled" : ""
-                        }`}
-                      >
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageClick(pageNo + 1)}
-                          disabled={pageNo === totalPages - 1}
                         >
-                          Next
+                          {pageNumber + 1}
                         </button>
                       </li>
-                    </ul>
-                  </div>
+                    ))}
+                    <li
+                      className={`page-item ${
+                        pageNo === totalPages - 1 ? "disabled" : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageClick(pageNo + 1)}
+                        disabled={pageNo === totalPages - 1}
+                      >
+                        Next
+                      </button>
+                    </li>
+                  </ul>
                 </div>
               </div>
-  
-              <Sidebar />
             </div>
+
+            <Sidebar />
           </div>
         </div>
-      </>
-    );
-  };
-  
-  export default Shop;
+      </div>
+    </>
+  );
+};
+
+export default Shop;
