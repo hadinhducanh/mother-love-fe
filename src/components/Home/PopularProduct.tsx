@@ -5,6 +5,7 @@ import { useCart } from "@/cart/CartContext";
 import { ProductsObj } from "@/model/Product";
 import React, { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../Loading";
 
 const PopularProduct: FC = () => {
   const { addToCart } = useCart(); // Destructure addToCart from useCart hook
@@ -46,7 +47,7 @@ const PopularProduct: FC = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
