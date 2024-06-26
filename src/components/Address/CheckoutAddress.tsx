@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // components/CheckoutAddress.tsx
 import { useState, useEffect } from "react";
@@ -6,6 +7,7 @@ import { AddressObj } from "@/model/Address";
 import { useAuth } from "@/context/auth/AuthContext";
 import AddressDetail from "./AddressDetail";
 import AddressDialog from "./AddressDialog";
+import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
 
 const CheckoutAddress = () => {
   const [address, setAddress] = useState<AddressObj[]>([]);
@@ -57,6 +59,10 @@ const CheckoutAddress = () => {
       .then((response) => {
         if (response && Array.isArray(response)) {
           setAddress(response);
+
+          setSelectedAddress(
+            response.find((address) => address.default == true)
+          );
         } else {
           setError("Fetched data is not in expected format");
         }
@@ -93,6 +99,7 @@ const CheckoutAddress = () => {
               onRadioChange={handleRadioChange}
               onSubmit={handleFormSubmit}
             />
+            <NewAddressDialog />
           </div>
         </div>
       </div>
