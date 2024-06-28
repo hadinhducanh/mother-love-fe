@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { router } from "../router/Router";
+// import { router } from "../router/Router";
 import { toast } from "react-toastify";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
@@ -58,7 +58,8 @@ axiosInstance.interceptors.response.use(
         toast.error(data.title);
         break;
       case 500:
-        router.navigate("/server-error", { state: { error: data } });
+        // router.navigate("/server-error", { state: { error: data } });
+        toast.error(data.title);
         break;
       default:
         toast.error("Something unexpected went wrong");
@@ -77,8 +78,9 @@ const requests = {
   getMemberVouchers: (userId: number) => requests.get(`vouchers/member?userId=${userId}`),
   // Thêm method POST mới cho vouchers/member endpoint
   addVoucherForMember: (userId: number, voucherId: number) => requests.post(`vouchers/member?userId=${userId}&voucherId=${voucherId}`, {}),
-  updateDefaultAddress: (userId: number, addressOldId: number, addressNewId: number) => requests.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}),
+  updateDefaultAddress: (userId: number|null , addressOldId: number|null, addressNewId: number | undefined) => requests.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}),
   updateAddress: (addressId: number, updatedAddress: any) => requests.put(`address`, updatedAddress),
+  
 };
 
 
@@ -111,12 +113,14 @@ const Address = {
       `address/user?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=addressId&sortDir=asc&userId=${userId}`,
     );
   },
-  updateDefaultAddress: (userId: number, addressOldId: number, addressNewId: number) => {
+  updateDefaultAddress: (userId: number|null, addressOldId: number|null, addressNewId: number | undefined) => {
     return requests.updateDefaultAddress(userId, addressOldId, addressNewId);
   },
   updateAddress: (addressId: number, updatedAddress: any) => {
     return requests.updateAddress(addressId, updatedAddress);
   },
+  addNewAddress: (newAddress: any) => requests.post(`http://localhost:8080/api/v1/address`, newAddress),
+  deleteAddress: (addressId: number) => requests.delete(`http://localhost:8080/api/v1/address/${addressId}`)
 };
 
 const agent = {

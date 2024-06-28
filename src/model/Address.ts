@@ -5,6 +5,6 @@ export interface AddressObj{
   addressLine: string;
   district: string;
   city: string;
-  user: User;
+  user?: User;
   default: boolean;
 }
