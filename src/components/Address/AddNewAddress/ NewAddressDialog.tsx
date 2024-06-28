@@ -21,6 +21,7 @@ import { AddressForm } from "./AddressForm";
 import { AddressFormData } from "../type/type";
 import { useToast } from "@/components/ui/use-toast";
 import { AddressObj } from "@/model/Address";
+import { userInfo } from "os";
 
 interface NewAddressDialogProps {
   onAddressAdded: (address: AddressObj) => void;
@@ -36,6 +37,10 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
   const [userId, setUserId] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [newAddress, setNewAddress] = useState<AddressObj | null>(null);
+  const [hasExistingAddresses, setHasExistingAddresses] =
+    useState<boolean>(false);
+  const [pageNo, setPageNo] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(10);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -58,8 +63,22 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
   useEffect(() => {
     if (userId != null) {
       form.setValue("user.userId", userId);
+      const fetchUserAddresses = async () => {
+        try {
+          const addresses = await agent.Address.listByUserId(
+            userId,
+            pageNo,
+            pageSize
+          );
+          setHasExistingAddresses(addresses.length > 0);
+        } catch (error) {
+          console.error("Failed to fetch user addresses:", error);
+        }
+      };
+
+      fetchUserAddresses();
     }
-  }, [userId]); // Added userId as dependency for useEffect
+  }, [userId, pageNo, pageSize]); // Added userId as dependency for useEffect
 
   const FormSchema = z.object({
     addressLine: z.string().nonempty({ message: "Address line is required" }),
@@ -77,7 +96,7 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
       addressLine: "",
       district: "",
       city: "",
-      default: false,
+      default: !hasExistingAddresses,
       user: {
         userId: userId ?? undefined, // Set userId from state or null
       },
@@ -87,6 +106,8 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
   const onSubmit = async (data: Partial<AddressFormData>) => {
     setLoading(true);
     setError(null);
+    console.log("submit", data);
+
     try {
       const addedAddress = await agent.Address.addNewAddress(data); // Assuming agent handles API calls
       onAddressAdded(addedAddress);

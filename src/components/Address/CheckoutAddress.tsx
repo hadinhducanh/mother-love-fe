@@ -136,25 +136,37 @@ const CheckoutAddress = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+  console.log(address);
 
   return (
     <div className="page-section section section-padding">
       <div className="container">
-        <h3>Your Address</h3>
-        <div className="address d-flex justify-between items-end">
-          <AddressDetail selectedAddress={selectedAddress} />
-          <div className="address-changing">
-            <AddressDialog
-              address={address}
-              selectedAddressId={selectedAddressId}
-              onRadioChange={handleRadioChange}
-              onSubmit={handleFormSubmit}
-              onDelete={handleDeleteAddress}
-              onUpdate={handleUpdateAddress}
-            />
-            <NewAddressDialog onAddressAdded={handleAddressAdded} />
-          </div>
-        </div>
+        {address.length === 0 ? (
+          <>
+            <div className="text-center">
+              <h3 className="mb-2">YOU HAVE NOT HAD ANY ADDRESS YET!!</h3>
+              <NewAddressDialog onAddressAdded={handleAddressAdded} />
+            </div>
+          </>
+        ) : (
+          <>
+            <h3>Your Address</h3>
+            <div className="address d-flex justify-between items-end">
+              <AddressDetail selectedAddress={selectedAddress} />
+              <div className="address-changing">
+                <AddressDialog
+                  address={address}
+                  selectedAddressId={selectedAddressId}
+                  onRadioChange={handleRadioChange}
+                  onSubmit={handleFormSubmit}
+                  onDelete={handleDeleteAddress}
+                  onUpdate={handleUpdateAddress}
+                />
+                <NewAddressDialog onAddressAdded={handleAddressAdded} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

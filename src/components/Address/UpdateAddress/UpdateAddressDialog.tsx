@@ -49,7 +49,7 @@ const UpdateAddressDialog: React.FC<UpdateAddressDialogProps> = ({
   const form = useForm<AddressFormData>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      addressId: address.addressId || 0,
+      addressId: address.addressId || 1,
       addressLine: address.addressLine || "",
       district: address.district || "",
       city: address.city || "",
@@ -63,7 +63,7 @@ const UpdateAddressDialog: React.FC<UpdateAddressDialogProps> = ({
 
   useEffect(() => {
     form.reset({
-      addressId: address.addressId || 0,
+      addressId: address.addressId || 1,
       addressLine: address.addressLine || "",
       district: address.district || "",
       city: address.city || "",
