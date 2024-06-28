@@ -52,6 +52,7 @@ const VoucherList = () => {
                         <th className="pro-title">Voucher name</th>
                         <th className="pro-price">Discount</th>
                         <th className="pro-price">Min Order Discount</th>
+                        <th className="pro-price">Quantity</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -59,8 +60,9 @@ const VoucherList = () => {
                         <tr key={voucher.customerVoucherId}>
                           <td className="pro-title">{voucher.voucher.voucherCode}</td>
                           <td className="pro-title">{voucher.voucher.voucherName}</td>
-                          <td className="pro-price">${voucher.voucher.discount}</td>
-                          <td className="pro-price">${voucher.voucher.minOrderAmount}</td>
+                          <td className="pro-price">{voucher.voucher.discount}</td>
+                          <td className="pro-price">{voucher.voucher.minOrderAmount}</td>
+                          <td className="pro-price">{voucher.quantity}</td>
                         </tr>
                       ))}
                     </tbody>

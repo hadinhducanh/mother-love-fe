@@ -1,10 +1,11 @@
 import React from 'react';
 import Banner from '../components/Banner';
 import { useNavigate } from 'react-router-dom';
-import { useWishlist, WishlistItem } from '../wishlist/WishlistContext';
+
 import { useCart } from '../context/cart/CartContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { WishlistItem, useWishlist } from '@/context/wishlist/WishlistContext';
 
 const Wishlist = () => {
   const navigate = useNavigate();

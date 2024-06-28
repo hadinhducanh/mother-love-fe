@@ -8,6 +8,7 @@ export interface VoucherObj {
     startDate: string;
     endDate: string;
     status: boolean;
+    quantityOfUser: number;
 }
 
 export interface VoucherObjbyID {
@@ -26,4 +27,5 @@ export interface VoucherObjbyID {
         firstLogin: boolean;
     };
     used: boolean;
+    quantity: number;
 }

@@ -9,6 +9,10 @@ import Banner from "../components/Banner";
 import Slider from "react-slick";
 import { RelatedProduct } from "../components/Shop/RelatedProduct";
 import Loading from "../components/Loading";
+import { useCart } from "../context/cart/CartContext";
+import { useWishlist } from "../context/wishlist/WishlistContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Product = () => {
   const proThumbIMGSettings = {
@@ -53,6 +57,10 @@ const Product = () => {
   const [productName, setProductName] = useState<string>("");
 
   const productId = Number(id);
+  const { addToCart } = useCart();
+  const { addToWishlist } = useWishlist();
+  const [quantity, setQuantity] = useState<number>(1); // State for quantity input
+  const [maxQuantity, setMaxQuantity] = useState<number>(1); // State for maximum available quantity
 
   useEffect(() => {
     if (!isNaN(productId)) {
@@ -64,10 +72,12 @@ const Product = () => {
               response[0].image.replace(/[\[\]]/g, "").split(",")[0]
             );
             setProductName(response[0].productName);
+            setMaxQuantity(response[0].quantityProduct); // Set maximum quantity available
           } else {
             setProducts([response]);
             setCurrentImg(response.image.replace(/[\[\]]/g, "").split(",")[0]);
             setProductName(response.productName);
+            setMaxQuantity(response.quantityProduct); // Set maximum quantity available
           }
           setLoading(false);
         })
@@ -81,6 +91,43 @@ const Product = () => {
       setLoading(false);
     }
   }, [productId]);
+
+  const handleAddToCart = () => {
+    const productToAdd = products.find(
+      (product) => product.productId === productId
+    );
+    if (productToAdd) {
+      if (quantity <= maxQuantity) {
+        // Update quantity in productToAdd before adding to cart
+        const productWithQuantity = { ...productToAdd, quantity };
+        addToCart(productWithQuantity);
+        toast.success("Product added to cart!", {
+          position: "bottom-left", // Set position to bottom-left
+        });
+      } else {
+        toast.error(`Quantity cannot be greater than ${maxQuantity}`);
+      }
+    }
+  };
+
+  const handleAddToWishlist = () => {
+    const productToAdd = products.find(
+      (product) => product.productId === productId
+    );
+    if (productToAdd) {
+      addToWishlist(productToAdd);
+      toast.success("Product added to wishlist!", {
+        position: "bottom-left", // Set position to bottom-left
+      });
+    }
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value > 0 && value <= maxQuantity) {
+      setQuantity(value);
+    }
+  };
 
   if (loading) {
     return <Loading />;
@@ -166,25 +213,34 @@ const Product = () => {
                         <span className="availability">
                           Availability: <span>{product.status}</span>
                         </span>
+                        <span className="availability">
+                          Quantity product: <span>{product.quantityProduct}</span>
+                        </span>
 
                         <div className="quantity-colors">
                           <div className="quantity">
                             <h5>Quantity:</h5>
                             <div className="pro-qty">
-                              <input type="text" value="1" />
+                              <input
+                                type="number"
+                                min="1"
+                                max={maxQuantity}
+                                value={quantity}
+                                onChange={handleQuantityChange}
+                              />
                             </div>
                           </div>
                         </div>
 
                         <div className="actions">
-                          <button>
+                          <button onClick={handleAddToCart}>
                             <i className="ti-shopping-cart"></i>
                             <span>ADD TO CART</span>
                           </button>
                           <button className="box" data-tooltip="Compare">
                             <i className="ti-control-shuffle"></i>
                           </button>
-                          <button className="box" data-tooltip="Wishlist">
+                          <button className="box" data-tooltip="Wishlist" onClick={handleAddToWishlist}>
                             <i className="ti-heart"></i>
                           </button>
                         </div>
@@ -268,4 +324,5 @@ const Product = () => {
     </>
   );
 };
+
 export default Product;

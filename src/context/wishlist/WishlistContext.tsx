@@ -1,6 +1,7 @@
 // src/context/WishlistContext.tsx
+import { ProductsObj } from '@/model/Product';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { ProductsObj } from '../model/Product';
+
 
 export interface WishlistItem extends ProductsObj {
    

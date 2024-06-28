@@ -101,8 +101,8 @@ const Category = {
 
 const Voucher = {
   list: createListEndpoint('vouchers', 'voucherId'),
-  getMemberVouchers: (userId: number) => requests.getMemberVouchers(userId), // Thêm hàm này vào Voucher object
-  addVoucherForMember: (userId: number, voucherId: number) => requests.addVoucherForMember(userId, voucherId), // Thêm hàm này vào Voucher object
+  getMemberVouchers: (userId: number) => requests.getMemberVouchers(userId), 
+  addVoucherForMember: (userId: number, voucherId: number) => requests.addVoucherForMember(userId, voucherId), 
 };
 
 const Address = {

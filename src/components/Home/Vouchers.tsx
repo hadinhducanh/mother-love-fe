@@ -107,7 +107,7 @@ const Vouchers: React.FC = () => {
 
       <style jsx>{`
         .save-voucher-btn {
-          background-color: #ff69b4; /* Màu hồng */
+          background-color: #ff69b4; 
           color: white;
           border: none;
           padding: 10px 20px;
