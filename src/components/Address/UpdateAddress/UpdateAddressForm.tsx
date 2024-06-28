@@ -1,42 +1,48 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
-import { Input } from "@/components/ui/input";
-import { User } from "@/model/User";
-import { DialogClose } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { UseFormReturn } from "react-hook-form";
+import { AddressFormData } from "../type/type";
 import {
+  Form,
   FormField,
   FormItem,
+  FormLabel,
   FormControl,
   FormMessage,
-  Form,
 } from "@/components/ui/form";
-import { AddressFormData } from "../type/type";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { DialogClose } from "@/components/ui/dialog";
 
-interface AddressFormProps {
-  form: any; // Replace with correct type for useForm if possible
+interface UpdateAddressFormProps {
+  form: UseFormReturn<AddressFormData>;
   onSubmit: (data: Partial<AddressFormData>) => void;
-  user: User | null;
-  loading: boolean;
-  error: string | null;
 }
 
-export const AddressForm: React.FC<AddressFormProps> = ({
+export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
   form,
   onSubmit,
-  user,
-  loading,
-  error,
 }) => {
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="addressId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address ID</FormLabel>
+              <FormControl>
+                <Input placeholder="ID" {...field} readOnly />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="addressLine"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Address Line</FormLabel>
               <FormControl>
                 <Input placeholder="Address Line" {...field} />
               </FormControl>
@@ -49,6 +55,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
           name="district"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>District</FormLabel>
               <FormControl>
                 <Input placeholder="District" {...field} />
               </FormControl>
@@ -61,6 +68,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
           name="city"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>City</FormLabel>
               <FormControl>
                 <Input placeholder="City" {...field} />
               </FormControl>
@@ -70,17 +78,18 @@ export const AddressForm: React.FC<AddressFormProps> = ({
         />
         <FormField
           control={form.control}
-          name="user.userId"
+          name="user.fullName"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Fullname</FormLabel>
               <FormControl>
-                <Input value={user?.fullName} readOnly />
+                <Input placeholder="Fullname" {...field} readOnly />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* <FormField
+        <FormField
           control={form.control}
           name="default"
           render={({ field }) => (
@@ -103,13 +112,10 @@ export const AddressForm: React.FC<AddressFormProps> = ({
               <FormMessage />
             </FormItem>
           )}
-        /> */}
-        {error && <p className="text-red-500">{error}</p>}
-        <DialogClose asChild>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Saving..." : "Save Address"}
-          </Button>
-        </DialogClose>
+        />
+        <Button type="submit" className="w-full">
+          Update Address
+        </Button>
       </form>
     </Form>
   );

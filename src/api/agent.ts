@@ -78,7 +78,7 @@ const requests = {
   getMemberVouchers: (userId: number) => requests.get(`vouchers/member?userId=${userId}`),
   // Thêm method POST mới cho vouchers/member endpoint
   addVoucherForMember: (userId: number, voucherId: number) => requests.post(`vouchers/member?userId=${userId}&voucherId=${voucherId}`, {}),
-  updateDefaultAddress: (userId: number, addressOldId: number, addressNewId: number) => requests.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}),
+  updateDefaultAddress: (userId: number|null , addressOldId: number, addressNewId: number | undefined) => requests.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}),
   updateAddress: (addressId: number, updatedAddress: any) => requests.put(`address`, updatedAddress),
   
 };
@@ -113,13 +113,14 @@ const Address = {
       `address/user?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=addressId&sortDir=asc&userId=${userId}`,
     );
   },
-  updateDefaultAddress: (userId: number, addressOldId: number, addressNewId: number) => {
+  updateDefaultAddress: (userId: number|null, addressOldId: number, addressNewId: number | undefined) => {
     return requests.updateDefaultAddress(userId, addressOldId, addressNewId);
   },
   updateAddress: (addressId: number, updatedAddress: any) => {
     return requests.updateAddress(addressId, updatedAddress);
   },
   addNewAddress: (newAddress: any) => requests.post(`http://localhost:8080/api/v1/address`, newAddress),
+  deleteAddress: (addressId: number) => requests.delete(`http://localhost:8080/api/v1/address/${addressId}`)
 };
 
 const agent = {

@@ -18,18 +18,24 @@ import agent from "@/api/agent"; // Assuming this is your custom API agent
 import { Separator } from "@/components/ui/separator";
 import { User } from "@/model/User";
 import { AddressForm } from "./AddressForm";
-import { AddressFormData } from "./type";
+import { AddressFormData } from "../type/type";
 import { useToast } from "@/components/ui/use-toast";
+import { AddressObj } from "@/model/Address";
 
-interface NewAddressDialogProps {}
+interface NewAddressDialogProps {
+  onAddressAdded: (address: AddressObj) => void;
+}
 
-const NewAddressDialog: React.FC<NewAddressDialogProps> = () => {
+const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
+  onAddressAdded,
+}) => {
   const { isLoggedIn, getUserInfo } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [newAddress, setNewAddress] = useState<AddressObj | null>(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -73,7 +79,7 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = () => {
       city: "",
       default: false,
       user: {
-        userId: userId ?? null, // Set userId from state or null
+        userId: userId ?? undefined, // Set userId from state or null
       },
     },
   });
@@ -82,8 +88,9 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = () => {
     setLoading(true);
     setError(null);
     try {
-      await agent.Address.addNewAddress(data); // Assuming agent handles API calls
-
+      const addedAddress = await agent.Address.addNewAddress(data); // Assuming agent handles API calls
+      onAddressAdded(addedAddress);
+      setNewAddress(null);
       form.reset(); // Reset the form after successful submission
       toast({
         title: "Create new Address successfully!",
