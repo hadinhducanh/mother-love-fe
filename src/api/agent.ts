@@ -58,7 +58,6 @@ axiosInstance.interceptors.response.use(
         toast.error(data.title);
         break;
       case 500:
-        // router.navigate("/server-error", { state: { error: data } });
         toast.error(data.title);
         break;
       default:
@@ -74,9 +73,7 @@ const requests = {
   post: (url: string, body: {}) => axiosInstance.post(url, body).then(responseBody),
   put: (url: string, body: {}) => axiosInstance.put(url, body).then(responseBody),
   delete: (url: string) => axiosInstance.delete(url).then(responseBody),
-  // Thêm method GET mới cho vouchers/member endpoint
   getMemberVouchers: (userId: number) => requests.get(`vouchers/member?userId=${userId}`),
-  // Thêm method POST mới cho vouchers/member endpoint
   addVoucherForMember: (userId: number, voucherId: number) => requests.post(`vouchers/member?userId=${userId}&voucherId=${voucherId}`, {}),
   updateDefaultAddress: (userId: number|null , addressOldId: number|null, addressNewId: number | undefined) => requests.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}),
   updateAddress: (addressId: number, updatedAddress: any) => requests.put(`address`, updatedAddress),

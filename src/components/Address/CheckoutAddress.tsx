@@ -136,7 +136,6 @@ const CheckoutAddress = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-  console.log(address);
 
   return (
     <div className="page-section section section-padding">

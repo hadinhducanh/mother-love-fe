@@ -66,7 +66,7 @@ const Wishlist = () => {
                                 <a href="#">{item.productName}</a>
                               </td>
                               <td className="pro-price">
-                                <span className="amount">${item.price}</span>
+                                <span className="amount">{item.price.toLocaleString()}</span>
                               </td>
                               <td className="pro-add-cart">
                                 <a onClick={() => handleAddToCart(item)}>Add to Cart</a>

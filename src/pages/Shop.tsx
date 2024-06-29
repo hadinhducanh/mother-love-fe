@@ -187,8 +187,9 @@ const Shop = () => {
                                   color: "#ff708a",
                                 }}
                               >
-                                {product.price}
+                                {product.price.toLocaleString()} {/* Sử dụng toLocaleString để định dạng */}
                               </span>
+
                             </div>
                           </div>
                         </div>
@@ -213,9 +214,8 @@ const Shop = () => {
                     {Array.from(Array(totalPages).keys()).map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          pageNumber === pageSettings.pageNo ? "active" : ""
-                        }`}
+                        className={`page-item ${pageNumber === pageSettings.pageNo ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -226,9 +226,8 @@ const Shop = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        pageSettings.pageNo === totalPages - 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${pageSettings.pageNo === totalPages - 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

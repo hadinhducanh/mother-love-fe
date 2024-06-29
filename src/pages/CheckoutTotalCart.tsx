@@ -1,6 +1,27 @@
+import React from "react";
+import { useCart } from "@/context/cart/CartContext";
 
+const CheckoutTotalCart = () => {
+  const { cartItems, calculateSubtotal, selectedVoucher } = useCart();
 
-export const CheckoutTotalCart = () => {
+  const renderCartItems = () => {
+    return cartItems.map((item) => (
+      <li key={item.productId}>
+        {item.productName} x {item.quantity} <span>{item.price.toLocaleString()}</span>
+      </li>
+    ));
+  };
+
+  const calculateTotal = () => {
+    let total = calculateSubtotal();
+
+    if (selectedVoucher) {
+      total -= selectedVoucher.voucher.discount;
+    }
+
+    return Math.max(0, total);
+  };
+
   return (
     <>
       <div>
@@ -8,7 +29,7 @@ export const CheckoutTotalCart = () => {
           {/* Checkout Section Start */}
           <div className="page-section section section-padding">
             <div className="container">
-              {/* Checkout Form s*/}
+              {/* Checkout Form */}
               <form action="#" className="checkout-form">
                 <div className="row row-50 mbn-40">
                   <div className="col-lg-5">
@@ -20,28 +41,19 @@ export const CheckoutTotalCart = () => {
                           <h4>
                             Product <span>Total</span>
                           </h4>
-                          <ul>
-                            <li>
-                              Samsome Notebook Pro 5 X 01 <span>$295.00</span>
-                            </li>
-                            <li>
-                              Aquet Drone D 420 X 02 <span>$550.00</span>
-                            </li>
-                            <li>
-                              Play Station X 22 X 01 <span>$295.00</span>
-                            </li>
-                            <li>
-                              Roxxe Headphone Z 75 X 01 <span>$110.00</span>
-                            </li>
-                          </ul>
+                          <ul>{renderCartItems()}</ul>
                           <p>
-                            Sub Total <span>$1250.00</span>
+                            Sub Total <span>{calculateSubtotal().toLocaleString()}</span>
                           </p>
-                          <p>
-                            Shipping Fee <span>$00.00</span>
-                          </p>
+                          {selectedVoucher && (
+                            <p>
+                              Discount ({selectedVoucher.voucher.voucherName}){" "}
+                              <span>-{selectedVoucher.voucher.discount.toLocaleString()}</span>
+                            </p>
+                          )}
+                       
                           <h4>
-                            Grand Total <span>$1250.00</span>
+                            Grand Total <span>{calculateTotal().toLocaleString()}</span>
                           </h4>
                         </div>
                       </div>
@@ -54,7 +66,8 @@ export const CheckoutTotalCart = () => {
           {/* Checkout Section End */}
         </div>
       </div>
-
     </>
   );
 };
+
+export default CheckoutTotalCart;

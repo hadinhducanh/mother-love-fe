@@ -3,7 +3,7 @@ import { useAuth } from "@/context/auth/AuthContext";
 import { VoucherObj } from "@/model/Voucher";
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-
+import { toast } from "react-toastify"; // Import thư viện toast
 
 const Vouchers: React.FC = () => {
   const [vouchers, setVouchers] = useState<VoucherObj[]>([]);
@@ -19,7 +19,7 @@ const Vouchers: React.FC = () => {
         } else {
           console.error("API did not return an array:", data);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to fetch vouchers:", error);
       }
     };
@@ -57,14 +57,15 @@ const Vouchers: React.FC = () => {
     try {
       if (userId) {
         await agent.Voucher.addVoucherForMember(userId, voucherId);
-        console.log(`Saved voucher with ID: ${voucherId} for user ID: ${userId}`);
-        // Thực hiện cập nhật lại danh sách voucher nếu cần
+        // console.log(`Saved voucher with ID: ${voucherId} for user ID: ${userId}`);
+        toast.success("Voucher saved successfully!"); 
       } else {
         throw new Error("User ID not found");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to save voucher:", error);
-      // Hiển thị thông báo lỗi cho người dùng
+    
+        toast.error("The maximum number of times you can save this voucher type has been reached."); 
     }
   };
 

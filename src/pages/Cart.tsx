@@ -7,13 +7,9 @@ import { VoucherObjbyID } from "@/model/Voucher";
 import { useAuth } from "@/context/auth/AuthContext";
 
 const Cart = () => {
-  const { cartItems, removeItem, updateQuantity } = useCart();
+  const { cartItems, removeItem, updateQuantity, selectedVoucher, setSelectedVoucher, discountApplied, setDiscountApplied, calculateSubtotal, calculateTotal } = useCart();
   const { getUserInfo } = useAuth(); // Sử dụng hook từ context để lấy thông tin người dùng
   const [vouchers, setVouchers] = useState<VoucherObjbyID[]>([]); // State để lưu danh sách các voucher từ server
-  const [selectedVoucher, setSelectedVoucher] = useState<VoucherObjbyID | null>(
-    null
-  ); // State để lưu voucher được chọn
-  const [discountApplied, setDiscountApplied] = useState(false); // State để kiểm tra xem đã áp dụng voucher hay chưa
   const [userId, setUserId] = useState<number | null>(null); // State để lưu userId
 
   useEffect(() => {
@@ -71,24 +67,6 @@ const Cart = () => {
     updateQuantity(productId, newQuantity);
   };
 
-  const calculateSubtotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-  };
-
-  const calculateTotal = () => {
-    const subtotal = calculateSubtotal();
-    let total = subtotal;
-    if (discountApplied && selectedVoucher) {
-      total = subtotal - selectedVoucher.voucher.discount;
-    }
-
-    // Đảm bảo total không nhỏ hơn 0
-    return Math.max(0, total);
-  };
-
   return (
     <>
       <Banner
@@ -131,7 +109,7 @@ const Cart = () => {
                                 <a href="#">{item.productName}</a>
                               </td>
                               <td className="pro-price">
-                                <span className="amount">${item.price}</span>
+                                <span className="amount">{item.price.toLocaleString()}</span>
                               </td>
                               <td className="pro-quantity">
                                 <div className="pro-qty">
@@ -148,7 +126,7 @@ const Cart = () => {
                                 </div>
                               </td>
                               <td className="pro-subtotal">
-                                ${item.price * item.quantity}
+                                {(item.price * item.quantity).toLocaleString()}
                               </td>
                               <td className="pro-remove">
                                 <a
@@ -200,7 +178,7 @@ const Cart = () => {
                           <th>Subtotal</th>
                           <td>
                             <span className="amount">
-                              ${calculateSubtotal()}
+                              {calculateSubtotal().toLocaleString()}
                             </span>
                           </td>
                         </tr>
@@ -209,7 +187,7 @@ const Cart = () => {
                             <th>Discount</th>
                             <td>
                               <span className="amount">
-                                -${selectedVoucher.voucher.discount}
+                                -{selectedVoucher.voucher.discount.toLocaleString()}
                               </span>
                             </td>
                           </tr>
@@ -219,7 +197,7 @@ const Cart = () => {
                           <td>
                             <strong>
                               <span className="amount">
-                                ${calculateTotal()}
+                                {calculateTotal().toLocaleString()}
                               </span>
                             </strong>
                           </td>

@@ -1,10 +1,9 @@
-// src/context/CartContext.tsx
-import { ProductsObj } from '@/model/Product';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-
+import { ProductsObj } from '@/model/Product';
+import { VoucherObjbyID } from '@/model/Voucher';
 
 export interface CartItems extends ProductsObj {
-  quantity : number
+  quantity: number;
 }
 
 interface CartContextType {
@@ -13,6 +12,12 @@ interface CartContextType {
   removeItem: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
+  selectedVoucher: VoucherObjbyID | null;
+  setSelectedVoucher: React.Dispatch<React.SetStateAction<VoucherObjbyID | null>>;
+  discountApplied: boolean;
+  setDiscountApplied: React.Dispatch<React.SetStateAction<boolean>>;
+  calculateSubtotal: () => number;
+  calculateTotal: () => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -22,6 +27,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const storedCart = localStorage.getItem('cart');
     return storedCart ? JSON.parse(storedCart) : [];
   });
+
+  const [selectedVoucher, setSelectedVoucher] = useState<VoucherObjbyID | null>(null);
+  const [discountApplied, setDiscountApplied] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -59,8 +67,24 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setCartItems([]);
   };
 
+  const calculateSubtotal = () => {
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
+
+  const calculateTotal = () => {
+    const subtotal = calculateSubtotal();
+    let total = subtotal;
+    if (discountApplied && selectedVoucher) {
+      total = subtotal - selectedVoucher.voucher.discount;
+    }
+    return Math.max(0, total);
+  };
+
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeItem, updateQuantity, clearCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeItem, updateQuantity, clearCart, selectedVoucher, setSelectedVoucher, discountApplied, setDiscountApplied, calculateSubtotal, calculateTotal }}>
       {children}
     </CartContext.Provider>
   );
