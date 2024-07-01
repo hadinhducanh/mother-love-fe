@@ -77,9 +77,8 @@ const requests = {
   addVoucherForMember: (userId: number, voucherId: number) => requests.post(`vouchers/member?userId=${userId}&voucherId=${voucherId}`, {}),
   updateDefaultAddress: (userId: number|null , addressOldId: number|null, addressNewId: number | undefined) => requests.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}),
   updateAddress: (addressId: number, updatedAddress: any) => requests.put(`address`, updatedAddress),
-  
+  createOrder: (userId: number, addressId: number, voucherId: number) => requests.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, {}),
 };
-
 
 const createListEndpoint = (endpoint: string, defaultSortBy: string, defaultSortDir: string = 'asc') => {
   return (pageNo: number, pageSize: number) => requests.get(`${endpoint}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=${defaultSortBy}&sortDir=${defaultSortDir}`);
@@ -119,6 +118,11 @@ const Address = {
   addNewAddress: (newAddress: any) => requests.post(`http://localhost:8080/api/v1/address`, newAddress),
   deleteAddress: (addressId: number) => requests.delete(`http://localhost:8080/api/v1/address/${addressId}`)
 };
+const Orders = {
+  createOrder: (userId: number, addressId: string, voucherId: number, orderItems: any) => {
+    return requests.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, orderItems);
+  },
+};
 
 const agent = {
   Products,
@@ -126,6 +130,7 @@ const agent = {
   Category,
   Address,
   Voucher,
+  Orders
 };
 
 export default agent;

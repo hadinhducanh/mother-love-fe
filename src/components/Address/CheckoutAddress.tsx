@@ -1,15 +1,17 @@
-// components/CheckoutAddress.tsx
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import agent from "@/api/agent";
 import { AddressObj } from "@/model/Address";
 import { useAuth } from "@/context/auth/AuthContext";
-
 import { useToast } from "../ui/use-toast";
 import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
 import AddressDetail from "./AddressDialog/AddressDetail";
 import AddressDialog from "./AddressDialog/AddressDialog";
 
-const CheckoutAddress = () => {
+interface Props {
+  onSelectAddress: (addressId: string | null) => void;
+}
+
+const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   const [address, setAddress] = useState<AddressObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,12 +19,8 @@ const CheckoutAddress = () => {
   const [pageSize, setPageSize] = useState<number>(10);
   const [userId, setUserId] = useState<number | null>(null);
   const { isLoggedIn, getUserInfo } = useAuth();
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
-    null
-  );
-  const [selectedAddress, setSelectedAddress] = useState<AddressObj | null>(
-    null
-  );
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<AddressObj | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -48,23 +46,18 @@ const CheckoutAddress = () => {
     }
   }, [userId, pageNo, pageSize]);
 
-  const fetchAddressByUser = async (
-    userId: number,
-    pageNo: number,
-    pageSize: number
-  ) => {
+  const fetchAddressByUser = async (userId: number, pageNo: number, pageSize: number) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await agent.Address.listByUserId(
-        userId,
-        pageNo,
-        pageSize
-      );
+      const response = await agent.Address.listByUserId(userId, pageNo, pageSize);
       if (response && Array.isArray(response)) {
         setAddress(response);
-        setSelectedAddress(response.find((addr) => addr.default));
+        const defaultAddress = response.find((addr) => addr.default);
+        setSelectedAddress(defaultAddress || null);
+        setSelectedAddressId(defaultAddress ? defaultAddress.addressId.toString() : null);
+        onSelectAddress(defaultAddress ? defaultAddress.addressId.toString() : null); // Pass the selected address ID to the parent component
       } else {
         setError("Fetched data is not in expected format");
       }
@@ -77,12 +70,11 @@ const CheckoutAddress = () => {
 
   const handleRadioChange = (addressId: string) => {
     setSelectedAddressId(addressId);
+    onSelectAddress(addressId); // Pass the selected address ID to the parent component
   };
 
   const handleFormSubmit = () => {
-    const selected = address.find(
-      (addr) => addr.addressId.toString() === selectedAddressId
-    );
+    const selected = address.find((addr) => addr.addressId.toString() === selectedAddressId);
     setSelectedAddress(selected || null);
   };
 
@@ -104,28 +96,21 @@ const CheckoutAddress = () => {
 
   const handleUpdateAddress = async (updatedAddress: AddressObj) => {
     try {
-      const prevDefaultAddressID =
-        address.find((addr) => addr.default)?.addressId || 0;
+      const prevDefaultAddressID = address.find((addr) => addr.default)?.addressId || 0;
 
       if (updatedAddress.default) {
-        await agent.Address.updateDefaultAddress(
-          userId,
-          prevDefaultAddressID,
-          updatedAddress.addressId
-        );
+        await agent.Address.updateDefaultAddress(userId, prevDefaultAddressID, updatedAddress.addressId);
       }
 
       if (userId !== null) {
-        const updatedAddresses = await agent.Address.listByUserId(
-          userId,
-          pageNo,
-          pageSize
-        );
+        const updatedAddresses = await agent.Address.listByUserId(userId, pageNo, pageSize);
         setAddress(updatedAddresses);
       }
 
       if (updatedAddress.default) {
         setSelectedAddress(updatedAddress);
+        setSelectedAddressId(updatedAddress.addressId.toString());
+        onSelectAddress(updatedAddress.addressId.toString()); // Pass the updated address ID to the parent component
       }
       // window.location.reload();
     } catch (error) {

@@ -65,7 +65,7 @@ const Vouchers: React.FC = () => {
     } catch (error: any) {
       console.error("Failed to save voucher:", error);
     
-        toast.error("The maximum number of times you can save this voucher type has been reached."); 
+        toast.error("You already saved this voucher!"); 
     }
   };
 

@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "@/context/cart/CartContext";
+import agent from "@/api/agent";
+import { useAuth } from "@/context/auth/AuthContext";
 
-const CheckoutTotalCart = () => {
+interface Props {
+  selectedAddressId: string | null; // Define the type explicitly here
+}
+
+const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
   const { cartItems, calculateSubtotal, selectedVoucher } = useCart();
+  const { userId } = useAuth(); // Get userId from AuthContext
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const renderCartItems = () => {
     return cartItems.map((item) => (
@@ -20,6 +29,34 @@ const CheckoutTotalCart = () => {
     }
 
     return Math.max(0, total);
+  };
+
+  const handlePlaceOrder = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const orderItems = cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
+
+      const addressId = selectedAddressId || ""; 
+      const voucherId = selectedVoucher ? selectedVoucher.voucher.voucherId : 0;
+
+      if (!userId) {
+        throw new Error("User is not logged in");
+      }
+
+      const response = await agent.Orders.createOrder(userId, addressId, voucherId, orderItems);
+      console.log("Order created successfully:", response);
+
+    } catch (error) {
+      console.error("Failed to create order:", error);
+      setError("Failed to create order. Please try again later."); // Enhance error handling
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,11 +88,14 @@ const CheckoutTotalCart = () => {
                               <span>-{selectedVoucher.voucher.discount.toLocaleString()}</span>
                             </p>
                           )}
-                       
                           <h4>
                             Grand Total <span>{calculateTotal().toLocaleString()}</span>
                           </h4>
                         </div>
+                        <button className="place-order" onClick={handlePlaceOrder} disabled={loading}>
+                          {loading ? "Placing Order..." : "Place order"}
+                        </button>
+                        {error && <p style={{ color: "red" }}>{error}</p>} {/* Display error message */}
                       </div>
                     </div>
                   </div>

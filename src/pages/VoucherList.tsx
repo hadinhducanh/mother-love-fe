@@ -62,7 +62,7 @@ const VoucherList = () => {
                           <td className="pro-title">{voucher.voucher.voucherName}</td>
                           <td className="pro-price">{voucher.voucher.discount}</td>
                           <td className="pro-price">{voucher.voucher.minOrderAmount}</td>
-                          <td className="pro-price">{voucher.quantity}</td>
+                          <td className="pro-price">{voucher.quantityAvailable}</td>
                         </tr>
                       ))}
                     </tbody>
