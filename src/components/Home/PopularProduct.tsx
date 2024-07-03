@@ -7,6 +7,7 @@ import React, { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "../Loading";
 
 const PopularProduct: FC = () => {
   const { addToCart } = useCart();
@@ -59,7 +60,7 @@ const PopularProduct: FC = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {

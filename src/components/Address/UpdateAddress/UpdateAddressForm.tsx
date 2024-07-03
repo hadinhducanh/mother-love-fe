@@ -80,7 +80,6 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
       );
       if (response.data) {
         setDistricts(response.data);
-        console.log("districts:", response.data);
       } else {
         setErrorData("Data format is incorrect");
       }
@@ -117,7 +116,15 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
     setDistrictError(null);
     onSubmit(data);
   };
-
+  const isOptionEqualToValue = (option: District, value: District) => {
+    return option.DistrictID === value.DistrictID;
+  };
+  const isOptionEqualToValueProvince = (
+    option: ProvinceObj,
+    value: ProvinceObj
+  ) => {
+    return option.ProvinceID === value.ProvinceID;
+  };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -125,7 +132,7 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
           control={form.control}
           name="addressId"
           render={({ field }) => (
-            <FormItem style={{display: 'none'}}>
+            <FormItem style={{ display: "none" }}>
               <FormLabel>Address ID</FormLabel>
               <FormControl>
                 <Input placeholder="ID" {...field} readOnly />
@@ -156,6 +163,7 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
                 id="city"
                 options={cities}
                 getOptionLabel={(option) => option.ProvinceName}
+                isOptionEqualToValue={isOptionEqualToValueProvince}
                 value={selectedCity}
                 onChange={(event, value) => {
                   form.setValue("city", value ? value.ProvinceName : "");
@@ -190,6 +198,7 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
                 id="district"
                 options={districts}
                 getOptionLabel={(option) => option.DistrictName}
+                isOptionEqualToValue={isOptionEqualToValue}
                 value={selectedDistrict}
                 onChange={(event, value) => {
                   form.setValue("district", value ? value.DistrictName : "");

@@ -32,7 +32,7 @@ const Shop = () => {
       } else {
         throw new Error("Fetched data is not in expected format");
       }
-    } catch (error) {
+    } catch (error: any) {
       setError(error.message);
       toast.error(error.message);
     } finally {
@@ -76,7 +76,9 @@ const Shop = () => {
     setPageSettings((prev) => ({ ...prev, pageNo: pageNumber - 1 }));
   };
 
-  const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlePageSizeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setPageSettings((prev) => ({
       ...prev,
       pageSize: Number(event.target.value),
@@ -98,7 +100,6 @@ const Shop = () => {
             <div className="col-xl-9 col-lg-8 col-12 order-2 order-lg-2 mb-40">
               <div className="row">
                 <div className="col-12">
-              
                   <div className="product-short">
                     <h4>Short by:</h4>
                     <select className="nice-select">
@@ -175,9 +176,9 @@ const Shop = () => {
                                   color: "#ff708a",
                                 }}
                               >
-                                {product.price.toLocaleString()} {/* Sử dụng toLocaleString để định dạng */}
+                                {product.price.toLocaleString()}{" "}
+                                {/* Sử dụng toLocaleString để định dạng */}
                               </span>
-
                             </div>
                           </div>
                         </div>
@@ -189,7 +190,9 @@ const Shop = () => {
                 <div className="col-12 d-flex justify-content-center">
                   <ul className="pagination">
                     <li
-                      className={`page-item ${pageSettings.pageNo === 0 ? "disabled" : ""}`}
+                      className={`page-item ${
+                        pageSettings.pageNo === 0 ? "disabled" : ""
+                      }`}
                     >
                       <button
                         className="page-link"
@@ -202,8 +205,9 @@ const Shop = () => {
                     {Array.from(Array(totalPages).keys()).map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${pageNumber === pageSettings.pageNo ? "active" : ""
-                          }`}
+                        className={`page-item ${
+                          pageNumber === pageSettings.pageNo ? "active" : ""
+                        }`}
                       >
                         <button
                           className="page-link"
@@ -214,8 +218,9 @@ const Shop = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${pageSettings.pageNo === totalPages - 1 ? "disabled" : ""
-                        }`}
+                      className={`page-item ${
+                        pageSettings.pageNo === totalPages - 1 ? "disabled" : ""
+                      }`}
                     >
                       <button
                         className="page-link"

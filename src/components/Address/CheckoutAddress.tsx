@@ -6,6 +6,7 @@ import { useToast } from "../ui/use-toast";
 import AddressDetail from "./AddressDialog/AddressDetail";
 import AddressDialog from "./AddressDialog/AddressDialog";
 import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
+import { ClipLoader } from "react-spinners";
 
 interface Props {
   onSelectAddress: (addressId: string | null) => void;
@@ -66,7 +67,6 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
       );
       if (response && Array.isArray(response)) {
         console.log(response);
-
         setAddress(sortAddresses(response));
         setSelectedAddress(response.find((addr) => addr.default));
       } else {
@@ -151,30 +151,38 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   return (
     <div className="page-section section section-padding">
       <div className="container">
-        {address.length === 0 ? (
-          <>
-            <div className="text-center">
-              <h3 className="mb-2">YOU HAVE NOT HAD ANY ADDRESS YET!!</h3>
-              <NewAddressDialog onAddressAdded={handleAddressAdded} />
-            </div>
-          </>
+        {loading ? (
+          <div className="text-center">
+            <ClipLoader color="#00000" size={50} />
+          </div>
         ) : (
           <>
-            <h3>Your Address</h3>
-            <div className="address d-flex justify-between items-end">
-              <AddressDetail selectedAddress={selectedAddress} />
-              <div className="address-changing">
-                <AddressDialog
-                  address={address}
-                  selectedAddressId={selectedAddressId}
-                  onRadioChange={handleRadioChange}
-                  onSubmit={handleFormSubmit}
-                  onDelete={handleDeleteAddress}
-                  onUpdate={handleUpdateAddress}
-                />
-                <NewAddressDialog onAddressAdded={handleAddressAdded} />
-              </div>
-            </div>
+            {address.length === 0 ? (
+              <>
+                <div className="text-center">
+                  <h3 className="mb-2">YOU HAVE NOT HAD ANY ADDRESS YET!!</h3>
+                  <NewAddressDialog onAddressAdded={handleAddressAdded} />
+                </div>
+              </>
+            ) : (
+              <>
+                <h3>Your Address</h3>
+                <div className="address d-flex justify-between items-end">
+                  <AddressDetail selectedAddress={selectedAddress} />
+                  <div className="address-changing">
+                    <AddressDialog
+                      address={address}
+                      selectedAddressId={selectedAddressId}
+                      onRadioChange={handleRadioChange}
+                      onSubmit={handleFormSubmit}
+                      onDelete={handleDeleteAddress}
+                      onUpdate={handleUpdateAddress}
+                    />
+                    <NewAddressDialog onAddressAdded={handleAddressAdded} />
+                  </div>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>
