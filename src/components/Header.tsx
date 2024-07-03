@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { useAuth } from '../context/auth/AuthContext';
-import { useCart } from '../context/cart/CartContext';
-import { useWishlist } from '../wishlist/WishlistContext';
-import AlertModal from './AlertModal'; // Import AlertModal
+import React, { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../context/auth/AuthContext";
+import { useCart } from "../context/cart/CartContext";
+import { useWishlist } from "../wishlist/WishlistContext";
+import AlertModal from "./AlertModal"; // Import AlertModal
 
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();
@@ -58,22 +58,6 @@ const Header = () => {
             </div>
 
             <div className="col mt-10 mb-10">
-              <ul className="header-lan-curr header-lan-curr-two">
-                <li>
-                  <a href="#">eng</a>
-                  <ul>
-                    <li>
-                      <a href="#">english</a>
-                    </li>
-                    <li>
-                      <a href="#">vietnamese</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-
-            <div className="col mt-10 mb-10">
               <div className="header-top-right header-top-right-two">
                 {isLoggedIn ? (
                   <>
@@ -82,9 +66,15 @@ const Header = () => {
                       <li>
                         <a href="#">User</a>
                         <ul>
-                          <li><Link to="/my-account">Account</Link></li>
-                          <li><Link to="/voucher-list">Voucher</Link></li>
-                          <li><a onClick={handleLogout}>Logout</a></li>
+                          <li>
+                            <Link to="/my-account">Account</Link>
+                          </li>
+                          <li>
+                            <Link to="/voucher-list">Voucher</Link>
+                          </li>
+                          <li>
+                            <a onClick={handleLogout}>Logout</a>
+                          </li>
                         </ul>
                       </li>
                     </ul>
@@ -103,7 +93,10 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="header-bottom header-bottom-one header-sticky" style={{backgroundColor:'white'}}>
+      <div
+        className="header-bottom header-bottom-one header-sticky"
+        style={{ backgroundColor: "white" }}
+      >
         <div className="container-fluid">
           <div className="row menu-center align-items-center justify-content-between">
             <div className="col mt-15 mb-15">

@@ -20,7 +20,7 @@ export const Blog = () => {
                     <h4 className="date">
                       May <span>25</span>
                     </h4>
-                    <a className="image" href="single-blog.html">
+                    <a className="image" href="single-blog">
                       <img src="./src/assets/images/blog/blog-1.jpg" />
                     </a>
                   </div>

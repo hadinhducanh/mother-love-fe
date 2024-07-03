@@ -1,13 +1,12 @@
-// components/CheckoutAddress.tsx
 import { useState, useEffect } from "react";
 import agent from "@/api/agent";
 import { AddressObj } from "@/model/Address";
 import { useAuth } from "@/context/auth/AuthContext";
 
 import { useToast } from "../ui/use-toast";
-import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
 import AddressDetail from "./AddressDialog/AddressDetail";
 import AddressDialog from "./AddressDialog/AddressDialog";
+import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
 
 const CheckoutAddress = () => {
   const [address, setAddress] = useState<AddressObj[]>([]);
@@ -63,7 +62,9 @@ const CheckoutAddress = () => {
         pageSize
       );
       if (response && Array.isArray(response)) {
-        setAddress(response);
+        console.log(response);
+
+        setAddress(sortAddresses(response));
         setSelectedAddress(response.find((addr) => addr.default));
       } else {
         setError("Fetched data is not in expected format");
@@ -73,6 +74,10 @@ const CheckoutAddress = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const sortAddresses = (addresses: AddressObj[]) => {
+    return addresses.sort((a, b) => (a.default ? -1 : b.default ? 1 : 0));
   };
 
   const handleRadioChange = (addressId: string) => {
@@ -87,7 +92,7 @@ const CheckoutAddress = () => {
   };
 
   const handleAddressAdded = (newAddress: AddressObj) => {
-    setAddress((prevAddress) => [...prevAddress, newAddress]);
+    setAddress((prevAddress) => sortAddresses([...prevAddress, newAddress]));
   };
 
   const handleDeleteAddress = async (addressId: string) => {
@@ -95,7 +100,9 @@ const CheckoutAddress = () => {
       await agent.Address.deleteAddress(parseInt(addressId));
       toast({ title: "Delete Address successfully!" });
       setAddress((prevAddress) =>
-        prevAddress.filter((addr) => addr.addressId.toString() !== addressId)
+        sortAddresses(
+          prevAddress.filter((addr) => addr.addressId.toString() !== addressId)
+        )
       );
     } catch (error) {
       console.error("Failed to delete address:", error);
@@ -121,13 +128,13 @@ const CheckoutAddress = () => {
           pageNo,
           pageSize
         );
-        setAddress(updatedAddresses);
+        setAddress(sortAddresses(updatedAddresses));
       }
 
       if (updatedAddress.default) {
         setSelectedAddress(updatedAddress);
+        setSelectedAddressId(updatedAddress.addressId.toString());
       }
-      // window.location.reload();
     } catch (error) {
       console.error("Failed to update address:", error);
     }
@@ -136,7 +143,6 @@ const CheckoutAddress = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-  console.log(address);
 
   return (
     <div className="page-section section section-padding">
