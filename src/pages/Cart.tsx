@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "@/context/cart/CartContext";
-import Banner from "../components/Banner";
 import { Link } from "react-router-dom";
-import agent from "../api/agent"; // Đảm bảo import agent từ module API của bạn
+import agent from "../api/agent"; // Ensure to import agent from your API module
 import { VoucherObjbyID } from "@/model/Voucher";
 import { useAuth } from "@/context/auth/AuthContext";
+import Modal from "react-modal";
 
 const Cart = () => {
-  const { cartItems, removeItem, updateQuantity, selectedVoucher, setSelectedVoucher, discountApplied, setDiscountApplied, calculateSubtotal, calculateTotal } = useCart();
-  const { getUserInfo } = useAuth(); // Sử dụng hook từ context để lấy thông tin người dùng
-  const [vouchers, setVouchers] = useState<VoucherObjbyID[]>([]); // State để lưu danh sách các voucher từ server
-  const [userId, setUserId] = useState<number | null>(null); // State để lưu userId
+  const {
+    cartItems,
+    removeItem,
+    updateQuantity,
+    selectedVoucher,
+    setSelectedVoucher,
+    discountApplied,
+    setDiscountApplied,
+    calculateSubtotal,
+    calculateTotal
+  } = useCart();
+  const { getUserInfo } = useAuth();
+  const [vouchers, setVouchers] = useState<VoucherObjbyID[]>([]);
+  const [userId, setUserId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchMemberVouchers = async () => {
       try {
         const userInfo = await getUserInfo();
         if (userInfo) {
-          setUserId(userInfo.userId); // Lưu userId vào state
+          setUserId(userInfo.userId);
           const data = await agent.Voucher.getMemberVouchers(userInfo.userId);
           if (data && Array.isArray(data.content)) {
             setVouchers(data.content);
@@ -35,28 +46,26 @@ const Cart = () => {
     fetchMemberVouchers();
   }, [getUserInfo]);
 
-  const handleApplyCoupon = (e) => {
-    // Xử lý khi người dùng áp dụng voucher
+  const handleApplyCoupon = (e: any) => {
     if (selectedVoucher) {
       e.preventDefault();
       const subtotal = calculateSubtotal();
       if (subtotal >= selectedVoucher.voucher.minOrderAmount) {
         console.log("Applied voucher:", selectedVoucher);
-        setDiscountApplied(true); // Đánh dấu là đã áp dụng voucher
+        setDiscountApplied(true);
       } else {
         console.log("Order subtotal is less than minimum order amount for this voucher.");
-        // Hiển thị thông báo cho người dùng rằng không thể áp dụng voucher do không đạt điều kiện
       }
     }
   };
 
-  const handleVoucherChange = (e) => {
-    // Tìm voucher được chọn từ danh sách vouchers
+  const handleVoucherChange = (voucherCode: any) => {
     const selected = vouchers.find(
-      (voucher) => voucher.voucher.voucherCode === e.target.value
+      (voucher) => voucher.voucher.voucherCode === voucherCode
     );
     setSelectedVoucher(selected || null);
-    setDiscountApplied(false); // Reset lại trạng thái khi thay đổi voucher
+    setDiscountApplied(false);
+    setIsModalOpen(false);
   };
 
   const handleRemoveItem = (productId: number) => {
@@ -65,15 +74,59 @@ const Cart = () => {
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     updateQuantity(productId, newQuantity);
+    // Reset voucher when quantity changes
+    setDiscountApplied(false);
+    setSelectedVoucher(null);
   };
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      width: '600px',
+      padding: '20px',
+      borderRadius: '8px',
+      overflowY: 'auto', // Add scroll bar when content exceeds modal height
+      maxHeight: '60vh', // Limit maximum height of modal to avoid it being too tall on screen
+    },
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    voucherImage: {
+      position: 'relative',
+      textAlign: 'center',
+      marginBottom: '10px'
+    },
+    voucherCode: {
+      position: 'absolute',
+      bottom: '0px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      color: '#000',
+      padding: '3px 10px',
+      borderRadius: '5px 5px 0 0',
+      fontSize: '12px'
+    }
+  };
+
+  useEffect(() => {
+    // Reset voucher selection when cartItems change
+    setDiscountApplied(false);
+    setSelectedVoucher(null);
+  }, [cartItems]);
 
   return (
     <>
-      <Banner
+      {/* <Banner
         pageName={"Cart"}
         singleName={"Cart"}
         pictureUrl={"./src/assets/images/hero/hero-1.jpg"}
-      />
+      /> */}
       <div>
         {/* Cart Section Start */}
         <div className="page-section section section-padding">
@@ -148,24 +201,19 @@ const Cart = () => {
                   <div className="cart-buttons mb-30">
                     <Link to="/shop">Continue Shopping</Link>
                   </div>
-                  <div>
-                    <div className="cart-coupon">
-                      <select onChange={handleVoucherChange}>
-                        <option value="">Select a voucher</option>
-                        {vouchers.map((voucher) => (
-                          <option
-                            key={voucher.customerVoucherId}
-                            value={voucher.voucher.voucherCode}
-                          >
-                            {voucher.voucher.voucherName}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="cart-buttons mb-30">
-                        <a href="#" onClick={handleApplyCoupon}>
-                          Apply Coupon
-                        </a>
+                  <div className="cart-coupon">
+                    <button type="button" onClick={() => setIsModalOpen(true)}>
+                      Select a voucher
+                    </button>
+                    {selectedVoucher && (
+                      <div className="selected-voucher-details">
+                        {selectedVoucher.voucher.voucherName} - Discount: {selectedVoucher.voucher.discount.toLocaleString()}
                       </div>
+                    )}
+                    <div className="cart-buttons mb-30">
+                      <a href="#" onClick={handleApplyCoupon}>
+                        Apply Coupon
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -208,12 +256,60 @@ const Cart = () => {
                       <Link to="/checkout">Proceed to checkout</Link>
                     </div>
                   </div>
+
                 </div>
               </div>
             </form>
           </div>
         </div>
         {/* Cart Section End */}
+
+        {/* Modal for selecting voucher */}
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={() => setIsModalOpen(false)}
+          contentLabel="Select Voucher"
+          style={customStyles}
+        >
+          <h2 style={{ marginBottom: '10px', textAlign: 'center' }}>Select a Voucher</h2>
+          {vouchers.map((voucher) => (
+            <div className="row mb-4" key={voucher.customerVoucherId}>
+              <div className="col-md-4">
+                <div className="voucher-item" style={customStyles.voucherImage}>
+                  <div className="voucher-middle">
+                    <img
+                      src="./src/assets/images/voucher/voucher.png"
+                      alt={voucher.voucher.voucherName}
+                      className="img-fluid"
+                     
+                    />
+                    <p className="voucher-code" style={customStyles.voucherCode}>{voucher.voucher.voucherCode}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-5">
+                <div className="voucher-item">
+                  <div className="voucher-details">
+                    <p style={{fontWeight:'bold',fontSize:'18px'}}>{voucher.voucher.voucherName}</p>
+                    <p>Min Order: {voucher.voucher.minOrderAmount}</p>
+                    <p>Quantity Available: {voucher.quantityAvailable}</p>
+              
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-">
+              <button
+                      className="btn btn-primary"
+                      onClick={() => handleVoucherChange(voucher.voucher.voucherCode)}
+                     
+                    >
+                      Select
+                    </button>
+              </div>
+            </div>
+          ))}
+        </Modal>
+
       </div>
     </>
   );

@@ -51,28 +51,10 @@ const Header = () => {
           <div className="row align-items-center justify-content-center">
             <div className="col mt-10 mb-10 d-none d-md-flex">
               <div className="header-top-left header-top-left-two">
-                <p>Welcome to Mother Love</p>
-                <p>
-                  Hotline: <a href="tel:0123456789">0123 456 789</a>
-                </p>
+                <p>Welcome to Mother Love &nbsp;&nbsp;&nbsp;&nbsp;Hotline: 0123 456 789</p>
               </div>
             </div>
 
-            <div className="col mt-10 mb-10">
-              <ul className="header-lan-curr header-lan-curr-two">
-                <li>
-                  <a href="#">eng</a>
-                  <ul>
-                    <li>
-                      <a href="#">english</a>
-                    </li>
-                    <li>
-                      <a href="#">vietnamese</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
 
             <div className="col mt-10 mb-10">
               <div className="header-top-right header-top-right-two">

@@ -16,7 +16,7 @@ const PopularProduct: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(4);
 
   const fetchProducts = (pageNo: number, pageSize: number) => {
     setLoading(true);

@@ -16,7 +16,7 @@ const Shop = () => {
   const [error, setError] = useState<string | null>(null);
   const [pageSettings, setPageSettings] = useState({
     pageNo: 0,
-    pageSize: 8,
+    pageSize: 9,
   });
   const [totalPages, setTotalPages] = useState<number>(1);
 
@@ -98,19 +98,7 @@ const Shop = () => {
             <div className="col-xl-9 col-lg-8 col-12 order-2 order-lg-2 mb-40">
               <div className="row">
                 <div className="col-12">
-                  <div className="product-show">
-                    <h4>Show:</h4>
-                    <select
-                      className="nice-select"
-                      onChange={handlePageSizeChange}
-                      value={pageSettings.pageSize}
-                    >
-                      <option value="8">8</option>
-                      <option value="12">12</option>
-                      <option value="16">16</option>
-                      <option value="20">20</option>
-                    </select>
-                  </div>
+              
                   <div className="product-short">
                     <h4>Short by:</h4>
                     <select className="nice-select">
