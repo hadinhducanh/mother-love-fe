@@ -4,7 +4,7 @@ import { useAuth } from "../context/auth/AuthContext";
 import { useCart } from "../context/cart/CartContext";
 import AlertModal from "./AlertModal"; // Import AlertModal
 import { useWishlist } from "@/context/wishlist/WishlistContext";
-
+import { Heart, Search, ShoppingCartIcon } from "lucide-react";
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();
   const { cartItems } = useCart();
@@ -112,13 +112,10 @@ const Header = () => {
             </div>
 
             <div className="col order-3 order-lg-2">
-              <div className="header-shop-links">
+              <div className="header-shop-links h-20">
                 <div className="header-search">
                   <button className="search-toggle">
-                    <img
-                      src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435826/h4uucmb4drdjyoienlzg.png"
-                      alt="Search Toggle"
-                    />
+                    <Search size={22} />
                     <img
                       className="toggle-close"
                       src="./src/assets/images/icons/close.png"
@@ -139,21 +136,23 @@ const Header = () => {
                 </div>
 
                 <div className="header-wishlist">
-                  <Link to="/wishlist">
-                    <img
+                  <Link to="/wishlist" className="d-flex flex-col items-center">
+                    {/* <img
                       src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435825/tu5i5dlrzuygf8vfgkgn.png"
                       alt="Wishlist"
-                    />{" "}
+                    />{" "} */}
+                    <Heart size={22} />
                     <span>{wishlistItems.length}</span>
                   </Link>
                 </div>
 
                 <div className="header-mini-cart">
-                  <Link to="/cart">
-                    <img
+                  <Link to="/cart" className="d-flex flex-col items-center">
+                    {/* <img
                       src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435825/exlbleuphlrgthue8lhc.png"
                       alt="Cart"
-                    />{" "}
+                    />{" "} */}
+                    <ShoppingCartIcon size={22} />
                     <span>{cartItems.length}</span>
                   </Link>
                 </div>
