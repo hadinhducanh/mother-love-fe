@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import agent from "@/api/agent";
 import { AddressObj } from "@/model/Address";
 import { useAuth } from "@/context/auth/AuthContext";
-
 import { useToast } from "../ui/use-toast";
 import AddressDetail from "./AddressDialog/AddressDetail";
 import AddressDialog from "./AddressDialog/AddressDialog";
 import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
 
-const CheckoutAddress = () => {
+interface Props {
+  onSelectAddress: (addressId: string | null) => void;
+}
+
+const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   const [address, setAddress] = useState<AddressObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -82,6 +85,7 @@ const CheckoutAddress = () => {
 
   const handleRadioChange = (addressId: string) => {
     setSelectedAddressId(addressId);
+    onSelectAddress(addressId); // Pass the selected address ID to the parent component
   };
 
   const handleFormSubmit = () => {

@@ -77,7 +77,6 @@ axiosInstance.interceptors.response.use(
         toast.error(data.title);
         break;
       case 500:
-        // router.navigate("/server-error", { state: { error: data } });
         toast.error(data.title);
         break;
       default:
@@ -93,15 +92,12 @@ const requests = {
   post: (url: string, body: {}) => axiosInstance.post(url, body).then(responseBody),
   put: (url: string, body: {}) => axiosInstance.put(url, body).then(responseBody),
   delete: (url: string) => axiosInstance.delete(url).then(responseBody),
-  // Thêm method GET mới cho vouchers/member endpoint
   getMemberVouchers: (userId: number) => requests.get(`vouchers/member?userId=${userId}`),
-  // Thêm method POST mới cho vouchers/member endpoint
   addVoucherForMember: (userId: number, voucherId: number) => requests.post(`vouchers/member?userId=${userId}&voucherId=${voucherId}`, {}),
   updateDefaultAddress: (userId: number|null , addressOldId: number|null, addressNewId: number | undefined) => requests.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}),
   updateAddress: (addressId: number, updatedAddress: any) => requests.put(`address`, updatedAddress),
-  
+  createOrder: (userId: number, addressId: number, voucherId: number) => requests.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, {}),
 };
-
 
 const createListEndpoint = (endpoint: string, defaultSortBy: string, defaultSortDir: string = 'asc') => {
   return (pageNo: number, pageSize: number) => requests.get(`${endpoint}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=${defaultSortBy}&sortDir=${defaultSortDir}`);
@@ -122,8 +118,8 @@ const Category = {
 
 const Voucher = {
   list: createListEndpoint('vouchers', 'voucherId'),
-  getMemberVouchers: (userId: number) => requests.getMemberVouchers(userId), // Thêm hàm này vào Voucher object
-  addVoucherForMember: (userId: number, voucherId: number) => requests.addVoucherForMember(userId, voucherId), // Thêm hàm này vào Voucher object
+  getMemberVouchers: (userId: number) => requests.getMemberVouchers(userId), 
+  addVoucherForMember: (userId: number, voucherId: number) => requests.addVoucherForMember(userId, voucherId), 
 };
 
 const Address = {
@@ -143,18 +139,25 @@ const Address = {
   // getCities: (): Promise<AxiosResponse<any>>  => {return requests.get('https://6684ba1156e7503d1ae0f5b1.mockapi.io/api/v1/province');
 // }
 };
-
 const ExternalAPI = {
   getProvinces: () => mockApiInstance.post('/province').then(responseBody),
   getDistrictByProvince: (province_id: any) => mockApiInstance.post('/district', {province_id}).then(responseBody),
 };
+const Orders = {
+  createOrder: (userId: number, addressId: string, voucherId: number, orderItems: any) => {
+    return requests.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, orderItems);
+  },
+};
+
+
 const agent = {
   Products,
   Brand,
   Category,
   Address,
   Voucher,
-  ExternalAPI
+  ExternalAPI,
+  Orders
 };
 
 export default agent;

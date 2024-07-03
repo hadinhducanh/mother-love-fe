@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/auth/AuthContext";
 import { useCart } from "../context/cart/CartContext";
-import { useWishlist } from "../wishlist/WishlistContext";
 import AlertModal from "./AlertModal"; // Import AlertModal
+import { useWishlist } from "@/context/wishlist/WishlistContext";
 
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();

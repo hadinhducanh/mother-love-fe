@@ -2,17 +2,21 @@
 /* eslint-disable no-useless-escape */
 import agent from "@/api/agent";
 import { CartItems, useCart } from "@/context/cart/CartContext";
+import { useWishlist } from "@/context/wishlist/WishlistContext";
 import React, { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PopularProduct: FC = () => {
-  const { addToCart } = useCart(); // Destructure addToCart from useCart hook
+  const { addToCart } = useCart();
+  const { addToWishlist } = useWishlist();
   const navigate = useNavigate();
   const [products, setProducts] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(4);
 
   const fetchProducts = (pageNo: number, pageSize: number) => {
     setLoading(true);
@@ -39,8 +43,18 @@ const PopularProduct: FC = () => {
       (product) => product.productId === productId
     );
     if (productToAdd) {
-      addToCart(productToAdd); // Thêm sản phẩm vào giỏ hàng
-      console.log(`Adding product ${productId} to cart`);
+      addToCart(productToAdd);
+      toast.success("Product added to cart!");
+    }
+  };
+
+  const handleAddToWishlist = (productId: number) => {
+    const productToAdd = products.find(
+      (product) => product.productId === productId
+    );
+    if (productToAdd) {
+      addToWishlist(productToAdd);
+      toast.success("Product added to wishlist!");
     }
   };
 
@@ -54,6 +68,7 @@ const PopularProduct: FC = () => {
 
   return (
     <div className="product-section section section-padding">
+      <ToastContainer position="bottom-left" />
       <div className="container">
         <div className="row">
           <div className="section-title text-center col mb-30">
@@ -82,7 +97,13 @@ const PopularProduct: FC = () => {
                           >
                             add to cart
                           </button>
-                          <button>add to wishlist</button>
+                          <button
+                            onClick={() =>
+                              handleAddToWishlist(product.productId)
+                            }
+                          >
+                            add to wishlist
+                          </button>
                         </div>
                       </div>
                     </div>

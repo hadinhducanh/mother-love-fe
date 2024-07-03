@@ -14,8 +14,9 @@ import BlogDetail from "../pages/BlogDetail";
 import { NotFound } from "../pages/404";
 import { AuthProvider } from "../context/auth/AuthContext";
 import { CartProvider } from "../context/cart/CartContext";
-import { WishlistProvider } from "../wishlist/WishlistContext";
+
 import VoucherList from "@/pages/VoucherList";
+import { WishlistProvider } from "@/context/wishlist/WishlistContext";
 
 
 const AppWithProvider = () => {

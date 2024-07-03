@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import agent from "../api/agent";
 import Banner from "../components/Banner";
 import Sidebar from "../components/Shop/Sidebar";
-import { useWishlist } from "../wishlist/WishlistContext";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "../components/Loading";
 import { CartItems, useCart } from "@/context/cart/CartContext";
+import { useWishlist } from "@/context/wishlist/WishlistContext";
 
 const Shop = () => {
   const { addToCart } = useCart();
@@ -14,30 +14,35 @@ const Shop = () => {
   const [products, setProducts] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(8);
+  const [pageSettings, setPageSettings] = useState({
+    pageNo: 0,
+    pageSize: 9,
+  });
   const [totalPages, setTotalPages] = useState<number>(1);
 
-  const fetchProducts = (pageNo: number, pageSize: number) => {
+  const fetchProducts = async (pageNo: number, pageSize: number) => {
     setLoading(true);
     setError(null);
 
-    agent.Products.list(pageNo, pageSize)
-      .then((response) => {
-        if (response && Array.isArray(response.content)) {
-          setProducts(response.content);
-          setTotalPages(response.totalPages);
-        } else {
-          setError("Fetched data is not in expected format");
-        }
-      })
-      .catch((error) => setError(error.message))
-      .finally(() => setLoading(false));
+    try {
+      const response = await agent.Products.list(pageNo, pageSize);
+      if (response && Array.isArray(response.content)) {
+        setProducts(response.content);
+        setTotalPages(response.totalPages);
+      } else {
+        throw new Error("Fetched data is not in expected format");
+      }
+    } catch (error) {
+      setError(error.message);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetchProducts(pageNo, pageSize);
-  }, [pageNo, pageSize]);
+    fetchProducts(pageSettings.pageNo, pageSettings.pageSize);
+  }, [pageSettings]);
 
   const handleAddToCart = (productId: number) => {
     const productToAdd = products.find(
@@ -45,7 +50,7 @@ const Shop = () => {
     );
     if (productToAdd) {
       addToCart(productToAdd);
-      toast.success("Product added to cart!"); // Thông báo thành công
+      toast.success("Product added to cart!");
     }
   };
 
@@ -55,7 +60,7 @@ const Shop = () => {
     );
     if (productToAdd) {
       addToWishlist(productToAdd);
-      toast.success("Product added to wishlist!"); // Thông báo thành công
+      toast.success("Product added to wishlist!");
     }
   };
 
@@ -68,11 +73,20 @@ const Shop = () => {
   }
 
   const handlePageClick = (pageNumber: number) => {
-    setPageNo(pageNumber - 1);
+    setPageSettings((prev) => ({ ...prev, pageNo: pageNumber - 1 }));
+  };
+
+  const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPageSettings((prev) => ({
+      ...prev,
+      pageSize: Number(event.target.value),
+      pageNo: 0, // Reset to first page
+    }));
   };
 
   return (
     <>
+      <ToastContainer position="bottom-left" />
       <Banner
         pageName={"Shop"}
         singleName={"Shop"}
@@ -84,18 +98,7 @@ const Shop = () => {
             <div className="col-xl-9 col-lg-8 col-12 order-2 order-lg-2 mb-40">
               <div className="row">
                 <div className="col-12">
-                  <div className="product-show">
-                    <h4>Show:</h4>
-                    <select
-                      className="nice-select"
-                      onChange={(e) => setPageSize(Number(e.target.value))}
-                    >
-                      <option value="8">8</option>
-                      <option value="12">12</option>
-                      <option value="16">16</option>
-                      <option value="20">20</option>
-                    </select>
-                  </div>
+              
                   <div className="product-short">
                     <h4>Short by:</h4>
                     <select className="nice-select">
@@ -172,8 +175,9 @@ const Shop = () => {
                                   color: "#ff708a",
                                 }}
                               >
-                                {product.price}
+                                {product.price.toLocaleString()} {/* Sử dụng toLocaleString để định dạng */}
                               </span>
+
                             </div>
                           </div>
                         </div>
@@ -185,12 +189,12 @@ const Shop = () => {
                 <div className="col-12 d-flex justify-content-center">
                   <ul className="pagination">
                     <li
-                      className={`page-item ${pageNo === 0 ? "disabled" : ""}`}
+                      className={`page-item ${pageSettings.pageNo === 0 ? "disabled" : ""}`}
                     >
                       <button
                         className="page-link"
-                        onClick={() => handlePageClick(pageNo)}
-                        disabled={pageNo === 0}
+                        onClick={() => handlePageClick(pageSettings.pageNo)}
+                        disabled={pageSettings.pageNo === 0}
                       >
                         Previous
                       </button>
@@ -198,9 +202,8 @@ const Shop = () => {
                     {Array.from(Array(totalPages).keys()).map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          pageNumber === pageNo ? "active" : ""
-                        }`}
+                        className={`page-item ${pageNumber === pageSettings.pageNo ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -211,14 +214,13 @@ const Shop = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        pageNo === totalPages - 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${pageSettings.pageNo === totalPages - 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
-                        onClick={() => handlePageClick(pageNo + 1)}
-                        disabled={pageNo === totalPages - 1}
+                        onClick={() => handlePageClick(pageSettings.pageNo + 1)}
+                        disabled={pageSettings.pageNo === totalPages - 1}
                       >
                         Next
                       </button>

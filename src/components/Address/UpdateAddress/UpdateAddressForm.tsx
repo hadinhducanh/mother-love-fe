@@ -125,7 +125,7 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
           control={form.control}
           name="addressId"
           render={({ field }) => (
-            <FormItem>
+            <FormItem style={{display: 'none'}}>
               <FormLabel>Address ID</FormLabel>
               <FormControl>
                 <Input placeholder="ID" {...field} readOnly />

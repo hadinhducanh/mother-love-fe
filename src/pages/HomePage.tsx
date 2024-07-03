@@ -17,9 +17,7 @@ export const HomePage = () => {
     <>
       <HeroSection />
       <PopularProduct />
-      <ProductSection />
       <Vouchers />
-      <TestimonialSection />
       <Feature />
       <Blog />
       <Brand />

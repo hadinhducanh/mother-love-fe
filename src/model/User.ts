@@ -6,4 +6,5 @@ export interface User {
     point: number;
     image: string;
     roleName: string;
+    firstLogin: boolean;
 }

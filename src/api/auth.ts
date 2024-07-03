@@ -70,7 +70,7 @@ export const getUserInfo = async (): Promise<User | null> => {
 
 export const register = async (username: string, fullName: string, email: string, phone: string, password: string, gender: string): Promise<boolean> => {
     try {
-        const response = await axios.post('/auth/register', {
+        const response = await axios.post('/auth/register/member', {
             username,
             fullName,
             email,

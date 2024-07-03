@@ -1,6 +1,64 @@
+import React, { useState } from "react";
+import { useCart } from "@/context/cart/CartContext";
+import agent from "@/api/agent";
+import { useAuth } from "@/context/auth/AuthContext";
 
+interface Props {
+  selectedAddressId: string | null; // Define the type explicitly here
+}
 
-export const CheckoutTotalCart = () => {
+const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
+  const { cartItems, calculateSubtotal, selectedVoucher } = useCart();
+  const { userId } = useAuth(); // Get userId from AuthContext
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const renderCartItems = () => {
+    return cartItems.map((item) => (
+      <li key={item.productId}>
+        {item.productName} x {item.quantity} <span>{item.price.toLocaleString()}</span>
+      </li>
+    ));
+  };
+
+  const calculateTotal = () => {
+    let total = calculateSubtotal();
+
+    if (selectedVoucher) {
+      total -= selectedVoucher.voucher.discount;
+    }
+
+    return Math.max(0, total);
+  };
+
+  const handlePlaceOrder = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const orderItems = cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
+
+      const addressId = selectedAddressId || ""; 
+      const voucherId = selectedVoucher ? selectedVoucher.voucher.voucherId : 0;
+
+      if (!userId) {
+        throw new Error("User is not logged in");
+      }
+
+      const response = await agent.Orders.createOrder(userId, addressId, voucherId, orderItems);
+      console.log("Order created successfully:", response);
+
+    } catch (error) {
+      console.error("Failed to create order:", error);
+      setError("Failed to create order. Please try again later."); // Enhance error handling
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div>
@@ -8,7 +66,7 @@ export const CheckoutTotalCart = () => {
           {/* Checkout Section Start */}
           <div className="page-section section section-padding">
             <div className="container">
-              {/* Checkout Form s*/}
+              {/* Checkout Form */}
               <form action="#" className="checkout-form">
                 <div className="row row-50 mbn-40">
                   <div className="col-lg-5">
@@ -20,30 +78,24 @@ export const CheckoutTotalCart = () => {
                           <h4>
                             Product <span>Total</span>
                           </h4>
-                          <ul>
-                            <li>
-                              Samsome Notebook Pro 5 X 01 <span>$295.00</span>
-                            </li>
-                            <li>
-                              Aquet Drone D 420 X 02 <span>$550.00</span>
-                            </li>
-                            <li>
-                              Play Station X 22 X 01 <span>$295.00</span>
-                            </li>
-                            <li>
-                              Roxxe Headphone Z 75 X 01 <span>$110.00</span>
-                            </li>
-                          </ul>
+                          <ul>{renderCartItems()}</ul>
                           <p>
-                            Sub Total <span>$1250.00</span>
+                            Sub Total <span>{calculateSubtotal().toLocaleString()}</span>
                           </p>
-                          <p>
-                            Shipping Fee <span>$00.00</span>
-                          </p>
+                          {selectedVoucher && (
+                            <p>
+                              Discount ({selectedVoucher.voucher.voucherName}){" "}
+                              <span>-{selectedVoucher.voucher.discount.toLocaleString()}</span>
+                            </p>
+                          )}
                           <h4>
-                            Grand Total <span>$1250.00</span>
+                            Grand Total <span>{calculateTotal().toLocaleString()}</span>
                           </h4>
                         </div>
+                        <button className="place-order" onClick={handlePlaceOrder} disabled={loading}>
+                          {loading ? "Placing Order..." : "Place order"}
+                        </button>
+                        {error && <p style={{ color: "red" }}>{error}</p>} {/* Display error message */}
                       </div>
                     </div>
                   </div>
@@ -54,7 +106,8 @@ export const CheckoutTotalCart = () => {
           {/* Checkout Section End */}
         </div>
       </div>
-
     </>
   );
 };
+
+export default CheckoutTotalCart;

@@ -1,3 +1,5 @@
+import { User } from './User';
+
 export interface VoucherObj {
     voucherId: number;
     voucherCode: string;
@@ -8,6 +10,7 @@ export interface VoucherObj {
     startDate: string;
     endDate: string;
     status: boolean;
+    quantityUse: number;
 }
 
 export interface VoucherObjbyID {
@@ -15,15 +18,7 @@ export interface VoucherObjbyID {
     assignedDate: string;
     usedDate: string | null;
     voucher: VoucherObj;
-    user: {
-        userId: number;
-        fullName: string;
-        email: string;
-        phone: string;
-        point: number;
-        image: string;
-        roleName: string;
-        firstLogin: boolean;
-    };
-    used: boolean;
+    user: User;
+    isUsed: boolean;
+    quantityAvailable: number;
 }
