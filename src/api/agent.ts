@@ -111,6 +111,10 @@ const Products = {
   getProductByCategoryId: (id: any) => requests.get(`product/search?category=${id}`)
 };
 
+const Blog = {
+  list: createListEndpoint('blog', 'blogId')
+}
+
 const Brand = {
   list: createListEndpoint('brand', 'brandId'),
 };
