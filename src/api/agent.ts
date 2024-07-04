@@ -104,8 +104,11 @@ const createListEndpoint = (endpoint: string, defaultSortBy: string, defaultSort
 };
 
 const Products = {
-  list: createListEndpoint('product', 'productId'),
+  list: (pageNo: number, pageSize:number, sortDir:string) => requests.get(
+    `product?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=price&sortDir=${sortDir}`,
+  ),
   details: (id: number) => requests.get(`product/${id}`),
+  getProductByCategoryId: (id: any) => requests.get(`product/search?category=${id}`)
 };
 
 const Brand = {

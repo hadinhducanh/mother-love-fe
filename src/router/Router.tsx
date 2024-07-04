@@ -17,18 +17,16 @@ import { CartProvider } from "../context/cart/CartContext";
 
 import VoucherList from "@/pages/VoucherList";
 import { WishlistProvider } from "@/context/wishlist/WishlistContext";
-
+import ShopWrapper from "@/pages/ShopWrapper";
 
 const AppWithProvider = () => {
   return (
     <AuthProvider>
-      
-        <CartProvider>
-          <WishlistProvider>
-            <App />
-          </WishlistProvider>
-        </CartProvider>
-     
+      <CartProvider>
+        <WishlistProvider>
+          <App />
+        </WishlistProvider>
+      </CartProvider>
     </AuthProvider>
   );
 };
@@ -39,7 +37,7 @@ export const router = createBrowserRouter([
     element: <AppWithProvider />,
     children: [
       { path: "", element: <HomePage /> },
-      { path: "shop", element: <Shop /> },
+      { path: "shop", element: <ShopWrapper /> },
       { path: "cart", element: <Cart /> },
       { path: "checkout", element: <Checkout /> },
       { path: "voucher-list", element: <VoucherList /> },
