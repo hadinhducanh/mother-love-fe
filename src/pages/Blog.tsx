@@ -1,7 +1,58 @@
+import { useEffect, useState } from "react";
 import Banner from "../components/Banner";
-import { Brand } from "../components/Brand";
+import { BlogObj } from "@/model/Blog";
+import agent from "@/api/agent";
+import Loading from "@/components/Loading";
 
-export const Blog = () => {
+const Blog = () => {
+  const [blogs, setBlogs] = useState<BlogObj[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pageNo, setPageNo] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(9);
+  const [createDate, setCreateDate] = useState<string>("");
+  const [totalPages, setTotalPages] = useState<number>(1);
+
+  useEffect(() => {
+    try {
+      agent.Blog.list(pageNo, pageSize).then((response) => {
+        setBlogs(response.content);
+        setTotalPages(response.totalPages);
+      });
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setError("Failed to load product details.");
+      setLoading(false);
+    }
+  }, [pageNo, pageSize]);
+  if (loading) {
+    return <Loading />;
+  }
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  const formatCreatedDate = blogs.map((blog) => blog.createdDate);
+  console.log(formatCreatedDate);
+
+  const formatDate = (
+    timestamp: string
+  ): { day: number; month: string; year: number } => {
+    const date = new Date(timestamp);
+
+    const day = date.getDate();
+    const month = date.toLocaleString("en-US", { month: "long" });
+    const year = date.getFullYear();
+
+    return { day, month, year };
+  };
+
+  // Usage example
+
+  // Usage example
+  const formattedDate = formatDate(formatCreatedDate[0]);
+
   return (
     <>
       <Banner
@@ -14,49 +65,41 @@ export const Blog = () => {
         <div className="blog-section section section-padding">
           <div className="container">
             <div className="row">
-              <div className="col-lg-6 col-12 mb-50">
-                <div className="blog-item">
-                  <div className="image-wrap">
-                    <h4 className="date">
-                      May <span>25</span>
-                    </h4>
-                    <a className="image" href="single-blog">
-                      <img src="./src/assets/images/blog/blog-1.jpg" />
-                    </a>
-                  </div>
-                  <div className="content">
-                    <h4 className="title">
-                      <a href="single-blog.html">
-                        Lates and new Trens for baby fashion
-                      </a>
-                    </h4>
-                    <div className="desc">
-                      <p>
-                        Jadusona is one of the most of a exclusive Baby shop in
-                        the
-                      </p>
-                    </div>
-                    <ul className="meta">
-                      <li>
-                        <a href="#">
-                          <img
-                            src="./src/assets/images/blog/blog-author-1.jpg"
-                            alt="Blog Author"
-                          />
-                          Muhin
+              {blogs.map((blog) => (
+                <>
+                  <div className="col-lg-6 col-12 mb-50">
+                    <div key={blog.blogId} className="blog-item">
+                      <div className="image-wrap d-flex justify-center mr-3">
+                        <h4 className="date">
+                          {formattedDate.month} <span>{formattedDate.day}</span>
+                        </h4>
+                        <a className="image" href="single-blog">
+                          <img src={blog.image} className="" />
                         </a>
-                      </li>
-                      <li>
-                        <a href="#">25 Likes</a>
-                      </li>
-                      <li>
-                        <a href="#">05 Views</a>
-                      </li>
-                    </ul>
+                      </div>
+                      <div className="content">
+                        <h4 className="title">
+                          <a href="single-blog">{blog.title}</a>
+                        </h4>
+                        {/* <div className="desc">
+                          <p>
+                            Jadusona is one of the most of a exclusive Baby shop
+                            in the
+                          </p>
+                        </div> */}
+                        <ul className="meta">
+                          <li>
+                            <a href="#">
+                              <img src={blog.user.image} alt="Blog Author" />
+                              {blog.user.fullName}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-
+                </>
+              ))}
               <div className="col-12">
                 <ul className="page-pagination">
                   <li>
@@ -91,3 +134,5 @@ export const Blog = () => {
     </>
   );
 };
+
+export default Blog;

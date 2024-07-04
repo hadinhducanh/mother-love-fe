@@ -4,7 +4,7 @@ import { useAuth } from "../context/auth/AuthContext";
 import { useCart } from "../context/cart/CartContext";
 import AlertModal from "./AlertModal"; // Import AlertModal
 import { useWishlist } from "@/context/wishlist/WishlistContext";
-import { Heart, Search, ShoppingCartIcon } from "lucide-react";
+import { Heart, Search, ShoppingCartIcon, User } from "lucide-react";
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();
   const { cartItems } = useCart();
@@ -61,10 +61,13 @@ const Header = () => {
               <div className="header-top-right header-top-right-two">
                 {isLoggedIn ? (
                   <>
-                    <ul className="header-lan-curr header-lan-curr-two">
-                      <p>Hello, {fullName}</p>
+                    <ul className="header-lan-curr header-lan-curr-two mt-1">
+                      <p className="mr-0">Hello, {fullName}</p>
                       <li>
-                        <a href="#">User</a>
+                        <a href="#">
+                          <User size={23} />
+                        </a>
+
                         <ul>
                           <li>
                             <Link to="/my-account">Account</Link>

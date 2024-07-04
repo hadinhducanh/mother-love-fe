@@ -112,7 +112,7 @@ const Products = {
 };
 
 const Blog = {
-  list: createListEndpoint('blog', 'blogId')
+  list: createListEndpoint('blogs', 'blogId')
 }
 
 const Brand = {
@@ -164,7 +164,8 @@ const agent = {
   Address,
   Voucher,
   ExternalAPI,
-  Orders
+  Orders,
+  Blog
 };
 
 export default agent;

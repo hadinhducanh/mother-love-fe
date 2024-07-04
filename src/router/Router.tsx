@@ -7,7 +7,6 @@ import { Checkout } from "../pages/Checkout";
 import LoginRegister from "../pages/LoginRegister";
 import MyAccount from "../pages/MyAccount";
 import Wishlist from "../pages/Wishlist";
-import { Blog } from "../pages/Blog";
 import { Contact } from "../pages/Contact";
 import Product from "../pages/Product";
 import BlogDetail from "../pages/BlogDetail";
@@ -18,6 +17,7 @@ import { CartProvider } from "../context/cart/CartContext";
 import VoucherList from "@/pages/VoucherList";
 import { WishlistProvider } from "@/context/wishlist/WishlistContext";
 import ShopWrapper from "@/pages/ShopWrapper";
+import Blog from "@/pages/Blog";
 
 const AppWithProvider = () => {
   return (

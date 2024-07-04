@@ -5761,8 +5761,8 @@ img.mfp-img {
 .blog-item .image-wrap {
   -webkit-box-flex: 1;
   -ms-flex: 1 0 280px;
-  flex: 1 0 280px;
-  margin-right: 25px;
+  /* flex: 1 0 280px;
+  margin-right: 25px; */
   /*-- Date --*/
   /*-- Image --*/
 }
