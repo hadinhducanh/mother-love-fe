@@ -5,8 +5,9 @@ import { useAuth } from "@/context/auth/AuthContext";
 import { useToast } from "../ui/use-toast";
 import AddressDetail from "./AddressDialog/AddressDetail";
 import AddressDialog from "./AddressDialog/AddressDialog";
-import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
+
 import { ClipLoader } from "react-spinners";
+import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
 
 interface Props {
   onSelectAddress: (addressId: string | null) => void;
@@ -20,12 +21,8 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   const [pageSize, setPageSize] = useState<number>(10);
   const [userId, setUserId] = useState<number | null>(null);
   const { isLoggedIn, getUserInfo } = useAuth();
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
-    null
-  );
-  const [selectedAddress, setSelectedAddress] = useState<AddressObj | null>(
-    null
-  );
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<AddressObj | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -51,24 +48,18 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
     }
   }, [userId, pageNo, pageSize]);
 
-  const fetchAddressByUser = async (
-    userId: number,
-    pageNo: number,
-    pageSize: number
-  ) => {
+  const fetchAddressByUser = async (userId: number, pageNo: number, pageSize: number) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await agent.Address.listByUserId(
-        userId,
-        pageNo,
-        pageSize
-      );
+      const response = await agent.Address.listByUserId(userId, pageNo, pageSize);
       if (response && Array.isArray(response)) {
-        console.log(response);
         setAddress(sortAddresses(response));
-        setSelectedAddress(response.find((addr) => addr.default));
+        const defaultAddress = response.find((addr) => addr.default);
+        setSelectedAddress(defaultAddress || null);
+        setSelectedAddressId(defaultAddress ? defaultAddress.addressId.toString() : null);
+        onSelectAddress(defaultAddress ? defaultAddress.addressId.toString() : null); // Pass the selected address ID to the parent component
       } else {
         setError("Fetched data is not in expected format");
       }
@@ -89,9 +80,7 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   };
 
   const handleFormSubmit = () => {
-    const selected = address.find(
-      (addr) => addr.addressId.toString() === selectedAddressId
-    );
+    const selected = address.find((addr) => addr.addressId.toString() === selectedAddressId);
     setSelectedAddress(selected || null);
   };
 
@@ -115,29 +104,21 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
 
   const handleUpdateAddress = async (updatedAddress: AddressObj) => {
     try {
-      const prevDefaultAddressID =
-        address.find((addr) => addr.default)?.addressId || 0;
+      const prevDefaultAddressID = address.find((addr) => addr.default)?.addressId || 0;
 
       if (updatedAddress.default) {
-        await agent.Address.updateDefaultAddress(
-          userId,
-          prevDefaultAddressID,
-          updatedAddress.addressId
-        );
+        await agent.Address.updateDefaultAddress(userId!, prevDefaultAddressID, updatedAddress.addressId);
       }
 
       if (userId !== null) {
-        const updatedAddresses = await agent.Address.listByUserId(
-          userId,
-          pageNo,
-          pageSize
-        );
+        const updatedAddresses = await agent.Address.listByUserId(userId, pageNo, pageSize);
         setAddress(sortAddresses(updatedAddresses));
       }
 
       if (updatedAddress.default) {
         setSelectedAddress(updatedAddress);
         setSelectedAddressId(updatedAddress.addressId.toString());
+        onSelectAddress(updatedAddress.addressId.toString()); // Pass the updated address ID to the parent component
       }
     } catch (error) {
       console.error("Failed to update address:", error);

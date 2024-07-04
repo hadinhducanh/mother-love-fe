@@ -136,7 +136,7 @@ const ExternalAPI = {
 
 const Orders = {
   createOrder: (userId: number, addressId: number, voucherId: number, orderItems: any) =>
-    requests.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, orderItems),
+    requests.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}&isPreOrder=0`, orderItems),
   getOrdersByUserId: (userId: number, pageNo: number, pageSize: number) =>
     requests.get(`orders/user/${userId}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=orderDate&sortDir=desc`),
   getOrderById: (orderId: number) =>
