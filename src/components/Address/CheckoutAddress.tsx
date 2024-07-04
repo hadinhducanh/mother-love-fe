@@ -3,9 +3,10 @@ import agent from "@/api/agent";
 import { AddressObj } from "@/model/Address";
 import { useAuth } from "@/context/auth/AuthContext";
 import { useToast } from "../ui/use-toast";
-import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
 import AddressDetail from "./AddressDialog/AddressDetail";
 import AddressDialog from "./AddressDialog/AddressDialog";
+import NewAddressDialog from "./AddNewAddress/ NewAddressDialog";
+import { ClipLoader } from "react-spinners";
 
 interface Props {
   onSelectAddress: (addressId: string | null) => void;
@@ -19,8 +20,12 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   const [pageSize, setPageSize] = useState<number>(10);
   const [userId, setUserId] = useState<number | null>(null);
   const { isLoggedIn, getUserInfo } = useAuth();
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
-  const [selectedAddress, setSelectedAddress] = useState<AddressObj | null>(null);
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
+    null
+  );
+  const [selectedAddress, setSelectedAddress] = useState<AddressObj | null>(
+    null
+  );
   const { toast } = useToast();
 
   useEffect(() => {
@@ -46,18 +51,24 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
     }
   }, [userId, pageNo, pageSize]);
 
-  const fetchAddressByUser = async (userId: number, pageNo: number, pageSize: number) => {
+  const fetchAddressByUser = async (
+    userId: number,
+    pageNo: number,
+    pageSize: number
+  ) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await agent.Address.listByUserId(userId, pageNo, pageSize);
+      const response = await agent.Address.listByUserId(
+        userId,
+        pageNo,
+        pageSize
+      );
       if (response && Array.isArray(response)) {
-        setAddress(response);
-        const defaultAddress = response.find((addr) => addr.default);
-        setSelectedAddress(defaultAddress || null);
-        setSelectedAddressId(defaultAddress ? defaultAddress.addressId.toString() : null);
-        onSelectAddress(defaultAddress ? defaultAddress.addressId.toString() : null); // Pass the selected address ID to the parent component
+        console.log(response);
+        setAddress(sortAddresses(response));
+        setSelectedAddress(response.find((addr) => addr.default));
       } else {
         setError("Fetched data is not in expected format");
       }
@@ -68,18 +79,24 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
     }
   };
 
+  const sortAddresses = (addresses: AddressObj[]) => {
+    return addresses.sort((a, b) => (a.default ? -1 : b.default ? 1 : 0));
+  };
+
   const handleRadioChange = (addressId: string) => {
     setSelectedAddressId(addressId);
     onSelectAddress(addressId); // Pass the selected address ID to the parent component
   };
 
   const handleFormSubmit = () => {
-    const selected = address.find((addr) => addr.addressId.toString() === selectedAddressId);
+    const selected = address.find(
+      (addr) => addr.addressId.toString() === selectedAddressId
+    );
     setSelectedAddress(selected || null);
   };
 
   const handleAddressAdded = (newAddress: AddressObj) => {
-    setAddress((prevAddress) => [...prevAddress, newAddress]);
+    setAddress((prevAddress) => sortAddresses([...prevAddress, newAddress]));
   };
 
   const handleDeleteAddress = async (addressId: string) => {
@@ -87,7 +104,9 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
       await agent.Address.deleteAddress(parseInt(addressId));
       toast({ title: "Delete Address successfully!" });
       setAddress((prevAddress) =>
-        prevAddress.filter((addr) => addr.addressId.toString() !== addressId)
+        sortAddresses(
+          prevAddress.filter((addr) => addr.addressId.toString() !== addressId)
+        )
       );
     } catch (error) {
       console.error("Failed to delete address:", error);
@@ -96,23 +115,30 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
 
   const handleUpdateAddress = async (updatedAddress: AddressObj) => {
     try {
-      const prevDefaultAddressID = address.find((addr) => addr.default)?.addressId || 0;
+      const prevDefaultAddressID =
+        address.find((addr) => addr.default)?.addressId || 0;
 
       if (updatedAddress.default) {
-        await agent.Address.updateDefaultAddress(userId, prevDefaultAddressID, updatedAddress.addressId);
+        await agent.Address.updateDefaultAddress(
+          userId,
+          prevDefaultAddressID,
+          updatedAddress.addressId
+        );
       }
 
       if (userId !== null) {
-        const updatedAddresses = await agent.Address.listByUserId(userId, pageNo, pageSize);
-        setAddress(updatedAddresses);
+        const updatedAddresses = await agent.Address.listByUserId(
+          userId,
+          pageNo,
+          pageSize
+        );
+        setAddress(sortAddresses(updatedAddresses));
       }
 
       if (updatedAddress.default) {
         setSelectedAddress(updatedAddress);
         setSelectedAddressId(updatedAddress.addressId.toString());
-        onSelectAddress(updatedAddress.addressId.toString()); // Pass the updated address ID to the parent component
       }
-      // window.location.reload();
     } catch (error) {
       console.error("Failed to update address:", error);
     }
@@ -125,30 +151,38 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   return (
     <div className="page-section section section-padding">
       <div className="container">
-        {address.length === 0 ? (
-          <>
-            <div className="text-center">
-              <h3 className="mb-2">YOU HAVE NOT HAD ANY ADDRESS YET!!</h3>
-              <NewAddressDialog onAddressAdded={handleAddressAdded} />
-            </div>
-          </>
+        {loading ? (
+          <div className="text-center">
+            <ClipLoader color="#00000" size={50} />
+          </div>
         ) : (
           <>
-            <h3>Your Address</h3>
-            <div className="address d-flex justify-between items-end">
-              <AddressDetail selectedAddress={selectedAddress} />
-              <div className="address-changing">
-                <AddressDialog
-                  address={address}
-                  selectedAddressId={selectedAddressId}
-                  onRadioChange={handleRadioChange}
-                  onSubmit={handleFormSubmit}
-                  onDelete={handleDeleteAddress}
-                  onUpdate={handleUpdateAddress}
-                />
-                <NewAddressDialog onAddressAdded={handleAddressAdded} />
-              </div>
-            </div>
+            {address.length === 0 ? (
+              <>
+                <div className="text-center">
+                  <h3 className="mb-2">YOU HAVE NOT HAD ANY ADDRESS YET!!</h3>
+                  <NewAddressDialog onAddressAdded={handleAddressAdded} />
+                </div>
+              </>
+            ) : (
+              <>
+                <h3>Your Address</h3>
+                <div className="address d-flex justify-between items-end">
+                  <AddressDetail selectedAddress={selectedAddress} />
+                  <div className="address-changing">
+                    <AddressDialog
+                      address={address}
+                      selectedAddressId={selectedAddressId}
+                      onRadioChange={handleRadioChange}
+                      onSubmit={handleFormSubmit}
+                      onDelete={handleDeleteAddress}
+                      onUpdate={handleUpdateAddress}
+                    />
+                    <NewAddressDialog onAddressAdded={handleAddressAdded} />
+                  </div>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>

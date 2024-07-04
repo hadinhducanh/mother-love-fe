@@ -6,7 +6,6 @@ import Cart from "../pages/Cart";
 import { Checkout } from "../pages/Checkout";
 import LoginRegister from "../pages/LoginRegister";
 import Wishlist from "../pages/Wishlist";
-import { Blog } from "../pages/Blog";
 import { Contact } from "../pages/Contact";
 import Product from "../pages/Product";
 import BlogDetail from "../pages/BlogDetail";
@@ -15,7 +14,8 @@ import { AuthProvider } from "../context/auth/AuthContext";
 import { CartProvider } from "../context/cart/CartContext";
 import VoucherList from "@/pages/VoucherList";
 import { WishlistProvider } from "@/context/wishlist/WishlistContext";
-import MyAddress from "@/pages/MyAddress";
+import ShopWrapper from "@/pages/ShopWrapper";
+import Blog from "@/pages/Blog";import MyAddress from "@/pages/MyAddress";
 import OrderDetail from "@/pages/OrderDetail"; // Import OrderDetail component
 import MyOrder from "@/pages/MyOrder";
 import MyAccount from "@/pages/MyAccount";
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
     element: <AppWithProvider />,
     children: [
       { path: "", element: <HomePage /> },
-      { path: "shop", element: <Shop /> },
+      { path: "shop", element: <ShopWrapper /> },
       { path: "cart", element: <Cart /> },
       { path: "checkout", element: <Checkout /> },
       { path: "voucher-list", element: <VoucherList /> },

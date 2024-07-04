@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { useAuth } from '../context/auth/AuthContext';
-import { useCart } from '../context/cart/CartContext';
-
-import AlertModal from './AlertModal'; // Import AlertModal
-import { useWishlist } from '@/context/wishlist/WishlistContext';
-
+import { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../context/auth/AuthContext";
+import { useCart } from "../context/cart/CartContext";
+import AlertModal from "./AlertModal"; // Import AlertModal
+import { useWishlist } from "@/context/wishlist/WishlistContext";
+import { Heart, Search, ShoppingCartIcon, User } from "lucide-react";
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();
   const { cartItems } = useCart();
@@ -51,23 +50,34 @@ const Header = () => {
           <div className="row align-items-center justify-content-center">
             <div className="col mt-10 mb-10 d-none d-md-flex">
               <div className="header-top-left header-top-left-two">
-                <p>Welcome to Mother Love &nbsp;&nbsp;&nbsp;&nbsp;Hotline: 0123 456 789</p>
+                <p>Welcome to Mother Love</p>
+                <p>
+                  Hotline: <a href="tel:0123456789">0123 456 789</a>
+                </p>
               </div>
             </div>
-
 
             <div className="col mt-10 mb-10">
               <div className="header-top-right header-top-right-two">
                 {isLoggedIn ? (
                   <>
-                    <ul className="header-lan-curr header-lan-curr-two">
-                      <p>Hello, {fullName}</p>
+                    <ul className="header-lan-curr header-lan-curr-two mt-1">
+                      <p className="mr-0">Hello, {fullName}</p>
                       <li>
-                        <a href="#">User</a>
+                        <a href="#">
+                          <User size={23} />
+                        </a>
+
                         <ul>
-                          <li><Link to="/my-order">Account</Link></li>
-                          <li><Link to="/voucher-list">Voucher</Link></li>
-                          <li><a onClick={handleLogout}>Logout</a></li>
+                          <li>
+                            <Link to="/my-order">Account</Link>
+                          </li>
+                          <li>
+                            <Link to="/voucher-list">Voucher</Link>
+                          </li>
+                          <li>
+                            <a onClick={handleLogout}>Logout</a>
+                          </li>
                         </ul>
                       </li>
                     </ul>
@@ -86,7 +96,10 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="header-bottom header-bottom-one header-sticky" style={{backgroundColor:'white'}}>
+      <div
+        className="header-bottom header-bottom-one header-sticky"
+        style={{ backgroundColor: "white" }}
+      >
         <div className="container-fluid">
           <div className="row menu-center align-items-center justify-content-between">
             <div className="col mt-15 mb-15">
@@ -102,13 +115,10 @@ const Header = () => {
             </div>
 
             <div className="col order-3 order-lg-2">
-              <div className="header-shop-links">
+              <div className="header-shop-links h-20">
                 <div className="header-search">
                   <button className="search-toggle">
-                    <img
-                      src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435826/h4uucmb4drdjyoienlzg.png"
-                      alt="Search Toggle"
-                    />
+                    <Search size={22} />
                     <img
                       className="toggle-close"
                       src="./src/assets/images/icons/close.png"
@@ -129,21 +139,23 @@ const Header = () => {
                 </div>
 
                 <div className="header-wishlist">
-                  <Link to="/wishlist">
-                    <img
+                  <Link to="/wishlist" className="d-flex flex-col items-center">
+                    {/* <img
                       src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435825/tu5i5dlrzuygf8vfgkgn.png"
                       alt="Wishlist"
-                    />{" "}
+                    />{" "} */}
+                    <Heart size={22} />
                     <span>{wishlistItems.length}</span>
                   </Link>
                 </div>
 
                 <div className="header-mini-cart">
-                  <Link to="/cart">
-                    <img
+                  <Link to="/cart" className="d-flex flex-col items-center">
+                    {/* <img
                       src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435825/exlbleuphlrgthue8lhc.png"
                       alt="Cart"
-                    />{" "}
+                    />{" "} */}
+                    <ShoppingCartIcon size={22} />
                     <span>{cartItems.length}</span>
                   </Link>
                 </div>

@@ -47,33 +47,33 @@ const AddressItem: React.FC<AddressItemProps> = ({
             {addr.district}, {addr.city}
           </div>
           {addr.default && (
-            <button className="px-1 py-1 border border-red-500 text-red-500 rounded-md">
+            <span className="px-1 py-1 border border-red-500 text-red-500 rounded-md bg-none">
               Default
-            </button>
+            </span>
           )}
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <button className="h-8 w-8 p-0">
               <MoreHorizontal />
-            </Button>
+            </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
-              <Button
+              <button
                 onClick={() => onUpdate(addr)}
                 className="text-black bg-transparent"
               >
                 Update
-              </Button>
+              </button>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Button
+              <button
                 onClick={() => handleDeleteClick(addr.addressId)}
                 className="text-black bg-transparent"
               >
                 Delete
-              </Button>
+              </button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

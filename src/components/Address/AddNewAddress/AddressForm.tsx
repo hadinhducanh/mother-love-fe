@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { User } from "@/model/User";
 import { DialogClose } from "@/components/ui/dialog";
@@ -13,6 +11,10 @@ import {
   Form,
 } from "@/components/ui/form";
 import { AddressFormData } from "../type/type";
+import agent from "@/api/agent";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { District, ProvinceObj } from "@/model/Address";
 
 interface AddressFormProps {
   form: any; // Replace with correct type for useForm if possible
@@ -29,6 +31,66 @@ export const AddressForm: React.FC<AddressFormProps> = ({
   loading,
   error,
 }) => {
+  const [cities, setCities] = useState<ProvinceObj[]>([]);
+  const [districts, setDistricts] = useState<District[]>([]);
+  const [selectedCity, setSelectedCity] = useState<number | null>(null);
+  const [loadingCities, setLoadingCities] = useState<boolean>(false);
+  const [loadingDistricts, setLoadingDistricts] = useState<boolean>(false);
+  const [errorData, setErrorData] = useState<string | null>(null);
+
+  // Function to fetch cities from API
+  const fetchCities = async () => {
+    try {
+      setLoadingCities(true); // Set loading to true before fetching
+      const response = await agent.ExternalAPI.getProvinces();
+      if (response.data) {
+        setCities(response.data);
+      } else {
+        setErrorData("Data format is incorrect");
+      }
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+      setErrorData("Failed to fetch cities");
+    } finally {
+      setLoadingCities(false); // Set loading to false after fetching
+    }
+  };
+
+  // Function to fetch districts based on selected city
+  const fetchDistricts = async (provinceId: number | null) => {
+    if (!provinceId) {
+      setDistricts([]); // Clear districts if no city is selected
+      return;
+    }
+    try {
+      setLoadingDistricts(true); // Set loading to true before fetching
+      const response = await agent.ExternalAPI.getDistrictByProvince(
+        provinceId
+      );
+      if (response.data) {
+        setDistricts(response.data);
+        console.log("districts:", response.data); // Improved logging
+      } else {
+        setErrorData("Data format is incorrect");
+      }
+    } catch (error) {
+      console.error("Error fetching districts:", error);
+      setErrorData("Failed to fetch districts");
+    } finally {
+      setLoadingDistricts(false); // Set loading to false after fetching
+    }
+  };
+
+  // Effect to fetch cities when component mounts
+  useEffect(() => {
+    fetchCities();
+  }, []);
+  useEffect(() => {
+    if (selectedCity) {
+      fetchDistricts(selectedCity);
+    }
+  }, [selectedCity]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
@@ -44,30 +106,70 @@ export const AddressForm: React.FC<AddressFormProps> = ({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="district"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input placeholder="District" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <FormField
           control={form.control}
           name="city"
           render={({ field }) => (
             <FormItem>
-              <FormControl>
-                <Input placeholder="City" {...field} />
-              </FormControl>
+              <Autocomplete
+                id="city"
+                options={cities}
+                getOptionLabel={(option) => option.ProvinceName}
+                onChange={(event, value) => {
+                  form.setValue("city", value ? value.ProvinceName : "");
+                  console.log("Selected City:", value?.ProvinceID); // Log selected city ID
+                  // Fetch districts based on selected city
+                  fetchDistricts(value?.ProvinceID || null);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    key={params.id}
+                    label="Select City"
+                    variant="outlined"
+                    InputProps={{
+                      ...params.InputProps,
+                      autoComplete: "new-password", // Fix for Chrome autofill issue
+                    }}
+                  />
+                )}
+              />
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="district"
+          render={({ field }) => (
+            <FormItem>
+              <Autocomplete
+                id="district"
+                options={districts}
+                getOptionLabel={(option) => option.DistrictName}
+                onChange={(event, value) => {
+                  form.setValue("district", value ? value.DistrictName : "");
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    key={params.id}
+                    label="Select District"
+                    variant="outlined"
+                    InputProps={{
+                      ...params.InputProps,
+                      autoComplete: "new-password", // Fix for Chrome autofill issue
+                    }}
+                  />
+                )}
+              />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="user.userId"
@@ -80,31 +182,9 @@ export const AddressForm: React.FC<AddressFormProps> = ({
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="default"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={field.value}
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    name="default"
-                    className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                  />
-                  <span className="ml-2 text-sm leading-5 text-gray-900">
-                    Default
-                  </span>
-                </label>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
+
         {error && <p className="text-red-500">{error}</p>}
+
         <DialogClose asChild>
           <Button type="submit" disabled={loading}>
             {loading ? "Saving..." : "Save Address"}

@@ -6,12 +6,31 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 axios.defaults.baseURL = "http://localhost:8080/api/v1/";
 axios.defaults.withCredentials = true;
 
+
 const axiosInstance = axios.create({
   baseURL: axios.defaults.baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+// cho mock
+export const mockApiInstance = axios.create({
+  baseURL: 'https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/',
+  withCredentials: false, // Đảm bảo rằng withCredentials là false cho API ngoài
+  headers: {
+    'Content-Type': 'application/json',
+    'token': 'af07e871-3910-11ef-8e53-0a00184fe694'
+  },
+});
+
+// Interceptor cho mockApiInstance (tùy chọn)
+mockApiInstance.interceptors.response.use(
+  response => response,
+  error => {
+    console.error('Error fetching data from mock API:', error);
+    return Promise.reject(error);
+  }
+);
 
 const responseBody = (response: AxiosResponse) => response.data;
 
@@ -76,9 +95,16 @@ const createListEndpoint = (endpoint: string, defaultSortBy: string, defaultSort
 };
 
 const Products = {
-  list: createListEndpoint('product', 'productId'),
+  list: (pageNo: number, pageSize:number, sortDir:string) => requests.get(
+    `product?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=price&sortDir=${sortDir}`,
+  ),
   details: (id: number) => requests.get(`product/${id}`),
+  getProductByCategoryId: (id: any) => requests.get(`product/search?category=${id}`)
 };
+
+const Blog = {
+  list: createListEndpoint('blogs', 'blogId')
+}
 
 const Brand = {
   list: createListEndpoint('brand', 'brandId'),
@@ -99,7 +125,13 @@ const Address = {
   updateDefaultAddress: (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => requests.updateDefaultAddress(userId, addressOldId, addressNewId),
   updateAddress: (addressId: number, updatedAddress: any) => requests.updateAddress(addressId, updatedAddress),
   addNewAddress: (newAddress: any) => requests.post(`address`, newAddress),
-  deleteAddress: (addressId: number) => requests.delete(`address/${addressId}`)
+  deleteAddress: (addressId: number) => requests.delete(`address/${addressId}`),
+  // getCities: (): Promise<AxiosResponse<any>>  => {return requests.get('https://6684ba1156e7503d1ae0f5b1.mockapi.io/api/v1/province');
+// }
+};
+const ExternalAPI = {
+  getProvinces: () => mockApiInstance.post('/province').then(responseBody),
+  getDistrictByProvince: (province_id: any) => mockApiInstance.post('/district', {province_id}).then(responseBody),
 };
 
 const Orders = {
@@ -120,13 +152,16 @@ const Orders = {
     }),
 };
 
+
 const agent = {
   Products,
   Brand,
   Category,
   Address,
   Voucher,
+  ExternalAPI,
   Orders,
+  Blog,
 };
 
 export default agent;

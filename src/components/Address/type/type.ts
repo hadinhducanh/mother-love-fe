@@ -12,6 +12,7 @@ export interface AddressFormData {
     point: number;
     image: string;
     roleName: string;
+    firstLogin: boolean;
     };
   }
   
