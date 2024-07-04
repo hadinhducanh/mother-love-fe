@@ -6510,11 +6510,11 @@ img.mfp-img {
     padding: 20px 15px;
   }
 }
-.myaccount-content h3 {
+/* .myaccount-content h3 {
   border-bottom: 1px dashed #eeeeee;
   padding-bottom: 10px;
   margin-bottom: 25px;
-}
+} */
 .myaccount-content .welcome a {
   color: #000000;
 }
@@ -6784,4 +6784,3 @@ img.mfp-img {
   color: #1a161e;
   margin: 0;
 }
-

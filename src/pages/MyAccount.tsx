@@ -1,3 +1,4 @@
+import AccountAddress from "@/components/AccountAddress/AccountAddress";
 import Banner from "../components/Banner";
 import { Brand } from "../components/Brand";
 
@@ -107,37 +108,7 @@ const MyAccount = () => {
                   </div>
                 </div>
                 {/* Single Tab Content End */}
-
-                {/* Single Tab Content Start */}
-                <div
-                  className="tab-pane fade"
-                  id="address-edit"
-                  role="tabpanel"
-                >
-                  <div className="myaccount-content">
-                    <h3>Billing Address</h3>
-
-                    <address>
-                      <p>
-                        <strong>Alex Tuntuni</strong>
-                      </p>
-                      <p>
-                        1355 Market St, Suite 900 <br />
-                        San Francisco, CA 94103
-                      </p>
-                      <p>Mobile: (123) 456-7890</p>
-                    </address>
-
-                    <a
-                      href="#"
-                      className="btn btn-dark btn-round d-inline-block"
-                    >
-                      <i className="fa fa-edit"></i> Edit Address
-                    </a>
-                  </div>
-                </div>
-                {/* Single Tab Content End */}
-
+                <AccountAddress />
                 {/* Single Tab Content Start */}
                 <div
                   className="tab-pane fade"
