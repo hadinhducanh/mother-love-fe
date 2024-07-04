@@ -88,3 +88,25 @@ export const register = async (username: string, fullName: string, email: string
         return false;
     }
 };
+
+export const changePassword = async (oldPassword: string, newPassword: string): Promise<boolean> => {
+    try {
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken || isAccessTokenExpired(accessToken)) {
+            throw new Error('Access token is missing or expired');
+        }
+        await axios.post('/auth/change-password', {
+            oldPassword,
+            newPassword
+        }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+        console.log('Password changed successfully');
+        return true;
+    } catch (error) {
+        console.error('Failed to change password:', error);
+        return false;
+    }
+}

@@ -65,7 +65,7 @@ const Header = () => {
                       <li>
                         <a href="#">User</a>
                         <ul>
-                          <li><Link to="/my-account">Account</Link></li>
+                          <li><Link to="/my-order">Account</Link></li>
                           <li><Link to="/voucher-list">Voucher</Link></li>
                           <li><a onClick={handleLogout}>Logout</a></li>
                         </ul>

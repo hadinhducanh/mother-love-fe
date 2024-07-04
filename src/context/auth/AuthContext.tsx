@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { refreshTokenIfNeeded, login, register, getUserInfo } from '../../api/auth';
+import { refreshTokenIfNeeded, login, register, getUserInfo, changePassword } from '../../api/auth';
 import { User } from '../../model/User';
 
 interface AuthContextType {
@@ -9,6 +9,7 @@ interface AuthContextType {
     register: (username: string, fullName: string, email: string, phone: string, password: string, gender: string) => Promise<void>;
     logout: () => void;
     getUserInfo: () => Promise<User | null>;
+    changePassword: (oldPassword: string, newPassword: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -17,7 +18,8 @@ const AuthContext = createContext<AuthContextType>({
     login: async (username: string, password: string) => {},
     register: async (username: string, fullName: string, email: string, phone: string, password: string, gender: string) => {},
     logout: () => {},
-    getUserInfo: async () => null
+    getUserInfo: async () => null,
+    changePassword: async (oldPassword: string, newPassword: string) => {}
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -74,6 +76,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
     };
 
+    const handleChangePassword = async (oldPassword: string, newPassword: string) => {
+        const success = await changePassword(oldPassword, newPassword);
+        if (!success) {
+            throw new Error('Password change failed. Please try again.');
+        }
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
@@ -82,7 +91,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userId, login: handleLogin, register: handleRegister, logout: handleLogout, getUserInfo }}>
+        <AuthContext.Provider value={{ isLoggedIn, userId, login: handleLogin, register: handleRegister, logout: handleLogout, getUserInfo, changePassword: handleChangePassword }}>
             {children}
         </AuthContext.Provider>
     );

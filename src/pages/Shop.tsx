@@ -175,7 +175,7 @@ const Shop = () => {
                                   color: "#ff708a",
                                 }}
                               >
-                                {product.price.toLocaleString()} {/* Sử dụng toLocaleString để định dạng */}
+                                {product.price.toLocaleString()} 
                               </span>
 
                             </div>

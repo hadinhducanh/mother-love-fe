@@ -1,10 +1,10 @@
 import React from 'react';
+import { OrdersList } from '@/components/MyAccount/Orderlist';
 import Banner from '../components/Banner';
 import { Brand } from '../components/Brand';
 import { MenuAccount } from '@/components/MyAccount/MenuAccount';
-import { AccountDetail } from '@/components/MyAccount/AccountDetail';
 
-const MyAccount = () => {
+const MyOrder = () => {
   return (
     <>
       <Banner
@@ -21,7 +21,7 @@ const MyAccount = () => {
   
             <div className="col-lg-9 col-12 mb-30">
               <div className="tab-content" id="myaccountContent">
-                <AccountDetail />
+                <OrdersList />
            
               </div>
             </div>
@@ -33,4 +33,4 @@ const MyAccount = () => {
   );
 };
 
-export default MyAccount;
+export default MyOrder;
