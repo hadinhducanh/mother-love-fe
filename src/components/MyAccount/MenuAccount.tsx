@@ -5,7 +5,7 @@ export const MenuAccount = () => {
     return (
         <>
         <div className="myaccount-tab-menu nav" role="tablist">
-                < Link to= "/my-account">
+                < Link to= "/my-order">
                   <i className="fa fa-cart-arrow-down"></i> Orders
                 </Link>
 
