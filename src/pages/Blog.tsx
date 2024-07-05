@@ -76,7 +76,7 @@ const Blog = () => {
                           <img src={blog.image} className="" />
                         </a>
                       </div>
-                      <div className="content">
+                      <div className="content w-[80%]">
                         <h4 className="title">
                           <a href="single-blog">{blog.title}</a>
                         </h4>

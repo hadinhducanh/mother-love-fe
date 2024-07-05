@@ -134,57 +134,54 @@ const Shop: React.FC = () => {
   return (
     <>
       <ToastContainer position="bottom-left" />
-      <div className="">
-        <div className="mb-3 d-flex justify-between">
-          <div className="sort-price">
-            <Button
-              variant="outlined"
-              className="mr-2"
-              style={{
-                borderColor: "#eaeaea",
-                backgroundColor: sortDir === "desc" ? "#94c7eb" : "transparent",
-                color: sortDir === "desc" ? "white" : "black",
-              }}
-              onClick={() => setSortDir("desc")}
-            >
-              High to Low
-            </Button>
-            <Button
-              variant="outlined"
-              style={{
-                borderColor: "#eaeaea",
-                backgroundColor: sortDir === "asc" ? "#94c7eb" : "transparent",
-                color: sortDir === "asc" ? "white" : "black",
-              }}
-              onClick={() => setSortDir("asc")}
-            >
-              Low to High
-            </Button>
-          </div>
-
-          <Autocomplete
-            className="w-[40%]"
-            options={products}
-            getOptionLabel={(option) => option.productName}
-            onChange={(event, value) => {
-              if (value) {
-                setSearchTerm(value.productName);
-              } else {
-                setSearchTerm("");
-              }
+      <div className="mb-3 d-flex justify-between w-[100%]">
+        <div className="sort-price">
+          <Button
+            variant="outlined"
+            className="mr-2"
+            style={{
+              borderColor: "#eaeaea",
+              backgroundColor: sortDir === "desc" ? "#94c7eb" : "transparent",
+              color: sortDir === "desc" ? "white" : "black",
             }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search Products"
-                variant="outlined"
-              />
-            )}
-          />
+            onClick={() => setSortDir("desc")}
+          >
+            High to Low
+          </Button>
+          <Button
+            variant="outlined"
+            style={{
+              borderColor: "#eaeaea",
+              backgroundColor: sortDir === "asc" ? "#94c7eb" : "transparent",
+              color: sortDir === "asc" ? "white" : "black",
+            }}
+            onClick={() => setSortDir("asc")}
+          >
+            Low to High
+          </Button>
         </div>
 
+        <Autocomplete
+          className="w-[40%]"
+          options={products}
+          getOptionLabel={(option) => option.productName}
+          onChange={(event, value) => {
+            if (value) {
+              setSearchTerm(value.productName);
+            } else {
+              setSearchTerm("");
+            }
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="Search Products" variant="outlined" />
+          )}
+        />
+      </div>
+      <div className="">
         {loading ? (
-          <Loading />
+          <div className="d-flex justify-center items-center">
+            <Loading />
+          </div>
         ) : products.length > 0 ? (
           <div className="row">
             {products.map((product) => (
