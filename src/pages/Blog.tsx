@@ -10,7 +10,6 @@ const Blog = () => {
   const [error, setError] = useState<string | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(9);
-  const [createDate, setCreateDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
@@ -77,7 +76,7 @@ const Blog = () => {
                           <img src={blog.image} className="" />
                         </a>
                       </div>
-                      <div className="content">
+                      <div className="content w-[80%]">
                         <h4 className="title">
                           <a href="single-blog">{blog.title}</a>
                         </h4>
