@@ -24,7 +24,7 @@ const Shop: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [, setError] = useState<string | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, ] = useState<number>(9);
+  const [pageSize] = useState<number>(9);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [sortDir, setSortDir] = useState<string>("asc");
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -73,7 +73,7 @@ const Shop: React.FC = () => {
 
         // Call the searchProducts API
         response = await axios.get(
-          "https://mother-love-be.onrender.com/api/v1/product/search",
+          "https://motherlove-api.onrender.com/api/v1/product/search",
           {
             params: searchParams,
           }
