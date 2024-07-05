@@ -10,7 +10,6 @@ const Blog = () => {
   const [error, setError] = useState<string | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(9);
-  const [createDate, setCreateDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
