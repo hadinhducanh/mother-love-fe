@@ -60,8 +60,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setCartItems(prevItems =>
         prevItems.map(item => item.productId === productId ? { ...item, quantity } : item)
       );
-
-      // Đặt lại discountApplied và selectedVoucher khi cập nhật số lượng
       setDiscountApplied(false);
       setSelectedVoucher(null);
     }

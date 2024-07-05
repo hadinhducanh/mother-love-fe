@@ -1,11 +1,10 @@
-import AccountAddress from "@/components/AccountAddress/AccountAddress";
 import React from 'react';
 import Banner from '../components/Banner';
 import { Brand } from '../components/Brand';
 import { MenuAccount } from '@/components/MyAccount/MenuAccount';
-import { AccountDetail } from '@/components/MyAccount/AccountDetail';
+import { Addresslist } from '@/components/MyAccount/Addresslist';
 
-const MyAccount = () => {
+const MyAddress = () => {
   return (
     <>
       <Banner
@@ -22,7 +21,7 @@ const MyAccount = () => {
   
             <div className="col-lg-9 col-12 mb-30">
               <div className="tab-content" id="myaccountContent">
-                <AccountDetail />
+                <Addresslist />
            
               </div>
             </div>
@@ -34,4 +33,4 @@ const MyAccount = () => {
   );
 };
 
-export default MyAccount;
+export default MyAddress;

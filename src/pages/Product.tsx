@@ -201,7 +201,7 @@ const Product = () => {
 
                           <div className="head-right ">
                             <span className="price fs-30">
-                              Price: {product.price}
+                              Price: {product.price.toLocaleString()}
                             </span>
                           </div>
                         </div>

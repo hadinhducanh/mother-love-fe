@@ -73,7 +73,7 @@ const Shop: React.FC = () => {
 
         // Call the searchProducts API
         response = await axios.get(
-          "http://localhost:8080/api/v1/product/search",
+          "https://mother-love-be.onrender.com/api/v1/product/search",
           {
             params: searchParams,
           }

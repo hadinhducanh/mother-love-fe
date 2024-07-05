@@ -70,7 +70,7 @@ const Header = () => {
 
                         <ul>
                           <li>
-                            <Link to="/my-account">Account</Link>
+                            <Link to="/my-order">Account</Link>
                           </li>
                           <li>
                             <Link to="/voucher-list">Voucher</Link>

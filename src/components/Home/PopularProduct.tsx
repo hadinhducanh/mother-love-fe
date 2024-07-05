@@ -124,7 +124,7 @@ const PopularProduct: FC = () => {
                         </div>
                       </div>
                       <div className="content-right">
-                        <span className="price">${product.price}</span>
+                        <span className="price">${product.price.toLocaleString()}</span>
                       </div>
                     </div>
                   </div>
