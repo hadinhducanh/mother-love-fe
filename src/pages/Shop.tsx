@@ -22,9 +22,9 @@ const Shop: React.FC = () => {
   const { selectedBrand } = useBrand();
   const [products, setProducts] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(9);
+  const [pageSize, ] = useState<number>(9);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [sortDir, setSortDir] = useState<string>("asc");
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -165,7 +165,7 @@ const Shop: React.FC = () => {
           className="w-[40%]"
           options={products}
           getOptionLabel={(option) => option.productName}
-          onChange={(event, value) => {
+          onChange={(_, value) => {
             if (value) {
               setSearchTerm(value.productName);
             } else {

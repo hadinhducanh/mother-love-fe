@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useCart } from "@/context/cart/CartContext";
 import { Link } from "react-router-dom";
 import agent from "../api/agent"; // Ensure to import agent from your API module
 import { VoucherObjbyID } from "@/model/Voucher";
 import { useAuth } from "@/context/auth/AuthContext";
-import Modal from "react-modal";
+import Modal, { Styles } from "react-modal";
 
 const Cart = () => {
   const {
@@ -20,7 +20,7 @@ const Cart = () => {
   } = useCart();
   const { getUserInfo } = useAuth();
   const [vouchers, setVouchers] = useState<VoucherObjbyID[]>([]);
-  const [userId, setUserId] = useState<number | null>(null);
+  const [, setUserId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -46,11 +46,11 @@ const Cart = () => {
     fetchMemberVouchers();
   }, [getUserInfo]);
 
-  const handleApplyCoupon = (e: any) => {
+  const handleApplyCoupon = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (selectedVoucher) {
       e.preventDefault();
       const subtotal = calculateSubtotal();
-      if (subtotal >= selectedVoucher.voucher.minOrderAmount) {
+      if (subtotal >= (selectedVoucher.voucher.minOrderAmount ?? 0)) {
         console.log("Applied voucher:", selectedVoucher);
         setDiscountApplied(true);
       } else {
@@ -59,7 +59,7 @@ const Cart = () => {
     }
   };
 
-  const handleVoucherChange = (voucherCode: any) => {
+  const handleVoucherChange = (voucherCode: string) => {
     const selected = vouchers.find(
       (voucher) => voucher.voucher.voucherCode === voucherCode
     );
@@ -79,7 +79,7 @@ const Cart = () => {
     setSelectedVoucher(null);
   };
 
-  const customStyles = {
+  const customStyles: Styles = {
     content: {
       top: '50%',
       left: '50%',
@@ -95,22 +95,6 @@ const Cart = () => {
     },
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    },
-    voucherImage: {
-      position: 'relative',
-      textAlign: 'center',
-      marginBottom: '10px'
-    },
-    voucherCode: {
-      position: 'absolute',
-      bottom: '0px',
-      left: '50%',
-      transform: 'translateX(-50%)',
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      color: '#000',
-      padding: '3px 10px',
-      borderRadius: '5px 5px 0 0',
-      fontSize: '12px'
     }
   };
 
@@ -119,6 +103,9 @@ const Cart = () => {
     setDiscountApplied(false);
     setSelectedVoucher(null);
   }, [cartItems]);
+
+  const subtotal = useMemo(() => calculateSubtotal(), [cartItems]);
+  const total = useMemo(() => calculateTotal(), [subtotal, discountApplied]);
 
   return (
     <>
@@ -226,7 +213,7 @@ const Cart = () => {
                           <th>Subtotal</th>
                           <td>
                             <span className="amount">
-                              {calculateSubtotal().toLocaleString()}
+                              {subtotal.toLocaleString()}
                             </span>
                           </td>
                         </tr>
@@ -245,7 +232,7 @@ const Cart = () => {
                           <td>
                             <strong>
                               <span className="amount">
-                                {calculateTotal().toLocaleString()}
+                                {total.toLocaleString()}
                               </span>
                             </strong>
                           </td>
@@ -275,15 +262,16 @@ const Cart = () => {
           {vouchers.map((voucher) => (
             <div className="row mb-4" key={voucher.customerVoucherId}>
               <div className="col-md-4">
-                <div className="voucher-item" style={customStyles.voucherImage}>
+                <div className="voucher-item" style={{ textAlign: 'center', marginBottom: '10px' }}>
                   <div className="voucher-middle">
                     <img
                       src="./src/assets/images/voucher/voucher.png"
                       alt={voucher.voucher.voucherName}
                       className="img-fluid"
-                     
                     />
-                    <p className="voucher-code" style={customStyles.voucherCode}>{voucher.voucher.voucherCode}</p>
+                    <p style={{ position: 'absolute', bottom: '0px', left: '50%', transform: 'translateX(-50%)', backgroundColor: 'rgba(255, 255, 255, 0.9)', color: '#000', padding: '3px 10px', borderRadius: '5px 5px 0 0', fontSize: '12px' }}>
+                      {voucher.voucher.voucherCode}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -293,18 +281,16 @@ const Cart = () => {
                     <p style={{fontWeight:'bold',fontSize:'18px'}}>{voucher.voucher.voucherName}</p>
                     <p>Min Order: {voucher.voucher.minOrderAmount}</p>
                     <p>Quantity Available: {voucher.quantityAvailable}</p>
-              
                   </div>
                 </div>
               </div>
-              <div className="col-md-">
-              <button
-                      className="btn btn-primary"
-                      onClick={() => handleVoucherChange(voucher.voucher.voucherCode)}
-                     
-                    >
-                      Select
-                    </button>
+              <div className="col-md-3">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleVoucherChange(voucher.voucher.voucherCode)}
+                >
+                  Select
+                </button>
               </div>
             </div>
           ))}

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { OrdersList } from '@/components/MyAccount/Orderlist';
 import Banner from '../components/Banner';
 import { Brand } from '../components/Brand';

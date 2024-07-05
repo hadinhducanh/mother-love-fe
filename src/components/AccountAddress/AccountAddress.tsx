@@ -2,22 +2,22 @@ import agent from "@/api/agent";
 import { useAuth } from "@/context/auth/AuthContext";
 import { AddressObj } from "@/model/Address";
 import React, { useEffect, useState } from "react";
-import { useToast } from "../ui/use-toast";
+
 import { User } from "@/model/User";
 import { Separator } from "../ui/separator";
-import { Button } from "react-bootstrap";
-import { Dialog } from "@radix-ui/react-dialog";
+
 
 const AccountAddress: React.FC = () => {
   const [address, setAddress] = useState<AddressObj[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
+ 
+  const [, setLoading] = useState<boolean>(true);
+  const [, setError] = useState<string | null>(null);
+  const [pageNo, ] = useState<number>(0);
+  const [pageSize, ] = useState<number>(10);
   const { isLoggedIn, getUserInfo } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);
   const [userInfo, setUserInfo] = useState<User>();
-  const { toast } = useToast();
+ 
 
   useEffect(() => {
     const fetchUserInfo = async () => {

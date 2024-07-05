@@ -26,9 +26,9 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
 }) => {
   const [cities, setCities] = useState<ProvinceObj[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
-  const [loadingCities, setLoadingCities] = useState<boolean>(false);
-  const [loadingDistricts, setLoadingDistricts] = useState<boolean>(false);
-  const [errorData, setErrorData] = useState<string | null>(null);
+  const [, setLoadingCities] = useState<boolean>(false);
+  const [, setLoadingDistricts] = useState<boolean>(false);
+  const [, setErrorData] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<ProvinceObj | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<District | null>(
     null
@@ -157,7 +157,7 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
         <FormField
           control={form.control}
           name="city"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <Autocomplete
                 id="city"
@@ -165,7 +165,7 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
                 getOptionLabel={(option) => option.ProvinceName}
                 isOptionEqualToValue={isOptionEqualToValueProvince}
                 value={selectedCity}
-                onChange={(event, value) => {
+                onChange={(_, value) => {
                   form.setValue("city", value ? value.ProvinceName : "");
                   setSelectedCity(value);
                   setSelectedDistrict(null);
@@ -192,7 +192,7 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
         <FormField
           control={form.control}
           name="district"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <Autocomplete
                 id="district"
@@ -200,7 +200,7 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
                 getOptionLabel={(option) => option.DistrictName}
                 isOptionEqualToValue={isOptionEqualToValue}
                 value={selectedDistrict}
-                onChange={(event, value) => {
+                onChange={(_, value) => {
                   form.setValue("district", value ? value.DistrictName : "");
                   setSelectedDistrict(value);
                 }}

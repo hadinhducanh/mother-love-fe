@@ -1,14 +1,12 @@
-import React from 'react';
-import Banner from '../components/Banner';
-import { useNavigate } from 'react-router-dom';
 
-import { useCart } from '../context/cart/CartContext';
+import Banner from '../components/Banner';
+
+import { CartItems, useCart } from '../context/cart/CartContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { WishlistItem, useWishlist } from '@/context/wishlist/WishlistContext';
 
 const Wishlist = () => {
-  const navigate = useNavigate();
   const { wishlistItems, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
 
@@ -17,7 +15,9 @@ const Wishlist = () => {
   };
 
   const handleAddToCart = (item: WishlistItem) => {
-    addToCart(item);
+    
+    const cartItem = { ...item, quantity: 1 }; 
+    addToCart(cartItem as CartItems); 
     removeFromWishlist(item.productId);
     toast.success("Product added to cart!"); 
   };

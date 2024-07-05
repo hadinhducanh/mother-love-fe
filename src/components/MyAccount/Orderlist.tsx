@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import agent from '../../api/agent';
 import { OrderResponse } from '@/model/Order';
 import { useAuth } from '@/context/auth/AuthContext';
@@ -54,7 +54,7 @@ export const OrdersList = () => {
           }
         }
       }
-    } catch (error) {
+    } catch (error : any) {
       setError(error.message);
     } finally {
       setLoading(false);

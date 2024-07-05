@@ -17,7 +17,7 @@ interface AddressListProps {
 
 const AddressList: React.FC<AddressListProps> = ({
   address,
-  selectedAddressId,
+ 
   onDelete,
   onUpdate,
 }) => (

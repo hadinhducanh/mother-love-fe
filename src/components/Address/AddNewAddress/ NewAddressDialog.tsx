@@ -11,7 +11,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogClose,
+
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import agent from "@/api/agent"; // Assuming this is your custom API agent
@@ -21,7 +21,7 @@ import { AddressForm } from "./AddressForm";
 import { AddressFormData } from "../type/type";
 import { useToast } from "@/components/ui/use-toast";
 import { AddressObj } from "@/model/Address";
-import { userInfo } from "os";
+
 
 interface NewAddressDialogProps {
   onAddressAdded: (address: AddressObj) => void;
@@ -36,11 +36,11 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [newAddress, setNewAddress] = useState<AddressObj | null>(null);
+  const [, setNewAddress] = useState<AddressObj | null>(null);
   const [hasExistingAddresses, setHasExistingAddresses] =
     useState<boolean>(false);
-  const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageNo, ] = useState<number>(0);
+  const [pageSize, ] = useState<number>(10);
 
   useEffect(() => {
     const fetchUserInfo = async () => {

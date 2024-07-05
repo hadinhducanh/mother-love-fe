@@ -110,7 +110,7 @@ const Vouchers: React.FC = () => {
       </div>
       {/* Testimonial Section End */}
 
-      <style jsx>{`
+      <style>{`
         .voucher-item {
           border: 1px solid #ddd;
           padding: 20px;

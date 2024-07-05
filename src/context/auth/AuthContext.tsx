@@ -15,11 +15,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
     isLoggedIn: false,
     userId: null,
-    login: async (username: string, password: string) => {},
-    register: async (username: string, fullName: string, email: string, phone: string, password: string, gender: string) => {},
+    login: async (_username: string, _password: string) => {},
+    register: async (_username: string, _fullName: string, _email: string, _phone: string, _password: string, _gender: string) => {},
     logout: () => {},
     getUserInfo: async () => null,
-    changePassword: async (oldPassword: string, newPassword: string) => {}
+    changePassword: async (_oldPassword: string, _newPassword: string) => {}
 });
 
 export const useAuth = () => useContext(AuthContext);

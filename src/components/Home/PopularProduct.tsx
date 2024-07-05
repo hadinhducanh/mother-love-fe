@@ -3,8 +3,7 @@
 import agent from "@/api/agent";
 import { CartItems, useCart } from "@/context/cart/CartContext";
 import { useWishlist } from "@/context/wishlist/WishlistContext";
-import React, { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import  { FC, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "../Loading";
@@ -12,12 +11,12 @@ import Loading from "../Loading";
 const PopularProduct: FC = () => {
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
-  const navigate = useNavigate();
+  
   const [products, setProducts] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(4);
+  const [pageNo, ] = useState<number>(0);
+  const [pageSize, ] = useState<number>(4);
 
   const fetchProducts = (pageNo: number, pageSize: number) => {
     setLoading(true);

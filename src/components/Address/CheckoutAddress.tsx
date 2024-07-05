@@ -17,8 +17,8 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   const [address, setAddress] = useState<AddressObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageNo, ] = useState<number>(0);
+  const [pageSize, ] = useState<number>(10);
   const [userId, setUserId] = useState<number | null>(null);
   const { isLoggedIn, getUserInfo } = useAuth();
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
@@ -59,7 +59,7 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
         const defaultAddress = response.find((addr) => addr.default);
         setSelectedAddress(defaultAddress || null);
         setSelectedAddressId(defaultAddress ? defaultAddress.addressId.toString() : null);
-        onSelectAddress(defaultAddress ? defaultAddress.addressId.toString() : null); // Pass the selected address ID to the parent component
+        onSelectAddress(defaultAddress ? defaultAddress.addressId.toString() : null); 
       } else {
         setError("Fetched data is not in expected format");
       }
@@ -76,7 +76,7 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
 
   const handleRadioChange = (addressId: string) => {
     setSelectedAddressId(addressId);
-    onSelectAddress(addressId); // Pass the selected address ID to the parent component
+    onSelectAddress(addressId); 
   };
 
   const handleFormSubmit = () => {
@@ -118,7 +118,7 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
       if (updatedAddress.default) {
         setSelectedAddress(updatedAddress);
         setSelectedAddressId(updatedAddress.addressId.toString());
-        onSelectAddress(updatedAddress.addressId.toString()); // Pass the updated address ID to the parent component
+        onSelectAddress(updatedAddress.addressId.toString()); 
       }
     } catch (error) {
       console.error("Failed to update address:", error);

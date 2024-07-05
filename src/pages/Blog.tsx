@@ -8,9 +8,9 @@ const Blog = () => {
   const [blogs, setBlogs] = useState<BlogObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(9);
-  const [totalPages, setTotalPages] = useState<number>(1);
+  const [pageNo, ] = useState<number>(0);
+  const [pageSize, ] = useState<number>(9);
+  const [, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
     try {

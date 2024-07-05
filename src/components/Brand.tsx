@@ -42,8 +42,8 @@ export const Brand: FC = () => {
   const [brands, setBrands] = useState<BrandObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageNo, ] = useState<number>(0);
+  const [pageSize, ] = useState<number>(10);
 
   const fetchProducts = (pageNo: number, pageSize: number) => {
     setLoading(true);

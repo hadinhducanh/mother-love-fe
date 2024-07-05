@@ -6,27 +6,26 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 axios.defaults.baseURL = "https://mother-love-be.onrender.com/api/v1/";
 axios.defaults.withCredentials = true;
 
-
 const axiosInstance = axios.create({
   baseURL: axios.defaults.baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
-// cho mock
+
+// Mock API instance for external API
 export const mockApiInstance = axios.create({
   baseURL: 'https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/',
-  withCredentials: false, // Đảm bảo rằng withCredentials là false cho API ngoài
+  withCredentials: false, // Ensure withCredentials is false for external APIs
   headers: {
     'Content-Type': 'application/json',
-    'token': 'af07e871-3910-11ef-8e53-0a00184fe694'
+    'token': 'af07e871-3910-11ef-8e53-0a00184fe694',
   },
 });
 
-// Interceptor cho mockApiInstance (tùy chọn)
 mockApiInstance.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
     console.error('Error fetching data from mock API:', error);
     return Promise.reject(error);
   }
@@ -61,9 +60,10 @@ axiosInstance.interceptors.response.use(
               modelStateErrors.push(...data.errors[key]);
             }
           }
-          throw modelStateErrors;
+          toast.error(modelStateErrors.join(', '));
+        } else {
+          toast.error(data.title);
         }
-        toast.error(data.title);
         break;
       case 401:
       case 404:
@@ -79,32 +79,30 @@ axiosInstance.interceptors.response.use(
 );
 
 const requests = {
-  get: (url: string, params?: any) => axiosInstance.get(url, { params }).then(responseBody),
-  post: (url: string, body: {}) => axiosInstance.post(url, body).then(responseBody),
-  put: (url: string, body: {}) => axiosInstance.put(url, body).then(responseBody),
-  delete: (url: string) => axiosInstance.delete(url).then(responseBody),
-  getMemberVouchers: (userId: number) => axiosInstance.get(`vouchers/member?userId=${userId}`).then(responseBody),
-  addVoucherForMember: (userId: number, voucherId: number) => axiosInstance.post(`vouchers/member?userId=${userId}&voucherId=${voucherId}`, {}).then(responseBody),
-  updateDefaultAddress: (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => axiosInstance.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}).then(responseBody),
-  updateAddress: (addressId: number, updatedAddress: any) => axiosInstance.put(`address/${addressId}`, updatedAddress).then(responseBody),
-  createOrder: (userId: number, addressId: number, voucherId: number, orderItems: any) => axiosInstance.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, orderItems).then(responseBody),
+  get: async (url: string, params?: any) => axiosInstance.get(url, { params }).then(responseBody),
+  post: async (url: string, body: {}) => axiosInstance.post(url, body).then(responseBody),
+  put: async (url: string, body: {}) => axiosInstance.put(url, body).then(responseBody),
+  delete: async (url: string) => axiosInstance.delete(url).then(responseBody),
+  getMemberVouchers: async (userId: number) => axiosInstance.get(`vouchers/member?userId=${userId}`).then(responseBody),
+  addVoucherForMember: async (userId: number, voucherId: number) => axiosInstance.post(`vouchers/member?userId=${userId}&voucherId=${voucherId}`, {}).then(responseBody),
+  updateDefaultAddress: async (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => axiosInstance.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}).then(responseBody),
+  updateAddress: async (addressId: number, updatedAddress: any) => axiosInstance.put(`address/${addressId}`, updatedAddress).then(responseBody),
+  createOrder: async (userId: number, addressId: number, voucherId: number, orderItems: any) => axiosInstance.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, orderItems).then(responseBody),
 };
 
 const createListEndpoint = (endpoint: string, defaultSortBy: string, defaultSortDir: string = 'asc') => {
-  return (pageNo: number, pageSize: number) => requests.get(`${endpoint}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=${defaultSortBy}&sortDir=${defaultSortDir}`);
+  return async (pageNo: number, pageSize: number) => requests.get(`${endpoint}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=${defaultSortBy}&sortDir=${defaultSortDir}`);
 };
 
 const Products = {
-  list: (pageNo: number, pageSize:number, sortDir:string) => requests.get(
-    `product?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=price&sortDir=${sortDir}`,
-  ),
-  details: (id: number) => requests.get(`product/${id}`),
-  getProductByCategoryId: (id: any) => requests.get(`product/search?category=${id}`)
+  list: async (pageNo: number, pageSize: number, sortDir: string = 'asc') => requests.get(`product?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=price&sortDir=${sortDir}`),
+  details: async (id: number) => requests.get(`product/${id}`),
+  getProductByCategoryId: async (id: any) => requests.get(`product/search?category=${id}`),
 };
 
 const Blog = {
-  list: createListEndpoint('blogs', 'blogId')
-}
+  list: createListEndpoint('blogs', 'blogId'),
+};
 
 const Brand = {
   list: createListEndpoint('brand', 'brandId'),
@@ -116,42 +114,32 @@ const Category = {
 
 const Voucher = {
   list: createListEndpoint('vouchers', 'voucherId'),
-  getMemberVouchers: (userId: number) => requests.getMemberVouchers(userId),
-  addVoucherForMember: (userId: number, voucherId: number) => requests.addVoucherForMember(userId, voucherId),
+  getMemberVouchers: async (userId: number) => requests.getMemberVouchers(userId),
+  addVoucherForMember: async (userId: number, voucherId: number) => requests.addVoucherForMember(userId, voucherId),
 };
 
 const Address = {
-  listByUserId: (userId: number, pageNo: number, pageSize: number) => requests.get(`address/user?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=addressId&sortDir=asc&userId=${userId}`),
-  updateDefaultAddress: (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => requests.updateDefaultAddress(userId, addressOldId, addressNewId),
-  updateAddress: (addressId: number, updatedAddress: any) => requests.updateAddress(addressId, updatedAddress),
-  addNewAddress: (newAddress: any) => requests.post(`address`, newAddress),
-  deleteAddress: (addressId: number) => requests.delete(`address/${addressId}`),
-  // getCities: (): Promise<AxiosResponse<any>>  => {return requests.get('https://6684ba1156e7503d1ae0f5b1.mockapi.io/api/v1/province');
-// }
+  listByUserId: async (userId: number, pageNo: number, pageSize: number) => requests.get(`address/user?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=addressId&sortDir=asc&userId=${userId}`),
+  updateDefaultAddress: async (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => requests.updateDefaultAddress(userId, addressOldId, addressNewId),
+  updateAddress: async (addressId: number, updatedAddress: any) => requests.updateAddress(addressId, updatedAddress),
+  addNewAddress: async (newAddress: any) => requests.post(`address`, newAddress),
+  deleteAddress: async (addressId: number) => requests.delete(`address/${addressId}`),
 };
+
 const ExternalAPI = {
-  getProvinces: () => mockApiInstance.post('/province').then(responseBody),
-  getDistrictByProvince: (province_id: any) => mockApiInstance.post('/district', {province_id}).then(responseBody),
+  getProvinces: async () => mockApiInstance.post('/province').then(responseBody),
+  getDistrictByProvince: async (province_id: any) => mockApiInstance.post('/district', { province_id }).then(responseBody),
 };
 
 const Orders = {
-  createOrder: (userId: number, addressId: number, voucherId: number, orderItems: any) =>
+  createOrder: async (userId: number, addressId: string, voucherId: number, orderItems: any) =>
     requests.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}&isPreOrder=0`, orderItems),
-  getOrdersByUserId: (userId: number, pageNo: number, pageSize: number) =>
+  getOrdersByUserId: async (userId: number, pageNo: number, pageSize: number) =>
     requests.get(`orders/user/${userId}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=orderDate&sortDir=desc`),
-  getOrderById: (orderId: number) =>
-    requests.get(`orders/order/${orderId}`),
-  getOrdersByDateRange: (pageNo: number, pageSize: number, sortBy: string, sortDir: string, orderDateFrom: string, orderDateTo: string) =>
-    requests.get(`orders/search`, {
-      pageNo,
-      pageSize,
-      sortBy,
-      sortDir,
-      orderDateFrom,
-      orderDateTo
-    }),
+  getOrderById: async (orderId: number) => requests.get(`orders/order/${orderId}`),
+  getOrdersByDateRange: async (pageNo: number, pageSize: number, sortBy: string, sortDir: string, orderDateFrom: string, orderDateTo: string) =>
+    requests.get(`orders/search`, { pageNo, pageSize, sortBy, sortDir, orderDateFrom, orderDateTo }),
 };
-
 
 const agent = {
   Products,

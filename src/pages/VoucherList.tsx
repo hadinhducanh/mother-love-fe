@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import Banner from "@/components/Banner";
 import agent from "@/api/agent";
 import { VoucherObjbyID } from "@/model/Voucher";
@@ -65,7 +65,7 @@ const VoucherList = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style >{`
         .voucher-item {
           border: 1px solid #ddd;
           padding: 20px;

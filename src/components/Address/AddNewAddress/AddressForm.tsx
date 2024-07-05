@@ -33,10 +33,10 @@ export const AddressForm: React.FC<AddressFormProps> = ({
 }) => {
   const [cities, setCities] = useState<ProvinceObj[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
-  const [selectedCity, setSelectedCity] = useState<number | null>(null);
-  const [loadingCities, setLoadingCities] = useState<boolean>(false);
-  const [loadingDistricts, setLoadingDistricts] = useState<boolean>(false);
-  const [errorData, setErrorData] = useState<string | null>(null);
+  const [selectedCity, ] = useState<number | null>(null);
+  const [, setLoadingCities] = useState<boolean>(false);
+  const [, setLoadingDistricts] = useState<boolean>(false);
+  const [, setErrorData] = useState<string | null>(null);
 
   // Function to fetch cities from API
   const fetchCities = async () => {
@@ -97,10 +97,10 @@ export const AddressForm: React.FC<AddressFormProps> = ({
         <FormField
           control={form.control}
           name="addressLine"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Address Line" {...field} />
+                <Input placeholder="Address Line" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -110,13 +110,13 @@ export const AddressForm: React.FC<AddressFormProps> = ({
         <FormField
           control={form.control}
           name="city"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <Autocomplete
                 id="city"
                 options={cities}
                 getOptionLabel={(option) => option.ProvinceName}
-                onChange={(event, value) => {
+                onChange={(_, value) => {
                   form.setValue("city", value ? value.ProvinceName : "");
                   console.log("Selected City:", value?.ProvinceID); // Log selected city ID
                   // Fetch districts based on selected city
@@ -143,13 +143,13 @@ export const AddressForm: React.FC<AddressFormProps> = ({
         <FormField
           control={form.control}
           name="district"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <Autocomplete
                 id="district"
                 options={districts}
                 getOptionLabel={(option) => option.DistrictName}
-                onChange={(event, value) => {
+                onChange={(_, value) => {
                   form.setValue("district", value ? value.DistrictName : "");
                 }}
                 renderInput={(params) => (
@@ -173,7 +173,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
         <FormField
           control={form.control}
           name="user.userId"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormControl>
                 <Input value={user?.fullName} readOnly />

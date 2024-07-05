@@ -49,7 +49,7 @@ const Product = () => {
     ],
   };
 
-  const { id, name } = useParams<{ id: string; name: string }>();
+  const { id,  } = useParams<{ id: string; name: string }>();
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

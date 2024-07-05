@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { ProductsObj } from "../../model/Product";
 import agent from "../../api/agent";
-import Slider from "react-slick";
+
 
 interface ProductProps {
   currentProductId: number;
@@ -11,71 +11,71 @@ interface ProductProps {
 
 export const RelatedProduct: FC<ProductProps> = ({ currentProductId }) => {
   const [products, setProducts] = useState<ProductsObj[]>([]);
-  const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [pageNo, ] = useState<number>(0);
+  const [pageSize, ] = useState<number>(10);
+  const [, setLoading] = useState<boolean>(true);
+  const [, setError] = useState<string | null>(null);
 
   // javascript functions
-  const productSlider = {
-    arrows: true,
-    dots: false,
-    autoplay: true,
-    infinite: true,
-    slidesToShow: 3,
-    responsive: [
-      {
-        breakpoint: 1199,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 767,
-        settings: {
-          autoplay: true,
-          slidesToShow: 1,
-          arrows: false,
-        },
-      },
-    ],
-  };
+  // const productSlider = {
+  //   arrows: true,
+  //   dots: false,
+  //   autoplay: true,
+  //   infinite: true,
+  //   slidesToShow: 3,
+  //   responsive: [
+  //     {
+  //       breakpoint: 1199,
+  //       settings: {
+  //         slidesToShow: 3,
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 991,
+  //       settings: {
+  //         slidesToShow: 2,
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 767,
+  //       settings: {
+  //         autoplay: true,
+  //         slidesToShow: 1,
+  //         arrows: false,
+  //       },
+  //     },
+  //   ],
+  // };
 
-  const relatedProduct = {
-    arrows: true,
-    dots: false,
-    autoplay: true,
-    infinite: true,
-    slidesToShow: 3,
-    responsive: [
-      {
-        breakpoint: 1199,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 767,
-        settings: {
-          autoplay: true,
-          slidesToShow: 1,
-          arrows: false,
-        },
-      },
-    ],
-  };
+  // const relatedProduct = {
+  //   arrows: true,
+  //   dots: false,
+  //   autoplay: true,
+  //   infinite: true,
+  //   slidesToShow: 3,
+  //   responsive: [
+  //     {
+  //       breakpoint: 1199,
+  //       settings: {
+  //         slidesToShow: 2,
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 991,
+  //       settings: {
+  //         slidesToShow: 2,
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 767,
+  //       settings: {
+  //         autoplay: true,
+  //         slidesToShow: 1,
+  //         arrows: false,
+  //       },
+  //     },
+  //   ],
+  // };
   // javascript functions end
 
   const fetchProducts = (pageNo: number, pageSize: number) => {

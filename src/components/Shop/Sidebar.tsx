@@ -40,10 +40,10 @@ const FormSchema = z.object({
 const Sidebar: React.FC = () => {
   const [category, setCategory] = useState<CategoryObj[]>([]);
   const [brand, setBrand] = useState<BrandObj[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, setPageNo] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageNo, ] = useState<number>(0);
+  const [pageSize, ] = useState<number>(10);
   const { toast } = useToast();
 
   //fetch categories

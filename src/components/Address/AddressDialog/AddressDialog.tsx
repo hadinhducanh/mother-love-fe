@@ -16,12 +16,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
   Form,
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage,
+
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { AddressObj } from "@/model/Address";
 import UpdateAddressDialog from "../UpdateAddress/UpdateAddressDialog";
 import AddressList from "./AddressList";
@@ -37,7 +34,7 @@ interface AddressDialogProps {
 
 const AddressDialog: React.FC<AddressDialogProps> = ({
   address,
-  selectedAddressId,
+
   onRadioChange,
   onSubmit,
   onDelete,
