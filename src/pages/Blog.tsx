@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import { BlogObj } from "@/model/Blog";
 import agent from "@/api/agent";
+import { ClipLoader } from "react-spinners";
 import Loading from "@/components/Loading";
 
 const Blog = () => {
@@ -25,8 +26,13 @@ const Blog = () => {
       setLoading(false);
     }
   }, [pageNo, pageSize]);
+
   if (loading) {
-    return <Loading />;
+    return (
+      <div className="text-center">
+        <ClipLoader color="#00000" size={50} />
+      </div>
+    );
   }
   if (error) {
     return <div>{error}</div>;
@@ -61,73 +67,80 @@ const Blog = () => {
       />
       <div>
         {/* Blog Section Start */}
-        <div className="blog-section section section-padding">
-          <div className="container">
-            <div className="row">
-              {blogs.map((blog) => (
-                <>
-                  <div className="col-lg-6 col-12 mb-50">
-                    <div key={blog.blogId} className="blog-item">
-                      <div className="image-wrap d-flex justify-center mr-3">
-                        <h4 className="date">
-                          {formattedDate.month} <span>{formattedDate.day}</span>
-                        </h4>
-                        <a className="image" href="single-blog">
-                          <img src={blog.image} className="" />
-                        </a>
-                      </div>
-                      <div className="content w-[80%]">
-                        <h4 className="title">
-                          <a href="single-blog">{blog.title}</a>
-                        </h4>
-                        {/* <div className="desc">
+        {loading ? (
+          <div className="d-flex justify-center items-center">
+            <Loading />
+          </div>
+        ) : (
+          <div className="blog-section section section-padding">
+            <div className="container">
+              <div className="row">
+                {blogs.map((blog) => (
+                  <>
+                    <div className="col-lg-6 col-12 mb-50">
+                      <div key={blog.blogId} className="blog-item">
+                        <div className="image-wrap d-flex justify-center mr-3">
+                          <h4 className="date">
+                            {formattedDate.month}{" "}
+                            <span>{formattedDate.day}</span>
+                          </h4>
+                          <a className="image" href="single-blog">
+                            <img src={blog.image} className="" />
+                          </a>
+                        </div>
+                        <div className="content w-[80%]">
+                          <h4 className="title">
+                            <a href="single-blog">{blog.title}</a>
+                          </h4>
+                          {/* <div className="desc">
                           <p>
                             Jadusona is one of the most of a exclusive Baby shop
                             in the
                           </p>
                         </div> */}
-                        <ul className="meta">
-                          <li>
-                            <a href="#">
-                              <img src={blog.user.image} alt="Blog Author" />
-                              {blog.user.fullName}
-                            </a>
-                          </li>
-                        </ul>
+                          <ul className="meta">
+                            <li>
+                              <a href="#">
+                                <img src={blog.user.image} alt="Blog Author" />
+                                {blog.user.fullName}
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </>
-              ))}
-              <div className="col-12">
-                <ul className="page-pagination">
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-angle-left" />
-                    </a>
-                  </li>
-                  <li className="active">
-                    <a href="#">1</a>
-                  </li>
-                  <li>
-                    <a href="#">2</a>
-                  </li>
-                  <li>
-                    <a href="#">3</a>
-                  </li>
-                  <li>
-                    <a href="#">4</a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-angle-right" />
-                    </a>
-                  </li>
-                </ul>
+                  </>
+                ))}
+                <div className="col-12">
+                  <ul className="page-pagination">
+                    <li>
+                      <a href="#">
+                        <i className="fa fa-angle-left" />
+                      </a>
+                    </li>
+                    <li className="active">
+                      <a href="#">1</a>
+                    </li>
+                    <li>
+                      <a href="#">2</a>
+                    </li>
+                    <li>
+                      <a href="#">3</a>
+                    </li>
+                    <li>
+                      <a href="#">4</a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i className="fa fa-angle-right" />
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         {/* Blog Section End */}
       </div>
     </>

@@ -3,27 +3,26 @@
 import agent from "@/api/agent";
 import { CartItems, useCart } from "@/context/cart/CartContext";
 import { useWishlist } from "@/context/wishlist/WishlistContext";
-import React, { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loading from "../Loading";
+import { ClipLoader } from "react-spinners";
 
 const PopularProduct: FC = () => {
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
-  const navigate = useNavigate();
   const [products, setProducts] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(4);
+  const [sortDir, setSortDir] = useState<string>("asc");
 
-  const fetchProducts = (pageNo: number, pageSize: number) => {
+  const fetchProducts = (pageNo: number, pageSize: number, sortDir: string) => {
     setLoading(true);
     setError(null);
 
-    agent.Products.list(pageNo, pageSize)
+    agent.Products.list(pageNo, pageSize, sortDir)
       .then((response) => {
         if (response && Array.isArray(response.content)) {
           setProducts(response.content);
@@ -36,8 +35,8 @@ const PopularProduct: FC = () => {
   };
 
   useEffect(() => {
-    fetchProducts(pageNo, pageSize);
-  }, [pageNo, pageSize]);
+    fetchProducts(pageNo, pageSize, sortDir);
+  }, [pageNo, pageSize, sortDir]);
 
   const handleAddToCart = (productId: number) => {
     const productToAdd = products.find(
@@ -60,7 +59,11 @@ const PopularProduct: FC = () => {
   };
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className="text-center">
+        <ClipLoader color="#00000" size={50} />
+      </div>
+    );
   }
 
   if (error) {
@@ -124,7 +127,9 @@ const PopularProduct: FC = () => {
                         </div>
                       </div>
                       <div className="content-right">
-                        <span className="price">${product.price.toLocaleString()}</span>
+                        <span className="price">
+                          ${product.price.toLocaleString()}
+                        </span>
                       </div>
                     </div>
                   </div>
