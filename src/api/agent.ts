@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 
-axios.defaults.baseURL = "https://motherlove.onrender.com/api/v1/";
+axios.defaults.baseURL = "https://motherlove-api.onrender.com/api/v1/";
 axios.defaults.withCredentials = true;
 
 const axiosInstance = axios.create({
