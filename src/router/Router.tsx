@@ -15,7 +15,8 @@ import { CartProvider } from "../context/cart/CartContext";
 import VoucherList from "@/pages/VoucherList";
 import { WishlistProvider } from "@/context/wishlist/WishlistContext";
 import ShopWrapper from "@/pages/ShopWrapper";
-import Blog from "@/pages/Blog";import MyAddress from "@/pages/MyAddress";
+import Blog from "@/pages/Blog";
+import MyAddress from "@/pages/MyAddress";
 import OrderDetail from "@/pages/OrderDetail"; // Import OrderDetail component
 import MyOrder from "@/pages/MyOrder";
 import MyAccount from "@/pages/MyAccount";
@@ -43,14 +44,14 @@ export const router = createBrowserRouter([
       { path: "checkout", element: <Checkout /> },
       { path: "voucher-list", element: <VoucherList /> },
       { path: "login-register", element: <LoginRegister /> },
-      { path: "my-order", element: <MyOrder />},
+      { path: "my-order", element: <MyOrder /> },
       { path: "my-address", element: <MyAddress /> },
-      { path: "my-account", element: <MyAccount />},
+      { path: "my-account", element: <MyAccount /> },
       { path: "wishlist", element: <Wishlist /> },
       { path: "blog", element: <Blog /> },
       { path: "contact", element: <Contact /> },
       { path: "single-product/:id", element: <Product /> },
-      { path: "single-blog", element: <BlogDetail /> },
+      { path: "single-blog/:id", element: <BlogDetail /> },
       { path: "orders/:orderId", element: <OrderDetail /> }, // New path for OrderDetail with orderId param
       { path: "404", element: <NotFound /> },
     ],

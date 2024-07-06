@@ -102,6 +102,7 @@ const Products = {
 
 const Blog = {
   list: createListEndpoint('blogs', 'blogId'),
+  details: async (id: number) => requests.get(`blogs/${id}`),
 };
 
 const Brand = {

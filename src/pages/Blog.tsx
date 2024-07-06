@@ -8,8 +8,8 @@ const Blog = () => {
   const [blogs, setBlogs] = useState<BlogObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, ] = useState<number>(0);
-  const [pageSize, ] = useState<number>(9);
+  const [pageNo] = useState<number>(0);
+  const [pageSize] = useState<number>(9);
   const [, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
@@ -33,7 +33,6 @@ const Blog = () => {
   }
 
   const formatCreatedDate = blogs.map((blog) => blog.createdDate);
-  console.log(formatCreatedDate);
 
   const formatDate = (
     timestamp: string
@@ -72,13 +71,18 @@ const Blog = () => {
                         <h4 className="date">
                           {formattedDate.month} <span>{formattedDate.day}</span>
                         </h4>
-                        <a className="image" href="single-blog">
+                        <a
+                          className="image"
+                          href={`single-blog/${blog.blogId}`}
+                        >
                           <img src={blog.image} className="" />
                         </a>
                       </div>
                       <div className="content w-[80%]">
                         <h4 className="title">
-                          <a href="single-blog">{blog.title}</a>
+                          <a href={`single-blog/${blog.blogId}`}>
+                            {blog.title}
+                          </a>
                         </h4>
                         {/* <div className="desc">
                           <p>
@@ -88,7 +92,7 @@ const Blog = () => {
                         </div> */}
                         <ul className="meta">
                           <li>
-                            <a href="#">
+                            <a href={`single-blog/${blog.blogId}`}>
                               <img src={blog.user.image} alt="Blog Author" />
                               {blog.user.fullName}
                             </a>

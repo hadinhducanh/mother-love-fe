@@ -1,6 +1,43 @@
+import { useEffect, useState } from "react";
 import { Brand } from "../components/Brand";
+import { BlogObj } from "@/model/Blog";
+import { useParams } from "react-router";
+import agent from "@/api/agent";
+import Loading from "@/components/Loading";
 
-const BlogDetail = () => {
+const BlogDetail: React.FC = () => {
+  const [blog, setBlog] = useState<BlogObj>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const { id } = useParams();
+  const blogId = Number(id);
+  console.log("blog id param", blogId);
+
+  useEffect(() => {
+    const getBlogDetail = async () => {
+      await agent.Blog.details(blogId).then((response) => {
+        setBlog(response);
+        setLoading(false);
+      });
+    };
+    getBlogDetail();
+  });
+  const formatDate = (
+    timestamp: string
+  ): { day: number; month: string; year: number } => {
+    const date = new Date(timestamp);
+
+    const day = date.getDate();
+    const month = date.toLocaleString("en-US", { month: "long" });
+    const year = date.getFullYear();
+
+    return { day, month, year };
+  };
+  const formatCreatedDate = formatDate(blog?.createdDate || "");
+
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <>
       <div className="blog-section section section-padding">
