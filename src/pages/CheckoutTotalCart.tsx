@@ -3,7 +3,6 @@ import { useCart } from "@/context/cart/CartContext";
 import agent from "@/api/agent";
 import { useAuth } from "@/context/auth/AuthContext";
 
-
 interface Props {
   selectedAddressId: string | null;
 }
@@ -13,8 +12,6 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
   const { userId } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-
 
   const renderCartItems = () => {
     return cartItems.map((item) => (
@@ -37,27 +34,33 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
   const handlePlaceOrder = async () => {
     setLoading(true);
     setError(null);
-
+  
     try {
       const orderItems = cartItems.map((item) => ({
         productId: item.productId,
         quantity: item.quantity,
       }));
-
+  
       const addressId = selectedAddressId || "";
       const voucherId = selectedVoucher ? selectedVoucher.voucher.voucherId : 0;
-
+  
       if (!userId) {
         throw new Error("User is not logged in");
       }
+  
 
+      const orderData = await agent.Orders.createOrder(userId, addressId, voucherId, orderItems);
 
-      await agent.Orders.createOrder(userId, addressId, voucherId, orderItems);
+  
 
+      localStorage.setItem("orderId", orderData.orderDto.orderId.toString());
+      localStorage.setItem("totalAmount", orderData.orderDto.afterTotalAmount.toString());
+  
       const vnPayResponse = await agent.Payment.vnPay(calculateTotal());
+  
 
       window.location.href = vnPayResponse.paymentUrl;
-
+  
     } catch (error) {
       console.error("Failed to create order or VNPay:", error);
       setError("Failed to place order. Please try again later.");
@@ -65,6 +68,8 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
       setLoading(false);
     }
   };
+  
+  
 
   return (
     <div>

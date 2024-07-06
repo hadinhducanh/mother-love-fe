@@ -1,12 +1,35 @@
+import React, { useEffect } from "react";
 import Banner from "@/components/Banner";
 import { Brand } from "../components/Brand";
 import { useNavigate } from "react-router";
+import agent from "@/api/agent";
+
 export const Success = () => {
-  const navigate = useNavigate(); // Khởi tạo useRouter
+  const navigate = useNavigate();
+
+  const orderId = localStorage.getItem("orderId");
+  const totalAmount = localStorage.getItem("totalAmount");
+
+  useEffect(() => {
+    localStorage.removeItem("orderId");
+    localStorage.removeItem("totalAmount");
+
+    agent.Payment.postPaymentHistory({
+      orderId: orderId,
+      amount: totalAmount,
+      createdDate: "2024-07-06T15:34:48.076Z",
+      paymentMethodId: 0,
+      status: 0,
+    }).then(response => {
+      console.log("Payment history successfully recorded", response);
+    }).catch(error => {
+      console.error("Failed to record payment history", error);
+    });
+
+  }, [orderId, totalAmount]);
 
   const successMessageStyle: React.CSSProperties = {
     textAlign: "center",
-   
   };
 
   const successMessageHeaderStyle = {
@@ -27,7 +50,7 @@ export const Success = () => {
   };
 
   const handleNavigation = () => {
-    navigate("/my-order")
+    navigate("/my-order");
   };
 
   return (
@@ -47,9 +70,23 @@ export const Success = () => {
             Bạn có thể kiểm tra đơn hàng của bạn {" "}
             <span style={linkStyle} onClick={handleNavigation}>tại đây</span>
           </p>
+          
+          {/* Display orderId and totalAmount if available */}
+          {orderId && (
+            <p style={successMessageTextStyle}>
+              Mã đơn hàng của bạn là: <strong>{orderId}</strong>
+            </p>
+          )}
+          {totalAmount && (
+            <p style={successMessageTextStyle}>
+              Tổng số tiền thanh toán: <strong>{totalAmount}</strong>
+            </p>
+          )}
         </div>
       </div>
       <Brand />
     </>
   );
 };
+
+export default Success;

@@ -95,6 +95,7 @@ const requests = {
   updateDefaultAddress: async (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => axiosInstance.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}).then(responseBody),
   updateAddress: async (addressId: number, updatedAddress: any) => axiosInstance.put(`address/${addressId}`, updatedAddress).then(responseBody),
   createOrder: async (userId: number, addressId: number, voucherId: number, orderItems: any) => axiosInstance.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, orderItems).then(responseBody),
+  postPaymentHistory: async (paymentDetails: any) => axiosInstance.post('payment-history', paymentDetails).then(responseBody),
 };
 
 // Helper to create list endpoints with default sort parameters
@@ -136,7 +137,7 @@ const Address = {
   listByUserId: async (userId: number, pageNo: number, pageSize: number) => requests.get(`address/user?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=addressId&sortDir=asc&userId=${userId}`),
   updateDefaultAddress: async (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => requests.updateDefaultAddress(userId, addressOldId, addressNewId),
   updateAddress: async (addressId: number, updatedAddress: any) => requests.updateAddress(addressId, updatedAddress),
-  addNewAddress: async (newAddress: any) => requests.post(`address`, newAddress),
+  addNewAddress: async (newAddress: any) => requests.post('address', newAddress),
   deleteAddress: async (addressId: number) => requests.delete(`address/${addressId}`),
 };
 
@@ -156,11 +157,12 @@ const Orders = {
     requests.get(`orders/user/${userId}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=orderDate&sortDir=desc`),
   getOrderById: async (orderId: number) => requests.get(`orders/order/${orderId}`),
   getOrdersByDateRange: async (pageNo: number, pageSize: number, sortBy: string, sortDir: string, orderDateFrom: string, orderDateTo: string) =>
-    requests.get(`orders/search`, { pageNo, pageSize, sortBy, sortDir, orderDateFrom, orderDateTo }),
+    requests.get('orders/search', { pageNo, pageSize, sortBy, sortDir, orderDateFrom, orderDateTo }),
 };
 
 const Payment = {
-  vnPay: async (amount: number) => requests.get(`payment/vn-pay`, { amount, bankCode: 'NCB' }),
+  vnPay: async (amount: number) => requests.get('payment/vn-pay', { amount, bankCode: 'NCB' }),
+  postPaymentHistory: async (paymentDetails: any) => requests.postPaymentHistory(paymentDetails),
 };
 
 const agent = {
