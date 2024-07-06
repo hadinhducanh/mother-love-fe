@@ -19,6 +19,7 @@ import Blog from "@/pages/Blog";import MyAddress from "@/pages/MyAddress";
 import OrderDetail from "@/pages/OrderDetail"; // Import OrderDetail component
 import MyOrder from "@/pages/MyOrder";
 import MyAccount from "@/pages/MyAccount";
+import { Success } from "@/pages/Success";
 
 const AppWithProvider = () => {
   return (
@@ -51,8 +52,9 @@ export const router = createBrowserRouter([
       { path: "contact", element: <Contact /> },
       { path: "single-product/:id", element: <Product /> },
       { path: "single-blog", element: <BlogDetail /> },
-      { path: "orders/:orderId", element: <OrderDetail /> }, // New path for OrderDetail with orderId param
+      { path: "orders/:orderId", element: <OrderDetail /> }, 
       { path: "404", element: <NotFound /> },
+      { path: "success", element: <Success /> },
     ],
   },
 ]);
