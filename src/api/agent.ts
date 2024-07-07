@@ -95,7 +95,6 @@ const requests = {
   updateDefaultAddress: async (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => axiosInstance.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}).then(responseBody),
   updateAddress: async (addressId: number, updatedAddress: any) => axiosInstance.put(`address/${addressId}`, updatedAddress).then(responseBody),
   createOrder: async (userId: number, addressId: number, voucherId: number, orderItems: any) => axiosInstance.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, orderItems).then(responseBody),
-  postPaymentHistory: async (paymentDetails: any) => axiosInstance.post('payment-history', paymentDetails).then(responseBody),
 };
 
 // Helper to create list endpoints with default sort parameters
@@ -160,9 +159,11 @@ const Orders = {
     requests.get('orders/search', { pageNo, pageSize, sortBy, sortDir, orderDateFrom, orderDateTo }),
 };
 
+// Payment API methods
 const Payment = {
   vnPay: async (amount: number) => requests.get('payment/vn-pay', { amount, bankCode: 'NCB' }),
-  postPaymentHistory: async (paymentDetails: any) => requests.postPaymentHistory(paymentDetails),
+  addPaymentHistory: async (paymentData: { amount: number, status: number, paymentMethodId: number, orderId: number }) =>
+    requests.post('payment-histories', paymentData),
 };
 
 const agent = {

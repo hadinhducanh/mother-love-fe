@@ -11,21 +11,26 @@ export const Success = () => {
   const totalAmount = localStorage.getItem("totalAmount");
 
   useEffect(() => {
-    localStorage.removeItem("orderId");
-    localStorage.removeItem("totalAmount");
+    const addPaymentHistory = async () => {
+      if (orderId && totalAmount) {
+        try {
+          const paymentData = {
+            amount: parseFloat(totalAmount),
+            status: 1,
+            paymentMethodId: 2,
+            orderId: parseInt(orderId)
+          };
+          const response = await agent.Payment.addPaymentHistory(paymentData);
+          console.log("Payment history added:", response);
+        } catch (error) {
+          console.error("Error adding payment history:", error);
+        }
+      }
+      localStorage.removeItem("orderId");
+      localStorage.removeItem("totalAmount");
+    };
 
-    agent.Payment.postPaymentHistory({
-      orderId: orderId,
-      amount: totalAmount,
-      createdDate: "2024-07-06T15:34:48.076Z",
-      paymentMethodId: 0,
-      status: 0,
-    }).then(response => {
-      console.log("Payment history successfully recorded", response);
-    }).catch(error => {
-      console.error("Failed to record payment history", error);
-    });
-
+    addPaymentHistory();
   }, [orderId, totalAmount]);
 
   const successMessageStyle: React.CSSProperties = {
@@ -67,10 +72,10 @@ export const Success = () => {
           <h2 style={successMessageHeaderStyle}>Thanh toán thành công!</h2>
           <p style={successMessageTextStyle}>Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đang được xử lý.</p>
           <p style={successMessageTextStyle}>
-            Bạn có thể kiểm tra đơn hàng của bạn {" "}
+            Bạn có thể kiểm tra đơn hàng của bạn{" "}
             <span style={linkStyle} onClick={handleNavigation}>tại đây</span>
           </p>
-          
+
           {/* Display orderId and totalAmount if available */}
           {orderId && (
             <p style={successMessageTextStyle}>
