@@ -20,6 +20,7 @@ import OrderDetail from "@/pages/OrderDetail"; // Import OrderDetail component
 import MyOrder from "@/pages/MyOrder";
 import MyAccount from "@/pages/MyAccount";
 import { Success } from "@/pages/Success";
+import Fail from "@/pages/Fail";
 
 const AppWithProvider = () => {
   return (
@@ -55,6 +56,7 @@ export const router = createBrowserRouter([
       { path: "orders/:orderId", element: <OrderDetail /> }, 
       { path: "404", element: <NotFound /> },
       { path: "success", element: <Success /> },
+      { path: "fail", element: <Fail /> },
     ],
   },
 ]);

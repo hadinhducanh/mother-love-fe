@@ -52,11 +52,8 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
       const orderData = await agent.Orders.createOrder(userId, addressId, voucherId, orderItems);
 
   
-
-      localStorage.setItem("orderId", orderData.orderDto.orderId.toString());
-      localStorage.setItem("totalAmount", orderData.orderDto.afterTotalAmount.toString());
   
-      const vnPayResponse = await agent.Payment.vnPay(calculateTotal());
+      const vnPayResponse = await agent.Payment.vnPay(calculateTotal(),orderData.orderDto.orderId);
   
 
       window.location.href = vnPayResponse.paymentUrl;
