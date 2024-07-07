@@ -53,7 +53,7 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
 
   
   
-      const vnPayResponse = await agent.Payment.vnPay(calculateTotal(),orderData.orderDto.orderId);
+      const vnPayResponse = await agent.Payment.vnPay(orderData.orderDto.orderId);
   
 
       window.location.href = vnPayResponse.paymentUrl;
