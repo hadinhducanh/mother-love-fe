@@ -114,6 +114,7 @@ const Products = {
 const Blog = {
   list: createListEndpoint('blogs', 'blogId'),
   details: async (id: number) => requests.get(`blogs/${id}`),
+  searchBlog: (pageNo: number, pageSize: number,searchTerm: string) => requests.get(`blogs/search?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=blogId&sortDir=asc&searchText=${searchTerm}`)
 };
 
 // Brand API methods

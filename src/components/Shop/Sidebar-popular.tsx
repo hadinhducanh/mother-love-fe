@@ -8,8 +8,8 @@ const SidebarPopular = () => {
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, ] = useState<number>(0);
-  const [pageSize, ] = useState<number>(10);
+  const [pageNo] = useState<number>(0);
+  const [pageSize] = useState<number>(10);
 
   const fetchProducts = (pageNo: number, pageSize: number) => {
     setLoading(true);
@@ -42,7 +42,7 @@ const SidebarPopular = () => {
         {products.slice(0, 2).map((product) => {
           const images = product.image.replace(/[\[\]]/g, "").split(",");
           return (
-            <div className="sidebar-product">
+            <div key={product.productId} className="sidebar-product">
               <a
                 href={`/single-product/${product.productId}`}
                 className="image"
