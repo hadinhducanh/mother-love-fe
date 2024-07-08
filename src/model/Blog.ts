@@ -1,4 +1,3 @@
-import { ProductsObj } from "./Product";
 import { User } from "./User";
 
 export interface BlogObj{

@@ -33,7 +33,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
 }) => {
   const [cities, setCities] = useState<ProvinceObj[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
-  const [selectedCity, ] = useState<number | null>(null);
+  const [selectedCity] = useState<number | null>(null);
   const [, setLoadingCities] = useState<boolean>(false);
   const [, setLoadingDistricts] = useState<boolean>(false);
   const [, setErrorData] = useState<string | null>(null);
@@ -69,7 +69,6 @@ export const AddressForm: React.FC<AddressFormProps> = ({
       );
       if (response.data) {
         setDistricts(response.data);
-        console.log("districts:", response.data); // Improved logging
       } else {
         setErrorData("Data format is incorrect");
       }
@@ -97,10 +96,10 @@ export const AddressForm: React.FC<AddressFormProps> = ({
         <FormField
           control={form.control}
           name="addressLine"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Address Line" />
+                <Input {...field} placeholder="Address Line" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -118,8 +117,6 @@ export const AddressForm: React.FC<AddressFormProps> = ({
                 getOptionLabel={(option) => option.ProvinceName}
                 onChange={(_, value) => {
                   form.setValue("city", value ? value.ProvinceName : "");
-                  console.log("Selected City:", value?.ProvinceID); // Log selected city ID
-                  // Fetch districts based on selected city
                   fetchDistricts(value?.ProvinceID || null);
                 }}
                 renderInput={(params) => (

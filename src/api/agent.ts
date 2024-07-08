@@ -94,7 +94,7 @@ const requests = {
   getMemberVouchers: async (userId: number) => axiosInstance.get(`vouchers/member?userId=${userId}`).then(responseBody),
   addVoucherForMember: async (userId: number, voucherId: number) => axiosInstance.post(`vouchers/member?userId=${userId}&voucherId=${voucherId}`, {}).then(responseBody),
   updateDefaultAddress: async (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => axiosInstance.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}).then(responseBody),
-  updateAddress: async (addressId: number, updatedAddress: any) => axiosInstance.put(`address/${addressId}`, updatedAddress).then(responseBody),
+  updateAddress: async (updatedAddress: any) => axiosInstance.put(`address`, updatedAddress).then(responseBody),
   createOrder: async (userId: number, addressId: number, voucherId: number, orderItems: any) => axiosInstance.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, orderItems).then(responseBody),
 };
 
@@ -137,7 +137,7 @@ const Voucher = {
 const Address = {
   listByUserId: async (userId: number, pageNo: number, pageSize: number) => requests.get(`address/user?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=addressId&sortDir=asc&userId=${userId}`),
   updateDefaultAddress: async (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => requests.updateDefaultAddress(userId, addressOldId, addressNewId),
-  updateAddress: async (addressId: number, updatedAddress: any) => requests.updateAddress(addressId, updatedAddress),
+  updateAddress: async ( updatedAddress: any) => requests.updateAddress(updatedAddress),
   addNewAddress: async (newAddress: any) => requests.post('address', newAddress),
   deleteAddress: async (addressId: number) => requests.delete(`address/${addressId}`),
 };

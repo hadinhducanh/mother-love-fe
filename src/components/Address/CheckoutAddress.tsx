@@ -17,12 +17,16 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   const [address, setAddress] = useState<AddressObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, ] = useState<number>(0);
-  const [pageSize, ] = useState<number>(10);
+  const [pageNo] = useState<number>(0);
+  const [pageSize] = useState<number>(10);
   const [userId, setUserId] = useState<number | null>(null);
   const { isLoggedIn, getUserInfo } = useAuth();
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
-  const [selectedAddress, setSelectedAddress] = useState<AddressObj | null>(null);
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
+    null
+  );
+  const [selectedAddress, setSelectedAddress] = useState<AddressObj | null>(
+    null
+  );
   const { toast } = useToast();
 
   useEffect(() => {
@@ -48,18 +52,30 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
     }
   }, [userId, pageNo, pageSize]);
 
-  const fetchAddressByUser = async (userId: number, pageNo: number, pageSize: number) => {
+  const fetchAddressByUser = async (
+    userId: number,
+    pageNo: number,
+    pageSize: number
+  ) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await agent.Address.listByUserId(userId, pageNo, pageSize);
+      const response = await agent.Address.listByUserId(
+        userId,
+        pageNo,
+        pageSize
+      );
       if (response && Array.isArray(response)) {
         setAddress(sortAddresses(response));
         const defaultAddress = response.find((addr) => addr.default);
         setSelectedAddress(defaultAddress || null);
-        setSelectedAddressId(defaultAddress ? defaultAddress.addressId.toString() : null);
-        onSelectAddress(defaultAddress ? defaultAddress.addressId.toString() : null); 
+        setSelectedAddressId(
+          defaultAddress ? defaultAddress.addressId.toString() : null
+        );
+        onSelectAddress(
+          defaultAddress ? defaultAddress.addressId.toString() : null
+        );
       } else {
         setError("Fetched data is not in expected format");
       }
@@ -76,11 +92,13 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
 
   const handleRadioChange = (addressId: string) => {
     setSelectedAddressId(addressId);
-    onSelectAddress(addressId); 
+    onSelectAddress(addressId);
   };
 
   const handleFormSubmit = () => {
-    const selected = address.find((addr) => addr.addressId.toString() === selectedAddressId);
+    const selected = address.find(
+      (addr) => addr.addressId.toString() === selectedAddressId
+    );
     setSelectedAddress(selected || null);
   };
 
@@ -104,21 +122,30 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
 
   const handleUpdateAddress = async (updatedAddress: AddressObj) => {
     try {
-      const prevDefaultAddressID = address.find((addr) => addr.default)?.addressId || 0;
+      const prevDefaultAddressID =
+        address.find((addr) => addr.default)?.addressId || 0;
 
       if (updatedAddress.default) {
-        await agent.Address.updateDefaultAddress(userId!, prevDefaultAddressID, updatedAddress.addressId);
+        await agent.Address.updateDefaultAddress(
+          userId!,
+          prevDefaultAddressID,
+          updatedAddress.addressId
+        );
       }
 
       if (userId !== null) {
-        const updatedAddresses = await agent.Address.listByUserId(userId, pageNo, pageSize);
+        const updatedAddresses = await agent.Address.listByUserId(
+          userId,
+          pageNo,
+          pageSize
+        );
         setAddress(sortAddresses(updatedAddresses));
       }
 
       if (updatedAddress.default) {
         setSelectedAddress(updatedAddress);
         setSelectedAddressId(updatedAddress.addressId.toString());
-        onSelectAddress(updatedAddress.addressId.toString()); 
+        onSelectAddress(updatedAddress.addressId.toString());
       }
     } catch (error) {
       console.error("Failed to update address:", error);
@@ -128,6 +155,8 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+  console.log("selected address id", selectedAddressId);
+  console.log("selected address", selectedAddress);
 
   return (
     <div className="page-section section section-padding">

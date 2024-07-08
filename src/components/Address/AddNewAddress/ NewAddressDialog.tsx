@@ -11,7 +11,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import agent from "@/api/agent"; // Assuming this is your custom API agent
@@ -21,7 +20,6 @@ import { AddressForm } from "./AddressForm";
 import { AddressFormData } from "../type/type";
 import { useToast } from "@/components/ui/use-toast";
 import { AddressObj } from "@/model/Address";
-
 
 interface NewAddressDialogProps {
   onAddressAdded: (address: AddressObj) => void;
@@ -39,8 +37,8 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
   const [, setNewAddress] = useState<AddressObj | null>(null);
   const [hasExistingAddresses, setHasExistingAddresses] =
     useState<boolean>(false);
-  const [pageNo, ] = useState<number>(0);
-  const [pageSize, ] = useState<number>(10);
+  const [pageNo] = useState<number>(0);
+  const [pageSize] = useState<number>(10);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -81,7 +79,7 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
   }, [userId, pageNo, pageSize]); // Added userId as dependency for useEffect
 
   const FormSchema = z.object({
-    addressLine: z.string().nonempty({ message: "Address line is required" }),
+    addressLine: z.string().min(1, { message: "Address line is required" }),
     district: z.string().nonempty({ message: "District is required" }),
     city: z.string().nonempty({ message: "City is required" }),
     default: z.boolean(),

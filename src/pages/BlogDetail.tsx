@@ -5,7 +5,6 @@ import { useParams } from "react-router";
 import agent from "@/api/agent";
 import { ClipLoader } from "react-spinners";
 import Slider from "react-slick";
-import { ProductsObj } from "@/model/Product";
 import { CartItems } from "@/context/cart/CartContext";
 import OtherBlog from "@/components/Blog/PopularBlog";
 
@@ -13,7 +12,7 @@ const BlogDetail: React.FC = () => {
   const [blog, setBlog] = useState<BlogObj>();
   const [product, setProduct] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const { id } = useParams();
   const blogId = Number(id);
   const bestDealSliderSettings = {
