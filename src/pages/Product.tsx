@@ -13,6 +13,7 @@ import { useCart } from "../context/cart/CartContext";
 import { useWishlist } from "../context/wishlist/WishlistContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Feedback from "@/components/Product/Feedback";
 
 const Product = () => {
   const proThumbIMGSettings = {
@@ -49,7 +50,7 @@ const Product = () => {
     ],
   };
 
-  const { id,  } = useParams<{ id: string; name: string }>();
+  const { id } = useParams<{ id: string; name: string }>();
   const [products, setProducts] = useState<ProductsObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -214,7 +215,8 @@ const Product = () => {
                           Availability: <span>{product.status}</span>
                         </span>
                         <span className="availability">
-                          Quantity product: <span>{product.quantityProduct}</span>
+                          Quantity product:{" "}
+                          <span>{product.quantityProduct}</span>
                         </span>
 
                         <div className="quantity-colors">
@@ -240,7 +242,11 @@ const Product = () => {
                           <button className="box" data-tooltip="Compare">
                             <i className="ti-control-shuffle"></i>
                           </button>
-                          <button className="box" data-tooltip="Wishlist" onClick={handleAddToWishlist}>
+                          <button
+                            className="box"
+                            data-tooltip="Wishlist"
+                            onClick={handleAddToWishlist}
+                          >
                             <i className="ti-heart"></i>
                           </button>
                         </div>
@@ -307,7 +313,7 @@ const Product = () => {
                         </table>
                       </div>
                       <div className="pro-info-tab tab-pane" id="reviews">
-                        <a href="#">Be the first to write your review!</a>
+                        <Feedback />
                       </div>
                     </div>
                   </div>
