@@ -6,9 +6,10 @@ export interface ProductsObj {
       productName:string,
       description: string,
       price: number,
-      status: number,
+      status: String,
       image: string,
       category: CategoryObj,
       brand:BrandObj,
-      quantityProduct: number
+      quantityProduct: number,
+
     }

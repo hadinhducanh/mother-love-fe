@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import agent from '../../api/agent';
 import { OrderResponse } from '@/model/Order';
 import { useAuth } from '@/context/auth/AuthContext';
@@ -54,7 +54,7 @@ export const OrdersList = () => {
           }
         }
       }
-    } catch (error : any) {
+    } catch (error: any) {
       setError(error.message);
     } finally {
       setLoading(false);
@@ -65,7 +65,7 @@ export const OrdersList = () => {
     if (userId != null) {
       fetchOrders();
     }
-  }, [userId, pageSettings.pageNo, filterApplied, startDate, endDate]);
+  }, [userId, pageSettings.pageNo, filterApplied]);
 
   const handlePageClick = (pageNumber: number) => {
     setPageSettings(prev => ({
