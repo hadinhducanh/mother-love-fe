@@ -158,8 +158,8 @@ const Orders = {
   getOrdersByUserId: async (userId: number, pageNo: number, pageSize: number) =>
     requests.get(`orders/user/${userId}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=orderDate&sortDir=desc`),
   getOrderById: async (orderId: number) => requests.get(`orders/order/${orderId}`),
-  getOrdersByDateRange: async (pageNo: number, pageSize: number, sortBy: string, sortDir: string, orderDateFrom: string, orderDateTo: string) =>
-    requests.get('orders/search', { pageNo, pageSize, sortBy, sortDir, orderDateFrom, orderDateTo }),
+  getOrdersByDateRange: async ( pageNo: number, pageSize: number, sortBy: string, sortDir: string, orderDateFrom: string, orderDateTo: string, userId:number) =>
+    requests.get('orders/search', { pageNo, pageSize, sortBy, sortDir, orderDateFrom, orderDateTo, userId }),
 };
 
 // Payment API methods

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import agent from "../../api/agent";
 import { OrderResponse } from "@/model/Order";
 import { useAuth } from "@/context/auth/AuthContext";
-import Loading from "../Loading";
+
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../Loader";
 
@@ -35,7 +35,8 @@ export const OrdersList = () => {
             "orderId",
             sortDirection,
             startDate ? `${startDate}T00:00:00` : "",
-            endDate ? `${endDate}T23:59:59` : ""
+            endDate ? `${endDate}T23:59:59` : "",
+            userId
           );
 
           if (response && Array.isArray(response.content)) {
