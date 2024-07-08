@@ -1,11 +1,14 @@
-import  { useState } from "react";
+import { useState } from "react";
 import Banner from "@/components/Banner";
 import { Brand } from "../components/Brand";
 import CheckoutAddress from "@/components/Address/CheckoutAddress";
 import CheckoutTotalCart from "./CheckoutTotalCart";
 
 export const Checkout = () => {
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
+    null
+  );
+  console.log("select in checkout", selectedAddressId);
 
   return (
     <>

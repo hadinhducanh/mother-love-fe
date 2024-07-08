@@ -13,11 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
-import {
-  Form,
-
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { AddressObj } from "@/model/Address";
 import UpdateAddressDialog from "../UpdateAddress/UpdateAddressDialog";
@@ -34,8 +30,8 @@ interface AddressDialogProps {
 
 const AddressDialog: React.FC<AddressDialogProps> = ({
   address,
-
   onRadioChange,
+  selectedAddressId,
   onSubmit,
   onDelete,
   onUpdate,
@@ -44,7 +40,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({
   const [addressToUpdate, setAddressToUpdate] = useState<AddressObj | null>(
     null
   );
-
+  const [dialogOpen, setDialogOpen] = useState(false);
   const defaultAddressId =
     address.find((addr) => addr.default)?.addressId.toString() || "";
 
@@ -54,12 +50,14 @@ const AddressDialog: React.FC<AddressDialogProps> = ({
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: { selectedAddress: defaultAddressId },
+    defaultValues: { selectedAddress: selectedAddressId || defaultAddressId },
   });
 
   useEffect(() => {
-    form.setValue("selectedAddress", defaultAddressId);
-  }, [defaultAddressId, form]);
+    if (dialogOpen) {
+      form.setValue("selectedAddress", selectedAddressId || defaultAddressId);
+    }
+  }, [defaultAddressId, selectedAddressId, form, dialogOpen]);
 
   const handleSubmit = async (data: { selectedAddress: string }) => {
     await onSubmit(data);
@@ -77,7 +75,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({
 
   return (
     <>
-      <Dialog>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
           <Button variant="outline" className="mr-2">
             Change Address

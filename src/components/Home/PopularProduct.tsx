@@ -6,17 +6,17 @@ import { useWishlist } from "@/context/wishlist/WishlistContext";
 import { FC, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loading from "../Loading";
+import { ClipLoader } from "react-spinners";
 
 const PopularProduct: FC = () => {
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
-  
+
   const [products, setProducts] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, ] = useState<number>(0);
-  const [pageSize, ] = useState<number>(4);
+  const [pageNo] = useState<number>(0);
+  const [pageSize] = useState<number>(4);
 
   const fetchProducts = (pageNo: number, pageSize: number) => {
     setLoading(true);
@@ -59,7 +59,11 @@ const PopularProduct: FC = () => {
   };
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className="text-center">
+        <ClipLoader color="#00000" size={50} />
+      </div>
+    );
   }
 
   if (error) {
@@ -131,11 +135,11 @@ const PopularProduct: FC = () => {
                           <i className="fa fa-star-half-o" />
                           <i className="fa fa-star-o" />
                         </div>
-                       
-                        <span className="price">{product.price.toLocaleString()}</span>
-                      
+
+                        <span className="price">
+                          {product.price.toLocaleString()}
+                        </span>
                       </div>
-                     
                     </div>
                   </div>
                 </div>

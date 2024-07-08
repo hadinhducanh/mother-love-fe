@@ -1,4 +1,3 @@
-import { ProductsObj } from "./Product";
 import { User } from "./User";
 
 export interface BlogObj{
@@ -9,6 +8,6 @@ export interface BlogObj{
       createdDate: string,
       lastModifiedDate: string,
       user: User,
-      products: ProductsObj
+      product: [],
 
 }

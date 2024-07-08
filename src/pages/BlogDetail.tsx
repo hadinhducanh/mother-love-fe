@@ -1,6 +1,65 @@
+import { useEffect, useState } from "react";
 import { Brand } from "../components/Brand";
+import { BlogObj } from "@/model/Blog";
+import { useParams } from "react-router";
+import agent from "@/api/agent";
+import { ClipLoader } from "react-spinners";
+import Slider from "react-slick";
+import { CartItems } from "@/context/cart/CartContext";
+import OtherBlog from "@/components/Blog/PopularBlog";
 
-const BlogDetail = () => {
+const BlogDetail: React.FC = () => {
+  const [blog, setBlog] = useState<BlogObj>();
+  const [product, setProduct] = useState<CartItems[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error] = useState<string | null>(null);
+  const { id } = useParams();
+  const blogId = Number(id);
+  const bestDealSliderSettings = {
+    arrows: false,
+    dots: false,
+    autoplay: true,
+    infinite: true,
+    slidesToShow: 1,
+  };
+
+  useEffect(() => {
+    const getBlogDetail = async () => {
+      await agent.Blog.details(blogId).then((response) => {
+        setBlog(response);
+        {
+          blog?.product && setProduct(blog?.product);
+          // setProducts(blog?.product),
+        }
+        setLoading(false);
+      });
+    };
+    getBlogDetail();
+  });
+  const formatDate = (
+    timestamp: string
+  ): { day: number; month: string; year: number } => {
+    const date = new Date(timestamp);
+
+    const day = date.getDate();
+    const month = date.toLocaleString("en-US", { month: "long" });
+    const year = date.getFullYear();
+
+    return { day, month, year };
+  };
+
+  const formatCreatedDate = formatDate(blog?.createdDate || "");
+  // const images = product.map.replace(/[\[\]]/g, "").split(",");
+  if (loading) {
+    return (
+      <div className="text-center">
+        <ClipLoader color="#00000" size={50} />
+      </div>
+    );
+  }
+  if (error) {
+    return <div>{error}</div>;
+  }
   return (
     <>
       <div className="blog-section section section-padding">
@@ -10,103 +69,28 @@ const BlogDetail = () => {
               <div className="single-blog">
                 <div className="image-wrap">
                   <h4 className="date">
-                    May <span>25</span>
+                    {formatCreatedDate.month}{" "}
+                    <span>{formatCreatedDate.day}</span>
                   </h4>
-                  <a className="image" href="single-blog.html">
-                    <img src="/src/assets/images/blog/single-blog.jpg" alt="" />
+                  <a className="image" href="">
+                    <img src={blog?.image} alt="" />
                   </a>
                 </div>
                 <div className="content">
                   <ul className="meta">
                     <li>
                       <a href="#">
-                        <img
-                          src="/src/assets/images/blog/blog-author-1.jpg"
-                          alt="Blog Author"
-                        />
-                        Muhin
+                        <img src={blog?.user.image} alt="Blog Author" />
+                        {blog?.user.fullName}
                       </a>
                     </li>
-                    <li>
-                      <a href="#">25 Likes</a>
-                    </li>
-                    <li>
-                      <a href="#">05 Views</a>
-                    </li>
                   </ul>
-                  <div className="desc">
-                    <p>
-                      Jadusona is one of the most of a exclusive Baby shop in
-                      the enim ipsam voluptatem quia voluptas sit aspernatur aut
-                      odit aut fugit, sed quia res eos qui ratione voluptatem
-                      sequi Neque porro quisquam est, qui dolorem ipsum quia
-                      dolor sit amet, consectetur, adipisci velit, sed quia non
-                      numquam eius modi tempora inform enim ipsam voluptatem
-                      quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                      res eos qui ratione voluptatem sequi Neque porro quisquam
-                      est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                      adipisci velit, sed quia non numquam eius modi tempora
-                      inform.
-                    </p>
-                    <p>
-                      Jadusona is one of the most of a exclusive Baby shop in
-                      the enim ipsam voluptatem quia voluptas sit aspernatur aut
-                      odit aut fugit, sed quia res eos qui ratione voluptatem
-                      sequi Neque porro quisquam est, qui dolorem ipsum quia
-                      dolor sit amet, consectetur, adipisci velit.
-                    </p>
+                  <div
+                    className="desc"
+                    dangerouslySetInnerHTML={{ __html: blog?.content || "" }}
+                  />
 
-                    <p>
-                      Jadusona is one of the most of a exclusive Baby shop in
-                      the enim ipsam voluptatem quia voluptas sit aspernatur aut
-                      odit aut fugit, sed quia res eos qui ratione voluptatem
-                      sequi Neque porro quisquam est, qui dolorem ipsum quia
-                      dolor sit amet, consectetur, adipisci velit, sed quia non
-                      numquam eius modi tempora inform enim ipsam voluptatem
-                      quia voluptas sit aspernatur aut odit aut fugit.
-                    </p>
-                  </div>
-
-                  <div className="blog-footer row mt-45">
-                    <div className="post-tags col-lg-6 col-12 mv-15">
-                      <h4>Tags:</h4>
-                      <ul className="tag">
-                        <li>
-                          <a href="#">New</a>
-                        </li>
-                        <li>
-                          <a href="#">brand</a>
-                        </li>
-                        <li>
-                          <a href="#">black</a>
-                        </li>
-                        <li>
-                          <a href="#">white</a>
-                        </li>
-                        <li>
-                          <a href="#">chire</a>
-                        </li>
-                        <li>
-                          <a href="#">table</a>
-                        </li>
-                        <li>
-                          <a href="#">Lorem</a>
-                        </li>
-                        <li>
-                          <a href="#">ipsum</a>
-                        </li>
-                        <li>
-                          <a href="#">dolor</a>
-                        </li>
-                        <li>
-                          <a href="#">sit</a>
-                        </li>
-                        <li>
-                          <a href="#">amet</a>
-                        </li>
-                      </ul>
-                    </div>
-
+                  {/* <div className="blog-footer row mt-45 tex">
                     <div className="post-share col-lg-6 col-12 mv-15">
                       <h4>Share:</h4>
                       <ul className="share">
@@ -137,113 +121,67 @@ const BlogDetail = () => {
                         </li>
                       </ul>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
 
             <div className="col-xl-3 col-lg-4 col-12 order-2 order-lg-1 mb-40">
               <div className="sidebar">
-                <h4 className="sidebar-title">Archive</h4>
-                <ul className="sidebar-list">
-                  <li>
-                    <a href="#">July 2018</a>
-                  </li>
-                  <li>
-                    <a href="#">June 2018</a>
-                  </li>
-                  <li>
-                    <a href="#">May 2018</a>
-                  </li>
-                  <li>
-                    <a href="#">April 2018</a>
-                  </li>
-                  <li>
-                    <a href="#">March 2018</a>
-                  </li>
-                  <li>
-                    <a href="#">February 2018</a>
-                  </li>
-                </ul>
+                <h4 className="sidebar-title">Product In Blog</h4>
+                <Slider
+                  {...bestDealSliderSettings}
+                  className="best-deal-slider w-100"
+                >
+                  {product.map((product) => {
+                    const images = product.image
+                      .replace(/[\[\]]/g, "") // Remove square brackets
+                      .split(",");
+                    return (
+                      <div key={product.productId} className="slide-item">
+                        <div className="best-deal-product">
+                          <div className="image">
+                            <a href={`single-product/${product.productId}`}>
+                              <img src={images[0]} />
+                            </a>
+                          </div>
+                        </div>
+                        <div className="content-top">
+                          <div className="content-top-left">
+                            <div className="d-flex justify-between items-center">
+                              <h4 className="title font-semibold text-base">
+                                <a href={`single-product/${product.productId}`}>
+                                  {product.productName}
+                                </a>
+                              </h4>
+                              <span className="price old font-semibold text-base">
+                                {product.price.toLocaleString()}VND
+                              </span>
+                            </div>
+                            <div className="ratting text-yellow-400">
+                              <i className="fa fa-star" />
+                              <i className="fa fa-star" />
+                              <i className="fa fa-star" />
+                              <i className="fa fa-star" />
+                              <i className="fa fa-star-half-o" />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="content-bottom text-center font-semibold text-lg text-black hover:text-[#ff708a]">
+                          <div
+                            className="countdown"
+                            data-countdown="2021/06/20"
+                          />
+                          <a href="#" data-hover="ADD TO CART">
+                            ADD TO CART
+                          </a>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Slider>
               </div>
-
-              <div className="sidebar">
-                <h4 className="sidebar-title">Popular Blog</h4>
-                <div className="sidebar-blog-wrap">
-                  <div className="sidebar-blog">
-                    <a href="single-blog.html" className="image">
-                      <img src="/src/assets/images/blog/blog-1.jpg" alt="" />
-                    </a>
-                    <div className="content">
-                      <a href="single-product.html" className="title">
-                        Lates and new Trens for baby fashion
-                      </a>
-                      <span className="date">25 may</span>
-                    </div>
-                  </div>
-                  <div className="sidebar-blog">
-                    <a href="single-blog.html" className="image">
-                      <img src="/src/assets/images/blog/blog-2.jpg" alt="" />
-                    </a>
-                    <div className="content">
-                      <a href="single-product.html" className="title">
-                        New Collection New Trend all New Style
-                      </a>
-                      <span className="date">25 may</span>
-                    </div>
-                  </div>
-                  <div className="sidebar-blog">
-                    <a href="single-blog.html" className="image">
-                      <img src="/src/assets/images/blog/blog-3.jpg" alt="" />
-                    </a>
-                    <div className="content">
-                      <a href="single-product.html" className="title">
-                        Lates and new Trens for baby fashion
-                      </a>
-                      <span className="date">25 may</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="sidebar">
-                <h3 className="sidebar-title">Tags</h3>
-                <ul className="sidebar-tag">
-                  <li>
-                    <a href="#">New</a>
-                  </li>
-                  <li>
-                    <a href="#">brand</a>
-                  </li>
-                  <li>
-                    <a href="#">black</a>
-                  </li>
-                  <li>
-                    <a href="#">white</a>
-                  </li>
-                  <li>
-                    <a href="#">chire</a>
-                  </li>
-                  <li>
-                    <a href="#">table</a>
-                  </li>
-                  <li>
-                    <a href="#">Lorem</a>
-                  </li>
-                  <li>
-                    <a href="#">ipsum</a>
-                  </li>
-                  <li>
-                    <a href="#">dolor</a>
-                  </li>
-                  <li>
-                    <a href="#">sit</a>
-                  </li>
-                  <li>
-                    <a href="#">amet</a>
-                  </li>
-                </ul>
-              </div>
+              <OtherBlog currBlogId={blog?.blogId || null} />
             </div>
           </div>
         </div>
