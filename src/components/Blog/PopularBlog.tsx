@@ -8,7 +8,7 @@ interface OtherBlog {
 
 const OtherBlog: FC<OtherBlog> = ({ currBlogId }) => {
   const [blogs, setBlogs] = useState<BlogObj[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [pageNo] = useState<number>(0);
   const [pageSize] = useState<number>(9);
@@ -22,7 +22,7 @@ const OtherBlog: FC<OtherBlog> = ({ currBlogId }) => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-      setError("Failed to load blog.");
+      setError("Failed to load blog details.");
       setLoading(false);
     }
   }, [pageNo, pageSize]);

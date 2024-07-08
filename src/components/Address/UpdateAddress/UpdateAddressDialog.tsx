@@ -83,7 +83,7 @@ const UpdateAddressDialog: React.FC<UpdateAddressDialogProps> = ({
     try {
       if (data.district)
         // Perform API call to update address
-        await agent.Address.updateAddress(address.addressId, data);
+        await agent.Address.updateAddress(data);
       // Optionally, update local state or notify parent component
 
       toast({
