@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import agent from "../api/agent";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loading from "../components/Loading";
 import { CartItems, useCart } from "@/context/cart/CartContext";
 import { useWishlist } from "@/context/wishlist/WishlistContext";
 import { useCategory } from "@/components/Shop/Category/CategoryContext";
@@ -14,6 +13,7 @@ import Pagination from "@/components/Pagination";
 import { NotFoundProduct } from "@/components/Shop/NoProduct";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Button, TextField } from "@mui/material";
+import { Loader } from "@/components/Loader";
 
 const Shop: React.FC = () => {
   const { addToCart } = useCart();
@@ -32,12 +32,9 @@ const Shop: React.FC = () => {
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
-    console.log("brand", selectedBrand);
-    console.log("cate", selectedCategories);
 
     try {
       let response;
-      console.log("ct len", selectedCategories.length);
 
       if (!selectedCategories && !selectedBrand.length && !searchTerm) {
         // Fetch all products without search
@@ -80,7 +77,6 @@ const Shop: React.FC = () => {
         );
       }
       // console.log(response.data.content);
-      console.log(products);
 
       if (response && Array.isArray(response.data.content)) {
         setProducts(response.data.content);
@@ -177,10 +173,10 @@ const Shop: React.FC = () => {
           )}
         />
       </div>
-      <div className="">
+      <div className="w-full">
         {loading ? (
-          <div className="d-flex justify-center items-center">
-            <Loading />
+          <div className="text-center">
+            <Loader />
           </div>
         ) : products.length > 0 ? (
           <div className="row">

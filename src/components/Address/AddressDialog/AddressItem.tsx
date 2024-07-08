@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,26 +53,26 @@ const AddressItem: React.FC<AddressItemProps> = ({
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <button className="h-8 w-8 p-0">
+            <span className="h-8 w-8 p-0 cursor-pointer">
               <MoreHorizontal />
-            </button>
+            </span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
-              <button
+              <span
                 onClick={() => onUpdate(addr)}
-                className="text-black bg-transparent"
+                className="text-black bg-transparent cursor-pointer"
               >
                 Update
-              </button>
+              </span>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <button
+              <span
                 onClick={() => handleDeleteClick(addr.addressId)}
-                className="text-black bg-transparent"
+                className="text-black bg-transparent cursor-pointer"
               >
                 Delete
-              </button>
+              </span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

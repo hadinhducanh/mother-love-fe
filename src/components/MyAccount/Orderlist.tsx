@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import agent from '../../api/agent';
-import { OrderResponse } from '@/model/Order';
-import { useAuth } from '@/context/auth/AuthContext';
-import Loading from '../Loading';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import agent from "../../api/agent";
+import { OrderResponse } from "@/model/Order";
+import { useAuth } from "@/context/auth/AuthContext";
+import Loading from "../Loading";
+import { useNavigate } from "react-router-dom";
+import { Loader } from "../Loader";
 
 export const OrdersList = () => {
   const navigate = useNavigate();
@@ -16,8 +17,8 @@ export const OrdersList = () => {
     pageSize: 5,
   });
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
   const [filterApplied, setFilterApplied] = useState<boolean>(false);
 
   const fetchOrders = async () => {
@@ -27,14 +28,14 @@ export const OrdersList = () => {
     try {
       if (userId != null) {
         if (filterApplied) {
-          const sortDirection = 'asc'; 
+          const sortDirection = "asc";
           const response = await agent.Orders.getOrdersByDateRange(
             pageSettings.pageNo,
             pageSettings.pageSize,
-            'orderId', 
+            "orderId",
             sortDirection,
-            startDate ? `${startDate}T00:00:00` : '',
-            endDate ? `${endDate}T23:59:59` : ''
+            startDate ? `${startDate}T00:00:00` : "",
+            endDate ? `${endDate}T23:59:59` : ""
           );
 
           if (response && Array.isArray(response.content)) {
@@ -44,7 +45,11 @@ export const OrdersList = () => {
             throw new Error("Fetched data is not in expected format");
           }
         } else {
-          const response = await agent.Orders.getOrdersByUserId(userId, pageSettings.pageNo, pageSettings.pageSize);
+          const response = await agent.Orders.getOrdersByUserId(
+            userId,
+            pageSettings.pageNo,
+            pageSettings.pageSize
+          );
 
           if (response && Array.isArray(response.content)) {
             setOrders(response.content);
@@ -68,36 +73,40 @@ export const OrdersList = () => {
   }, [userId, pageSettings.pageNo, filterApplied]);
 
   const handlePageClick = (pageNumber: number) => {
-    setPageSettings(prev => ({
+    setPageSettings((prev) => ({
       ...prev,
       pageNo: pageNumber - 1,
     }));
   };
 
   const handleViewOrder = (orderId: number) => {
-    navigate(`/orders/${orderId}`); 
+    navigate(`/orders/${orderId}`);
   };
 
   const handleFilterSubmit = () => {
     setFilterApplied(true);
-    setPageSettings(prev => ({
+    setPageSettings((prev) => ({
       ...prev,
-      pageNo: 0, 
+      pageNo: 0,
     }));
   };
 
   const handleResetFilter = () => {
-    setStartDate('');
-    setEndDate('');
+    setStartDate("");
+    setEndDate("");
     setFilterApplied(false);
-    setPageSettings(prev => ({
+    setPageSettings((prev) => ({
       ...prev,
-      pageNo: 0, 
+      pageNo: 0,
     }));
   };
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className="text-center">
+        <Loader />
+      </div>
+    );
   }
 
   if (error) {
@@ -132,16 +141,10 @@ export const OrdersList = () => {
           />
         </div>
         <div>
-          <button
-            className="btn btn-primary mr-2"
-            onClick={handleFilterSubmit}
-          >
+          <button className="btn btn-primary mr-2" onClick={handleFilterSubmit}>
             Apply Filter
           </button>
-          <button
-            className="btn btn-secondary"
-            onClick={handleResetFilter}
-          >
+          <button className="btn btn-secondary" onClick={handleResetFilter}>
             Reset
           </button>
         </div>
@@ -162,7 +165,9 @@ export const OrdersList = () => {
             {orders.length > 0 ? (
               orders.map((order) => (
                 <tr key={order.orderDto.orderId}>
-                  <td>{new Date(order.orderDto.orderDate).toLocaleDateString()}</td>
+                  <td>
+                    {new Date(order.orderDto.orderDate).toLocaleDateString()}
+                  </td>
                   <td>{order.orderDto.status}</td>
                   <td>{order.orderDto.afterTotalAmount.toLocaleString()}</td>
                   <td>
@@ -186,7 +191,11 @@ export const OrdersList = () => {
 
       <div className="d-flex justify-content-center">
         <ul className="pagination">
-          <li className={`page-item ${pageSettings.pageNo === 0 ? "disabled" : ""}`}>
+          <li
+            className={`page-item ${
+              pageSettings.pageNo === 0 ? "disabled" : ""
+            }`}
+          >
             <button
               className="page-link"
               onClick={() => handlePageClick(pageSettings.pageNo)}
@@ -198,7 +207,9 @@ export const OrdersList = () => {
           {Array.from(Array(totalPages).keys()).map((pageNumber) => (
             <li
               key={pageNumber}
-              className={`page-item ${pageNumber === pageSettings.pageNo ? "active" : ""}`}
+              className={`page-item ${
+                pageNumber === pageSettings.pageNo ? "active" : ""
+              }`}
             >
               <button
                 className="page-link"
@@ -208,7 +219,11 @@ export const OrdersList = () => {
               </button>
             </li>
           ))}
-          <li className={`page-item ${pageSettings.pageNo === totalPages - 1 ? "disabled" : ""}`}>
+          <li
+            className={`page-item ${
+              pageSettings.pageNo === totalPages - 1 ? "disabled" : ""
+            }`}
+          >
             <button
               className="page-link"
               onClick={() => handlePageClick(pageSettings.pageNo + 1)}

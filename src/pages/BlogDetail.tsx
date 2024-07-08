@@ -173,8 +173,11 @@ const BlogDetail: React.FC = () => {
                             className="countdown"
                             data-countdown="2021/06/20"
                           />
-                          <a href="#" data-hover="ADD TO CART">
-                            ADD TO CART
+                          <a
+                            href={`/single-product/${product.productId}`}
+                            data-hover="ADD TO CART"
+                          >
+                            View Detail
                           </a>
                         </div>
                       </div>

@@ -5,110 +5,63 @@ const HeroSection = () => {
     arrows: true,
     autoplay: true,
     autoplaySpeed: 5000,
-    dots: true,
+    // dots: true,
     pauseOnFocus: false,
     pauseOnHover: false,
     fade: true,
     infinite: true,
     slidesToShow: 1,
-    // prevArrow: (
-    //   <button
-    //     type="button"
-    //     style={{
-    //       backgroundColor: "#fff",
-    //       border: "none",
-    //       color: "#000",
-    //       fontSize: "18px",
-    //       padding: "10px",
-    //       cursor: "pointer",
-    //     }}
-    //     className="slick-prev"
-    //   >
-    //     <i className="icofont icofont-long-arrow-left"></i>
-    //   </button>
-    // ),
-    // nextArrow: (
-    //   <button
-    //     type="button"
-    //     style={{
-    //       backgroundColor: "#fff",
-    //       border: "none",
-    //       color: "#000",
-    //       fontSize: "18px",
-    //       padding: "10px",
-    //       cursor: "pointer",
-    //     }}
-    //     className="slick-next"
-    //   >
-    //     <i className="icofont icofont-long-arrow-right"></i>
-    //   </button>
-    // ),
   };
   return (
-    <div>
-      {/* Hero Section Start */}
-      <div className="hero-section section">
-        {/* Hero Slider Start */}
+    <div
+      className="hero-section section"
+      style={{
+        width: "100%",
+        backgroundPosition: "center",
+        backgroundImage: `url('https://res.cloudinary.com/dhgg72vfy/image/upload/v1720430096/slider_01_v3_bf417f92-1b8f-4c2d-aad5-dfc606c855df_o3u3hj.webp')`,
+      }}
+    >
+      <Slider {...settings} className="hero-slider hero-slider-three fix">
         <div
-          className="hero-slider hero-slider-two fix vw-100"
+          className="hero-item w-full"
           style={{
-            backgroundImage:
-              "url(https://jadusona.myshopify.com/cdn/shop/files/slider_01_v3_bf417f92-1b8f-4c2d-aad5-dfc606c855df.png?v=1614319633)",
+            width: "100%",
             backgroundPosition: "center",
+            backgroundImage: `url('https://res.cloudinary.com/dhgg72vfy/image/upload/v1720430096/slider_01_v3_bf417f92-1b8f-4c2d-aad5-dfc606c855df_o3u3hj.webp')`,
           }}
         >
-          {/* Hero Item Start */}
-          <Slider {...settings} className="hero-slider">
-            <div
-              className="hero-item-2 "
-              style={{
-                backgroundImage:
-                  "url(https://jadusona.myshopify.com/cdn/shop/files/slider_01_v3_bf417f92-1b8f-4c2d-aad5-dfc606c855df.png?v=1614319633)",
-              }}
-            >
-              <div className="container">
-                <div className="row align-items-center ">
-                  <div className="col-md-6 col-12 mt-20 mb-20 order-2 order-md-1">
-                    <div className="hero-content-2 py-28">
-                      <h1>
-                        New Arrivals <br /> Get flat <span>50%</span> off
-                      </h1>
-                      <a href="#">SHOP NOW</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="container">
+            {/* Hero Content */}
+            <div className="hero-content-2">
+              <h1>
+                Trendy &amp; Hot <br /> Baby collection 2019
+              </h1>
+              <a href="#">SHOP NOW</a>
             </div>
-            {/* Hero Item End */}
-            {/* Hero Item Start */}
-            <div
-              className="hero-item-2 "
-              style={{
-                backgroundImage:
-                  "url(https://jadusona.myshopify.com/cdn/shop/files/slider_01_v3_bf417f92-1b8f-4c2d-aad5-dfc606c855df.png?v=1614319633)",
-              }}
-            >
-              <div className="container">
-                <div className="row align-items-center">
-                  {/* Hero Image */}
-                  {/* Hero Content */}
-                  <div className="d-flex col-md-6 col-12 mt-20 mb-20 order-2 order-md-1">
-                    <div className="hero-content-2 py-28">
-                      <h1>
-                        New Arrivals <br /> Get flat <span>50%</span> off
-                      </h1>
-                      <a href="#">SHOP NOW</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Slider>
-          {/* Hero Item End */}
+          </div>
         </div>
-        {/* Hero Slider End */}
-      </div>
-      {/* Hero Section End */}
+        {/* Hero Item End */}
+        {/* Hero Item Start */}
+        <div
+          className="hero-item"
+          style={{
+            width: "100%",
+            backgroundImage: `url('https://res.cloudinary.com/dhgg72vfy/image/upload/v1720430619/happy-baby-on-white-bed-600nw-1924379708_toldig.webp')`,
+          }}
+        >
+          <div className="container">
+            {/* Hero Content */}
+            <div className="hero-content-2">
+              <h1>
+                Get 35% off <br />
+                Latest Baby Product
+              </h1>
+              <a href="#">SHOP NOW</a>
+            </div>
+          </div>
+        </div>
+        {/* Hero Item End */}
+      </Slider>
     </div>
   );
 };
