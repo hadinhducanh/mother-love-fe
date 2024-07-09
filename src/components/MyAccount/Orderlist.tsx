@@ -20,6 +20,12 @@ export const OrdersList = () => {
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [filterApplied, setFilterApplied] = useState<boolean>(false);
+  const renderDateAndTime = (dateTime: string) => {
+    const date = new Date(dateTime);
+    const formattedDate = date.toLocaleDateString();
+    const formattedTime = date.toLocaleTimeString();
+    return { formattedDate, formattedTime };
+  };
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -76,7 +82,7 @@ export const OrdersList = () => {
   const handlePageClick = (pageNumber: number) => {
     setPageSettings((prev) => ({
       ...prev,
-      pageNo: pageNumber - 1,
+      pageNo: pageNumber,
     }));
   };
 
@@ -86,20 +92,20 @@ export const OrdersList = () => {
 
   const handleFilterSubmit = () => {
     setFilterApplied(true);
-    setPageSettings((prev) => ({
-      ...prev,
+    setPageSettings({
+      ...pageSettings,
       pageNo: 0,
-    }));
+    });
   };
 
   const handleResetFilter = () => {
     setStartDate("");
     setEndDate("");
     setFilterApplied(false);
-    setPageSettings((prev) => ({
-      ...prev,
+    setPageSettings({
+      ...pageSettings,
       pageNo: 0,
-    }));
+    });
   };
 
   if (loading) {
@@ -113,6 +119,88 @@ export const OrdersList = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+  // Render pagination
+  const renderPagination = () => {
+    if (totalPages <= 1) {
+      return null; // Hide pagination if there is only one page
+    }
+
+    const visiblePages = 3; // Number of pages to show near the current page
+
+    let startPage = Math.max(0, pageSettings.pageNo - Math.floor(visiblePages / 2));
+    let endPage = Math.min(totalPages - 1, startPage + visiblePages - 1);
+
+    if (endPage - startPage < visiblePages - 1) {
+      startPage = Math.max(0, endPage - visiblePages + 1);
+    }
+
+    const pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+
+    return (
+      <ul className="pagination">
+        <li className={`page-item ${pageSettings.pageNo === 0 ? "disabled" : ""}`}>
+          <button
+            className="page-link"
+            onClick={() => handlePageClick(pageSettings.pageNo - 1)}
+            disabled={pageSettings.pageNo === 0}
+          >
+            Previous
+          </button>
+        </li>
+        {startPage > 0 && (
+          <li className="page-item">
+            <button className="page-link" onClick={() => handlePageClick(0)}>
+              1
+            </button>
+          </li>
+        )}
+        {startPage > 1 && (
+          <li className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        )}
+        {pages.map((pageNumber) => (
+          <li
+            key={pageNumber}
+            className={`page-item ${pageNumber === pageSettings.pageNo ? "active" : ""}`}
+          >
+            <button className="page-link" onClick={() => handlePageClick(pageNumber)}>
+              {pageNumber + 1}
+            </button>
+          </li>
+        ))}
+        {endPage < totalPages - 2 && (
+          <li className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        )}
+        {endPage < totalPages - 1 && (
+          <li className="page-item">
+            <button
+              className="page-link"
+              onClick={() => handlePageClick(totalPages - 1)}
+            >
+              {totalPages}
+            </button>
+          </li>
+        )}
+        <li
+          className={`page-item ${
+            pageSettings.pageNo === totalPages - 1 ? "disabled" : ""
+          }`}
+        >
+          <button
+            className="page-link"
+            onClick={() => handlePageClick(pageSettings.pageNo + 1)}
+            disabled={pageSettings.pageNo === totalPages - 1}
+          >
+            Next
+          </button>
+        </li>
+      </ul>
+    );
+  };
 
   return (
     <div className="myaccount-content">
@@ -152,10 +240,11 @@ export const OrdersList = () => {
       </div>
 
       <div className="myaccount-table table-responsive text-center">
-        <table className="table table-bordered">
+      <table className="table table-bordered">
           <thead className="thead-light">
             <tr>
               <th>Date</th>
+              <th>Time</th>
               <th>Status</th>
               <th>Total</th>
               <th>Action</th>
@@ -166,9 +255,8 @@ export const OrdersList = () => {
             {orders.length > 0 ? (
               orders.map((order) => (
                 <tr key={order.orderDto.orderId}>
-                  <td>
-                    {new Date(order.orderDto.orderDate).toLocaleDateString()}
-                  </td>
+                  <td>{renderDateAndTime(order.orderDto.orderDate).formattedDate}</td>
+                  <td>{renderDateAndTime(order.orderDto.orderDate).formattedTime}</td>
                   <td>{order.orderDto.status}</td>
                   <td>{order.orderDto.afterTotalAmount.toLocaleString()}</td>
                   <td>
@@ -183,7 +271,7 @@ export const OrdersList = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={4}>No orders found</td>
+                <td colSpan={5}>No orders found</td>
               </tr>
             )}
           </tbody>
@@ -191,50 +279,10 @@ export const OrdersList = () => {
       </div>
 
       <div className="d-flex justify-content-center">
-        <ul className="pagination">
-          <li
-            className={`page-item ${
-              pageSettings.pageNo === 0 ? "disabled" : ""
-            }`}
-          >
-            <button
-              className="page-link"
-              onClick={() => handlePageClick(pageSettings.pageNo)}
-              disabled={pageSettings.pageNo === 0}
-            >
-              Previous
-            </button>
-          </li>
-          {Array.from(Array(totalPages).keys()).map((pageNumber) => (
-            <li
-              key={pageNumber}
-              className={`page-item ${
-                pageNumber === pageSettings.pageNo ? "active" : ""
-              }`}
-            >
-              <button
-                className="page-link"
-                onClick={() => handlePageClick(pageNumber + 1)}
-              >
-                {pageNumber + 1}
-              </button>
-            </li>
-          ))}
-          <li
-            className={`page-item ${
-              pageSettings.pageNo === totalPages - 1 ? "disabled" : ""
-            }`}
-          >
-            <button
-              className="page-link"
-              onClick={() => handlePageClick(pageSettings.pageNo + 1)}
-              disabled={pageSettings.pageNo === totalPages - 1}
-            >
-              Next
-            </button>
-          </li>
-        </ul>
+        {renderPagination()}
       </div>
     </div>
   );
 };
+
+export default OrdersList;

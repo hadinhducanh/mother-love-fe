@@ -59,7 +59,7 @@ const Vouchers: React.FC = () => {
         await agent.Voucher.addVoucherForMember(userId, voucherId);
         toast.success("Voucher saved successfully!");
       } else {
-        throw new Error("User ID not found");
+        toast.error("You must to login to save voucher!");
       }
     } catch (error: any) {
       console.error("Failed to save voucher:", error);
@@ -149,7 +149,7 @@ const Vouchers: React.FC = () => {
           flex: 1;
           display: flex;
           flex-direction: column;
-          align-items: flex-start; /* Đổi từ center thành flex-start */
+          align-items: flex-start; 
         }
 
         .voucher-left h4 {
@@ -181,7 +181,7 @@ const Vouchers: React.FC = () => {
           
 
         .save-voucher-btn:hover {
-          background-color: #ff1493; /* Màu hồng đậm hơn khi hover */
+          background-color: #ff1493; 
         }
       `}</style>
     </>
