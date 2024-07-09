@@ -13,7 +13,7 @@ import { useCart } from "../context/cart/CartContext";
 import { useWishlist } from "../context/wishlist/WishlistContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Feedback from "@/components/Product/Feedback";
+import Feedback from "@/components/Feedback/Feedback";
 
 const Product = () => {
   const proThumbIMGSettings = {
@@ -261,7 +261,6 @@ const Product = () => {
                   </div>
                   {/* single - product - content end*/}
 
-                  {/* More infor */}
                   <div className="row mb-50">
                     <div className="col-12">
                       <ul className="pro-info-tab-list section nav">
@@ -313,7 +312,7 @@ const Product = () => {
                         </table>
                       </div>
                       <div className="pro-info-tab tab-pane" id="reviews">
-                        <Feedback />
+                        <Feedback productId={productId} />
                       </div>
                     </div>
                   </div>
