@@ -48,7 +48,7 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
         throw new Error("User is not logged in");
       }
   
-
+      localStorage.removeItem("cart");
       const orderData = await agent.Orders.createOrder(userId, addressId, voucherId, orderItems);
 
   

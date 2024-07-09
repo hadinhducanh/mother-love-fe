@@ -114,7 +114,7 @@ const Products = {
 const Blog = {
   list: createListEndpoint('blogs', 'blogId'),
   details: async (id: number) => requests.get(`blogs/${id}`),
-  searchBlog: (pageNo: number, pageSize: number,searchTerm: string) => requests.get(`blogs/search?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=blogId&sortDir=asc&searchText=${searchTerm}`)
+  searchBlog: (pageNo: number, pageSize: number, searchTerm: string) => requests.get(`blogs/search?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=blogId&sortDir=asc&searchText=${searchTerm}`)
 };
 
 // Brand API methods
@@ -138,7 +138,7 @@ const Voucher = {
 const Address = {
   listByUserId: async (userId: number, pageNo: number, pageSize: number) => requests.get(`address/user?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=addressId&sortDir=asc&userId=${userId}`),
   updateDefaultAddress: async (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => requests.updateDefaultAddress(userId, addressOldId, addressNewId),
-  updateAddress: async ( updatedAddress: any) => requests.updateAddress(updatedAddress),
+  updateAddress: async (updatedAddress: any) => requests.updateAddress(updatedAddress),
   addNewAddress: async (newAddress: any) => requests.post('address', newAddress),
   deleteAddress: async (addressId: number) => requests.delete(`address/${addressId}`),
 };
@@ -158,13 +158,16 @@ const Orders = {
   getOrdersByUserId: async (userId: number, pageNo: number, pageSize: number) =>
     requests.get(`orders/user/${userId}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=orderDate&sortDir=desc`),
   getOrderById: async (orderId: number) => requests.get(`orders/order/${orderId}`),
-  getOrdersByDateRange: async ( pageNo: number, pageSize: number, sortBy: string, sortDir: string, orderDateFrom: string, orderDateTo: string, userId:number) =>
+  getOrdersByDateRange: async (pageNo: number, pageSize: number, sortBy: string, sortDir: string, orderDateFrom: string, orderDateTo: string, userId: number) =>
     requests.get('orders/search', { pageNo, pageSize, sortBy, sortDir, orderDateFrom, orderDateTo, userId }),
+  addFeedback: async (userId: number, orderId: number, feedback: { rating: number, comment: string, image: string, productId: number }[]) => 
+    requests.post(`feedbacks?userId=${userId}&orderId=${orderId}`, feedback),
+  getOrderFeedbacks: async (orderId: number) => requests.get(`feedbacks/order/${orderId}`), // New method to get feedbacks by orderId
 };
 
 // Payment API methods
 const Payment = {
-  vnPay: async ( orderId: number) => requests.get('payment/vn-pay', {  bankCode: 'NCB', orderId}),
+  vnPay: async (orderId: number) => requests.get('payment/vn-pay', { bankCode: 'NCB', orderId }),
   addPaymentHistory: async (paymentData: { amount: number, status: number, paymentMethodId: number, orderId: number }) =>
     requests.post('payment-histories', paymentData),
 };
