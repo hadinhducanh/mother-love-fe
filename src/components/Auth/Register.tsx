@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-
 export const Register = () => {
     const { register } = useAuth();
     const navigate = useNavigate();
@@ -13,7 +12,7 @@ export const Register = () => {
         email: '',
         phone: '',
         password: '',
-        gender: '',
+        gender: 'Male', 
         confirmPassword: ''
     });
 
@@ -35,7 +34,7 @@ export const Register = () => {
             await register(username, fullName, email, phone, password, gender);
             alert('Registration successful');
             navigate('/');
-        } catch (error:any) {
+        } catch (error: any) {
             alert('Registration failed: ' + error.message);
         }
     };
@@ -61,11 +60,19 @@ export const Register = () => {
                         <div className="col-md-6 col-12 mb-15">
                             <input type="password" name="password" placeholder="Password" onChange={handleChange} />
                         </div>
-                        <div className="col-md-6 col-12 mb-15">
-                            <input type="text" name="gender" placeholder="Gender" onChange={handleChange} />
-                        </div>
+                        
                         <div className="col-md-6 col-12 mb-15">
                             <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} />
+                        </div>
+                        <div className="col-md-6 col-12 mb-15">
+                            <label>
+                                <input type="radio" name="gender" value="Male" checked={formData.gender === 'Male'} onChange={handleChange} />
+                                Male
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="Female" checked={formData.gender === 'Female'} onChange={handleChange} />
+                                Female
+                            </label>
                         </div>
                         <div className="col-md-6 col-12">
                             <input type="submit" value="Register" />
