@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import agent from "../../api/agent";
 import { OrderResponse } from "@/model/Order";
 import { useAuth } from "@/context/auth/AuthContext";
-import Loading from "../Loading";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../Loader";
 
