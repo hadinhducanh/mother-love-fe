@@ -17,8 +17,9 @@ export const OrderDetail = () => {
   const [error, setError] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const [showViewFeedbackModal, setShowViewFeedbackModal] = useState(false); // Thêm trạng thái mới
-  const [feedbacks, setFeedbacks] = useState<any[]>([]); // Thêm trạng thái để lưu trữ feedbacks
+  const [showViewFeedbackModal, setShowViewFeedbackModal] = useState(false);
+  const [feedbacks, setFeedbacks] = useState<any[]>([]);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false); // State để theo dõi feedback đã submit thành công
   const { userId } = useAuth();
 
   useEffect(() => {
@@ -38,6 +39,13 @@ export const OrderDetail = () => {
 
     fetchOrderDetail();
   }, [orderId]);
+
+  useEffect(() => {
+    if (feedbackSubmitted) {
+      // Reload the page after feedback is successfully submitted
+      window.location.reload();
+    }
+  }, [feedbackSubmitted]);
 
   const fetchFeedbacks = async () => {
     try {
@@ -73,16 +81,21 @@ export const OrderDetail = () => {
       const transformedFeedbacks = feedbacks.map(feedback => ({
         rating: feedback.rating,
         comment: feedback.comment,
-        image: '',  
+        image: feedback.image,  
         productId: feedback.productId
       }));
+      console.log('transformedFeedbacks', transformedFeedbacks);
       if (!userId) {
         throw new Error("User is not logged in");
       }
-
+  
       await agent.Orders.addFeedback(userId, Number(orderId), transformedFeedbacks);
   
       setShowFeedbackModal(false);
+  
+      // Set feedback submitted state to true
+      setFeedbackSubmitted(true);
+  
     } catch (error) {
       console.error('Failed to submit feedback', error);
     }
@@ -211,6 +224,8 @@ export const OrderDetail = () => {
           feedbacks={feedbacks} 
         />
       )}
+
+      {feedbackSubmitted && <p style={{ color: 'green' }}>Feedback successfully!</p>}
     </>
   );
 };

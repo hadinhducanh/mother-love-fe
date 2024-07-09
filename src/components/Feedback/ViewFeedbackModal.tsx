@@ -18,7 +18,7 @@ const ViewFeedbackModal: React.FC<ViewFeedbackModalProps> = ({ show, onHide, fee
       <Modal.Body>
        
           {feedbacks.map((feedback, index) => {
-             const images = feedback.product.image.replace(/[\[\]]/g, "").split(",");
+            
           return(
             <Card key={index} className="mb-3">
               <Card.Body>
@@ -26,7 +26,7 @@ const ViewFeedbackModal: React.FC<ViewFeedbackModalProps> = ({ show, onHide, fee
                 <Card.Text>
                   <strong>Rating:</strong> {feedback.rating}<br />
                   <strong>Comment:</strong> {feedback.comment}<br />
-                  <img src={images[0]}  style={{ maxWidth: '100%', marginTop: '10px' }} />
+                  <img src={feedback.image}  style={{ height:'100px', width:'100px' }} />
                 </Card.Text>
               </Card.Body>
             </Card>

@@ -6,21 +6,35 @@ interface FeedbackModalProps {
   show: boolean;
   onHide: () => void;
   orderItems: OrderDetail[];
-  onSubmitFeedback: (feedback: { rating: number; comment: string; image:string; productId: number }[]) => void;
+  onSubmitFeedback: (feedback: { rating: number; comment: string; image: string; productId: number }[]) => void;
 }
 
 const FeedbackModal: React.FC<FeedbackModalProps> = ({ show, onHide, orderItems, onSubmitFeedback }) => {
-  const [feedbacks, setFeedbacks] = useState(orderItems.map(item => ({
-    rating: 5,
-    comment: '',
-    image: '',
-    productId: item.product.productId
-  })));
+  const [feedbacks, setFeedbacks] = useState(
+    orderItems.map(item => ({
+      rating: 5,
+      comment: '',
+      image: '', // Initialize image as empty string
+      productId: item.product.productId
+    }))
+  );
 
   const handleChange = (index: number, field: string, value: any) => {
     const newFeedbacks = [...feedbacks];
     newFeedbacks[index] = { ...newFeedbacks[index], [field]: value };
     setFeedbacks(newFeedbacks);
+  };
+
+  const handleImageUpload = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        const base64String = reader.result?.toString() || '';
+        handleChange(index, 'image', base64String);
+      };
+    }
   };
 
   const handleSubmit = () => {
@@ -56,6 +70,22 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({ show, onHide, orderItems,
                   value={feedbacks[index].comment}
                   onChange={(e) => handleChange(index, 'comment', e.target.value)}
                 />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Image for {orderItem.product.productName}</Form.Label>
+                <input
+                  type="file"
+                  onChange={(e) => handleImageUpload(index, e)}
+                />
+                {feedbacks[index].image && (
+                  <div>
+                    <img
+                      src={feedbacks[index].image}
+                      alt={`Image for ${orderItem.product.productName}`}
+                      style={{ maxWidth: '100px', marginTop: '10px' }}
+                    />
+                  </div>
+                )}
               </Form.Group>
               <Form.Group>
                 <Form.Label>Product</Form.Label>
