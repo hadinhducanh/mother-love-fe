@@ -34,7 +34,8 @@ export const OrdersList = () => {
             "orderId",
             sortDirection,
             startDate ? `${startDate}T00:00:00` : "",
-            endDate ? `${endDate}T23:59:59` : ""
+            endDate ? `${endDate}T23:59:59` : "",
+            userId
           );
 
           if (response && Array.isArray(response.content)) {
