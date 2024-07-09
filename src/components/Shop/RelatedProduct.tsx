@@ -4,15 +4,14 @@ import { FC, useEffect, useState } from "react";
 import { ProductsObj } from "../../model/Product";
 import agent from "../../api/agent";
 
-
 interface ProductProps {
   currentProductId: number;
 }
 
 export const RelatedProduct: FC<ProductProps> = ({ currentProductId }) => {
   const [products, setProducts] = useState<ProductsObj[]>([]);
-  const [pageNo, ] = useState<number>(0);
-  const [pageSize, ] = useState<number>(10);
+  const [pageNo] = useState<number>(0);
+  const [pageSize] = useState<number>(10);
   const [, setLoading] = useState<boolean>(true);
   const [, setError] = useState<string | null>(null);
 
@@ -119,8 +118,8 @@ export const RelatedProduct: FC<ProductProps> = ({ currentProductId }) => {
               .replace(/[\[\]]/g, "") // Remove square brackets
               .split(",");
             return (
-              <div className="col col-md-3">
-                <div key={productData.productId} className="product-item">
+              <div key={productData.productId} className="col col-md-3">
+                <div className="product-item">
                   <div className="product-inner">
                     <div className="image">
                       <img src={images[0]} alt="" />

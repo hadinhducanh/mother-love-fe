@@ -172,6 +172,9 @@ const Payment = {
     requests.post('payment-histories', paymentData),
 };
 
+const Feedback = {
+  listByProduct: (productId: number) => requests.get(`feedbacks/product/${productId}`),
+}
 const agent = {
   Products,
   Brand,
@@ -182,6 +185,7 @@ const agent = {
   Orders,
   Blog,
   Payment,
+  Feedback
 };
 
 export default agent;
