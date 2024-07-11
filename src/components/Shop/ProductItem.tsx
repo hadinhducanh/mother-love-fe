@@ -1,6 +1,6 @@
-// ProductItem.tsx
 import React from "react";
 import { CartItems } from "@/context/cart/CartContext";
+import { useNavigate } from "react-router";
 
 interface ProductItemProps {
   product: CartItems;
@@ -14,6 +14,18 @@ const ProductItem: React.FC<ProductItemProps> = ({
   onAddToWishlist,
 }) => {
   const images = product.image.replace(/[\[\]]/g, "").split(",");
+  const navigate = useNavigate();
+
+  const onPreOrder = (productId: number) => {
+    const preOrderItem = {
+      productId: productId,
+      productName: product.productName,
+      quantity: 1,
+    };
+    localStorage.setItem("preOrder", JSON.stringify(preOrderItem));
+    navigate("/pre-order");
+    
+  };
 
   return (
     <div className="col-xl-4 col-md-6 col-12 mb-40">
@@ -24,12 +36,21 @@ const ProductItem: React.FC<ProductItemProps> = ({
             <div className="image-overlay">
               <div className="action-buttons">
                 {product.quantityProduct > 0 ? (
-                  <button onClick={() => onAddToCart(product.productId)}>
-                    add to cart
-                  </button>
+                  product.status === "ACTIVE" ? (
+                    <button onClick={() => onAddToCart(product.productId)}>
+                      Add to cart
+                    </button>
+                  ) : product.status === "PRE_ORDER" ? (
+                    <button onClick={() => onPreOrder(product.productId)}>
+                      Pre-order
+                    </button>
+                  ) : (
+                    <button disabled>Sold out</button>
+                  )
                 ) : (
                   <button disabled>Sold out</button>
                 )}
+
                 <button onClick={() => onAddToWishlist(product.productId)}>
                   add to wishlist
                 </button>
@@ -59,7 +80,6 @@ const ProductItem: React.FC<ProductItemProps> = ({
                 }}
               >
                 {product.price.toLocaleString()}{" "}
-                {/* Sử dụng toLocaleString để định dạng */}
               </span>
             </div>
           </div>

@@ -22,6 +22,7 @@ import MyOrder from "@/pages/MyOrder";
 import MyAccount from "@/pages/MyAccount";
 import { Success } from "@/pages/Success";
 import Fail from "@/pages/Fail";
+import { PreOrder } from "@/pages/PreOrder";
 
 const AppWithProvider = () => {
   return (
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
       { path: "shop", element: <ShopWrapper /> },
       { path: "cart", element: <Cart /> },
       { path: "checkout", element: <Checkout /> },
+      { path: "pre-order", element: <PreOrder /> }, 
       { path: "voucher-list", element: <VoucherList /> },
       { path: "login-register", element: <LoginRegister /> },
       { path: "my-order", element: <MyOrder /> },
