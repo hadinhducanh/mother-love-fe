@@ -24,13 +24,12 @@ const ProductItem: React.FC<ProductItemProps> = ({
     };
     localStorage.setItem("preOrder", JSON.stringify(preOrderItem));
     navigate("/pre-order");
-    
   };
 
   return (
     <div className="col-xl-4 col-md-6 col-12 mb-40">
       <div className="product-item">
-        <div className="product-inner">
+        <div className="product-inner pb-0">
           <div className="image">
             <img src={images[0]} alt="" />
             <div className="image-overlay">
@@ -57,31 +56,31 @@ const ProductItem: React.FC<ProductItemProps> = ({
               </div>
             </div>
           </div>
-          <div className="content">
-            <div className="content-left">
-              <h4 className="title">
-                <a href={`/single-product/${product.productId}`}>
-                  {product.productName}
-                </a>
-              </h4>
-              <div className="ratting">
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star-half-o"></i>
-                <i className="fa fa-star-o"></i>
-              </div>
-              <span
-                style={{
-                  fontFamily: "Dosis, sans-serif",
-                  fontSize: "24px",
-                  fontWeight: 600,
-                  color: "#ff708a",
-                }}
-              >
-                {product.price.toLocaleString()}{" "}
-              </span>
+        </div>
+        <div className="content">
+          <div className="content-left">
+            <h4 className="title mb-1 text-xl font-semibold leading-6 mt-2 text-[#323132] hover:text-[#ff708a]">
+              <a href={`/single-product/${product.productId}`}>
+                {product.productName}
+              </a>
+            </h4>
+            <div className="ratting text-[#94c7eb] text-sm mb-2">
+              <i className="fa fa-star"></i>
+              <i className="fa fa-star"></i>
+              <i className="fa fa-star"></i>
+              <i className="fa fa-star-half-o"></i>
+              <i className="fa fa-star-o"></i>
             </div>
+            <span
+              style={{
+                fontFamily: "Dosis, sans-serif",
+                fontSize: "24px",
+                fontWeight: 600,
+                color: "#ff708a",
+              }}
+            >
+              {product.price.toLocaleString()}{" "}
+            </span>
           </div>
         </div>
       </div>

@@ -15,7 +15,7 @@ export const PreOrder = () => {
           <Banner
             pageName={"PreOrder"}
             singleName={"PreOrder"}
-            pictureUrl={"./src/assets/images/hero/hero-1.jpg"}
+            pictureUrl="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718358912/vrajlukd4rlhqd4rij09.jpg"
           />
           <CheckoutAddress onSelectAddress={setSelectedAddressId} />
           <CheckoutPreOrder selectedAddressId={selectedAddressId} />

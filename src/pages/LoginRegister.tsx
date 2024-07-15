@@ -9,21 +9,19 @@ const LoginRegister = () => {
       <Banner
         pageName={"Login & Register"}
         singleName={"Login & Register"}
-        pictureUrl="./src/assets/images/hero/hero-1.jpg"
+        pictureUrl="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718358912/vrajlukd4rlhqd4rij09.jpg"
       />
       <div className="page-section section section-padding justify-content-center">
         <div className="container">
           <div className="row mbn-40">
             <Login />
 
-               
-                <div className="col-lg-2 col-12 mb-40 text-center">
-                    <span className="login-register-separator"></span>
-                </div>
-
-                <Register/>
-
+            <div className="col-lg-2 col-12 mb-40 text-center">
+              <span className="login-register-separator"></span>
             </div>
+
+            <Register />
+          </div>
         </div>
       </div>
       <Brand />

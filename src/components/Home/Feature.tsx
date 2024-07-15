@@ -5,20 +5,20 @@ export const Feature = () => {
       <div className="feature-section section section-padding pt-0 fix">
         <div className="container-fluid">
           <div className="feature-wrap row row-10 mbn-20">
-            <div className="col-lg-4 col-md-6 col-12 mb-20">
+            <div className="col-lg-4 col-md-6 col-12 mb-20 ">
               <div
                 className="feature-item-2 text-center bg-theme-one"
                 style={{
                   backgroundImage:
-                    "url(./src/assets/images/feature/feature-1-bg.png)",
+                    "url(https://res.cloudinary.com/dhgg72vfy/image/upload/v1720786781/swd/feature/ks3blgrar1jejm0u8xog.png)",
                 }}
               >
-                <div className="icon">
-                  <img src="./src/assets/images/feature/feature-1.png" />
+                <div className="icon d-flex justify-center items-center">
+                  <img src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1720786683/swd/feature/pcdxljqhgzihg5hxf8nl.png" />
                 </div>
                 <div className="content">
                   <h3>Free Shipping</h3>
-                  <p>Start from $100</p>
+                  <p>Start from 100.000VND</p>
                 </div>
               </div>
             </div>
@@ -27,11 +27,11 @@ export const Feature = () => {
                 className="feature-item-2 text-center bg-theme-one"
                 style={{
                   backgroundImage:
-                    "url(./src/assets/images/feature/feature-2-bg.png)",
+                    "url(https://res.cloudinary.com/dhgg72vfy/image/upload/v1720786781/swd/feature/ky9tgbwlssei2pomgobs.png)",
                 }}
               >
-                <div className="icon">
-                  <img src="./src/assets/images/feature/feature-2.png" />
+                <div className="icon d-flex justify-center items-center">
+                  <img src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1720786683/swd/feature/jnqj2hqncs50zxmxnbwx.png" />
                 </div>
                 <div className="content">
                   <h3>Money Back Guarantee</h3>
@@ -44,11 +44,11 @@ export const Feature = () => {
                 className="feature-item-2 text-center bg-theme-one"
                 style={{
                   backgroundImage:
-                    "url(./src/assets/images/feature/feature-3-bg.png)",
+                    "url(https://res.cloudinary.com/dhgg72vfy/image/upload/v1720786781/swd/feature/qlkmw3lintnrnq2iz9tx.png)",
                 }}
               >
-                <div className="icon">
-                  <img src="./src/assets/images/feature/feature-3.png" />
+                <div className="icon d-flex justify-center items-center">
+                  <img src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1720786683/swd/feature/piaokzsjrvzls2x0gse0.png" />
                 </div>
                 <div className="content">
                   <h3>Secure Payment</h3>

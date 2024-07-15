@@ -5,6 +5,7 @@ import agent from "../api/agent"; // Ensure to import agent from your API module
 import { VoucherObjbyID } from "@/model/Voucher";
 import { useAuth } from "@/context/auth/AuthContext";
 import Modal, { Styles } from "react-modal";
+import { Separator } from "@/components/ui/separator";
 
 const Cart = () => {
   const {
@@ -16,13 +17,12 @@ const Cart = () => {
     discountApplied,
     setDiscountApplied,
     calculateSubtotal,
-    calculateTotal
+    calculateTotal,
   } = useCart();
-  const { getUserInfo } = useAuth();
+  const { getUserInfo, isLoggedIn } = useAuth();
   const [vouchers, setVouchers] = useState<VoucherObjbyID[]>([]);
   const [, setUserId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   useEffect(() => {
     const fetchMemberVouchers = async () => {
       try {
@@ -54,7 +54,9 @@ const Cart = () => {
         console.log("Applied voucher:", selectedVoucher);
         setDiscountApplied(true);
       } else {
-        console.log("Order subtotal is less than minimum order amount for this voucher.");
+        console.log(
+          "Order subtotal is less than minimum order amount for this voucher."
+        );
       }
     }
   };
@@ -81,21 +83,21 @@ const Cart = () => {
 
   const customStyles: Styles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '600px',
-      padding: '20px',
-      borderRadius: '8px',
-      overflowY: 'auto', // Add scroll bar when content exceeds modal height
-      maxHeight: '60vh', // Limit maximum height of modal to avoid it being too tall on screen
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: "600px",
+      padding: "20px",
+      borderRadius: "8px",
+      overflowY: "auto", // Add scroll bar when content exceeds modal height
+      maxHeight: "60vh", // Limit maximum height of modal to avoid it being too tall on screen
     },
     overlay: {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    }
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
   };
 
   useEffect(() => {
@@ -116,12 +118,18 @@ const Cart = () => {
       /> */}
       <div>
         {/* Cart Section Start */}
-        <div className="page-section section section-padding">
+
+        <div
+          className="page-section section section-padding pt-30"
+          style={{ backgroundColor: "#f5f7fd" }}
+        >
           <div className="container">
+            <h1 className="mb-3 font-semibold text-center">YOUR CART</h1>
+
             <form action="#">
-              <div className="row mbn-40">
+              <div className="row mbn-40 bg-white pt-4 rounded-xl">
                 <div className="col-12 mb-40">
-                  <div className="cart-table table-responsive">
+                  <div className="cart-table table-responsive rounded">
                     <table>
                       <thead>
                         <tr>
@@ -149,7 +157,9 @@ const Cart = () => {
                                 <a href="#">{item.productName}</a>
                               </td>
                               <td className="pro-price">
-                                <span className="amount">{item.price.toLocaleString()}</span>
+                                <span className="amount">
+                                  {item.price.toLocaleString()}
+                                </span>
                               </td>
                               <td className="pro-quantity">
                                 <div className="pro-qty">
@@ -194,7 +204,8 @@ const Cart = () => {
                     </button>
                     {selectedVoucher && (
                       <div className="selected-voucher-details">
-                        {selectedVoucher.voucher.voucherName} - Discount: {selectedVoucher.voucher.discount.toLocaleString()}
+                        {selectedVoucher.voucher.voucherName} - Discount:{" "}
+                        {selectedVoucher.voucher.discount.toLocaleString()}
                       </div>
                     )}
                     <div className="cart-buttons mb-30">
@@ -222,7 +233,8 @@ const Cart = () => {
                             <th>Discount</th>
                             <td>
                               <span className="amount">
-                                -{selectedVoucher.voucher.discount.toLocaleString()}
+                                -
+                                {selectedVoucher.voucher.discount.toLocaleString()}
                               </span>
                             </td>
                           </tr>
@@ -240,10 +252,15 @@ const Cart = () => {
                       </tbody>
                     </table>
                     <div className="proceed-to-checkout section mt-30">
-                      <Link to="/checkout">Proceed to checkout</Link>
+                      {isLoggedIn ? (
+                        <Link to="/checkout">Proceed to checkout</Link>
+                      ) : (
+                        <Link to="/login-register">
+                          Log In or Register to Checkout
+                        </Link>
+                      )}
                     </div>
                   </div>
-
                 </div>
               </div>
             </form>
@@ -258,18 +275,35 @@ const Cart = () => {
           contentLabel="Select Voucher"
           style={customStyles}
         >
-          <h2 style={{ marginBottom: '10px', textAlign: 'center' }}>Select a Voucher</h2>
+          <h2 style={{ marginBottom: "10px", textAlign: "center" }}>
+            Select a Voucher
+          </h2>
           {vouchers.map((voucher) => (
             <div className="row mb-4" key={voucher.customerVoucherId}>
               <div className="col-md-4">
-                <div className="voucher-item" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                <div
+                  className="voucher-item"
+                  style={{ textAlign: "center", marginBottom: "10px" }}
+                >
                   <div className="voucher-middle">
                     <img
                       src="./src/assets/images/voucher/voucher.png"
                       alt={voucher.voucher.voucherName}
                       className="img-fluid"
                     />
-                    <p style={{ position: 'absolute', bottom: '0px', left: '50%', transform: 'translateX(-50%)', backgroundColor: 'rgba(255, 255, 255, 0.9)', color: '#000', padding: '3px 10px', borderRadius: '5px 5px 0 0', fontSize: '12px' }}>
+                    <p
+                      style={{
+                        position: "absolute",
+                        bottom: "0px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        color: "#000",
+                        padding: "3px 10px",
+                        borderRadius: "5px 5px 0 0",
+                        fontSize: "12px",
+                      }}
+                    >
                       {voucher.voucher.voucherCode}
                     </p>
                   </div>
@@ -278,7 +312,9 @@ const Cart = () => {
               <div className="col-md-5">
                 <div className="voucher-item">
                   <div className="voucher-details">
-                    <p style={{fontWeight:'bold',fontSize:'18px'}}>{voucher.voucher.voucherName}</p>
+                    <p style={{ fontWeight: "bold", fontSize: "18px" }}>
+                      {voucher.voucher.voucherName}
+                    </p>
                     <p>Min Order: {voucher.voucher.minOrderAmount}</p>
                     <p>Quantity Available: {voucher.quantityAvailable}</p>
                   </div>
@@ -287,7 +323,9 @@ const Cart = () => {
               <div className="col-md-3">
                 <button
                   className="btn btn-primary"
-                  onClick={() => handleVoucherChange(voucher.voucher.voucherCode)}
+                  onClick={() =>
+                    handleVoucherChange(voucher.voucher.voucherCode)
+                  }
                 >
                   Select
                 </button>
@@ -295,7 +333,6 @@ const Cart = () => {
             </div>
           ))}
         </Modal>
-
       </div>
     </>
   );

@@ -2,10 +2,10 @@ import Slider from "react-slick";
 import "./../../assets/css/style.css";
 const HeroSection = () => {
   const settings = {
-    arrows: true,
+    arrows: false,
     autoplay: true,
     autoplaySpeed: 5000,
-    // dots: true,
+    dots: true,
     pauseOnFocus: false,
     pauseOnHover: false,
     fade: true,
@@ -34,7 +34,7 @@ const HeroSection = () => {
             {/* Hero Content */}
             <div className="hero-content-2">
               <h1>
-                Trendy &amp; Hot <br /> Baby collection 2019
+                Premium Milk <br /> for Moms and Babies!
               </h1>
               <a href="#">SHOP NOW</a>
             </div>
@@ -54,7 +54,7 @@ const HeroSection = () => {
             <div className="hero-content-2">
               <h1>
                 Get 35% off <br />
-                Latest Baby Product
+                Latest Baby Milk Product
               </h1>
               <a href="#">SHOP NOW</a>
             </div>

@@ -3639,7 +3639,7 @@ img.mfp-img {
 .product-item .product-inner .content .content-left .title a {
   color: #323132;
 }
-.product-item .product-inner .content .content-left .title a:hover {
+.content .content-left .title a:hover {
   color: #ff708a;
 }
 .product-item .product-inner .content .content-left .ratting {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Shop.tsx
 import React, { useState, useEffect } from "react";
 import agent from "../api/agent";
