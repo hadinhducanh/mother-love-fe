@@ -3,5 +3,7 @@ import { ProductsObj } from "./Product";
 
 export interface ProductFeedback {
 product: ProductsObj;
-feedbackDetails: FeedbackDetail[];
+feedbackDetails: {
+content: FeedbackDetail[];
+} 
 }

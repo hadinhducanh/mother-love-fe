@@ -175,7 +175,7 @@ const Payment = {
 };
 
 const Feedback = {
-  listByProduct: (productId: number) => requests.get(`feedbacks/product/${productId}`),
+  listByProduct: (productId: number, pageNo: number, pageSize: number) => requests.get(`feedbacks/product/${productId}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=feedbackId&sortDir=asc`),
 }
 const agent = {
   Products,

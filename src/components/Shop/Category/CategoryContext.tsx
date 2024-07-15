@@ -1,11 +1,10 @@
-// CategoryContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface CategoryContextProps {
   selectedCategories: string[];
   setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
 }
-
+// create a context for the selected categories
 const CategoryContext = createContext<CategoryContextProps | undefined>(
   undefined
 );

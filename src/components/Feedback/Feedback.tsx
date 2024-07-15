@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Rating } from "@mui/material";
 import { Separator } from "../ui/separator";
 import Loading from "../Loading";
-import ReactImageMagnify from "react-image-magnify";
+import Pagination from "../Pagination";
 
 interface ProductFeedbackProps {
   productId: number;
@@ -14,13 +14,21 @@ interface ProductFeedbackProps {
 
 const Feedback: React.FC<ProductFeedbackProps> = ({ productId }) => {
   const [feedback, setFeedback] = useState<ProductFeedback | null>(null);
+  const [pageNo, setPageNo] = useState<number>(0);
+  const [pageSize] = useState<number>(4);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
     const fetchFeedbackByProduct = async () => {
       try {
-        const response = await agent.Feedback.listByProduct(productId);
-        console.log("feedbackByProduct", response);
+        const response = await agent.Feedback.listByProduct(
+          productId,
+          pageNo,
+          pageSize
+        );
+        console.log("feedbackByProduct", response.product);
         setFeedback(response);
+        setTotalPages(response.feedbackDetails.totalPages);
       } catch (error) {
         console.error("Failed to fetch feedback", error);
       }
@@ -35,12 +43,15 @@ const Feedback: React.FC<ProductFeedbackProps> = ({ productId }) => {
       </div>
     );
   }
+  const handlePageClick = (pageNumber: number) => {
+    setPageNo(pageNumber - 1);
+  };
 
   return (
     <>
-      {feedback.feedbackDetails.map((fb: FeedbackDetail) => (
+      {feedback.feedbackDetails.content.map((fb: FeedbackDetail) => (
         <>
-          <div key={fb.feedbackId}>
+          <div key={fb.feedbackId} className="w-[80%]  mb-6">
             <div className="feedback d-flex justify-start items-start mb-3">
               <div className="avatar mr-3">
                 <Avatar>
@@ -48,46 +59,17 @@ const Feedback: React.FC<ProductFeedbackProps> = ({ productId }) => {
                   <AvatarFallback>{fb.user.fullName}</AvatarFallback>
                 </Avatar>
               </div>
-              <div className="feedback-content">
-                <span>{fb.user.fullName}</span>
+              <div className="feedback-content w-full">
+                <span className="font-semibold">{fb.user.fullName}</span>
                 <p>
                   <Rating name="rating" value={fb.rating} readOnly />
                 </p>
-                <span>{new Date(fb.feedbackDate).toLocaleString("en-GB")}</span>
-                <p className="mt-15 mb-15">{fb.comment}</p>
-                <div className="carousel-wrapper relative d-flex items-center">
-                  <div className="flex  items-center justify-center p-0 ">
-                    <div className="w-[150px] h-fit relative overflow-visible pt-0 mt-0">
-                      <ReactImageMagnify
-                        {...{
-                          smallImage: {
-                            alt: `Feedback Image`,
-                            isFluidWidth: true,
-                            src: fb.image,
-                          },
-                          largeImage: {
-                            src: fb.image,
-                            width: 1200,
-                            height: 1800,
-                          },
-                          enlargedImageContainerDimensions: {
-                            width: "150%",
-                            height: "150%",
-                          },
-                          enlargedImagePosition: "beside",
-
-                          imageStyle: {
-                            width: "100%",
-                            height: "auto",
-                          },
-                          lensStyle: {
-                            backgroundColor: "rgba(0,0,0,.2)",
-                          },
-                          isHintEnabled: true,
-                        }}
-                      />
-                    </div>
-                  </div>
+                <span className="text-sm text-gray-500">
+                  {new Date(fb.feedbackDate).toLocaleString("en-GB")}
+                </span>
+                <p className="mt-3 mb-3 text-base">{fb.comment}</p>
+                <div className="w-[20%] h-fit relative overflow-visible pt-0 mt-0">
+                  <img src={fb.image} alt="" className="object-cover " />
                 </div>
               </div>
             </div>
@@ -95,6 +77,11 @@ const Feedback: React.FC<ProductFeedbackProps> = ({ productId }) => {
           </div>
         </>
       ))}
+      <Pagination
+        pageNo={pageNo}
+        totalPages={totalPages}
+        onPageClick={handlePageClick}
+      />
     </>
   );
 };

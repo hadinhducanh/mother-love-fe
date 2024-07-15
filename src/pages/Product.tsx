@@ -14,6 +14,7 @@ import { useWishlist } from "../context/wishlist/WishlistContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Feedback from "@/components/Feedback/Feedback";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Product = () => {
   const proThumbIMGSettings = {
@@ -259,59 +260,32 @@ const Product = () => {
                   {/* single - product - content end*/}
 
                   <div className="row mb-50">
-                    <div className="col-12">
-                      <ul className="pro-info-tab-list section nav">
-                        <li>
-                          <a
-                            className="active"
-                            href="#more-info"
-                            data-toggle="tab"
-                          >
-                            More info
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#data-sheet" data-toggle="tab">
-                            Data sheet
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#reviews" data-toggle="tab">
-                            Reviews
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="tab-content col-12">
-                      <div
-                        className="pro-info-tab tab-pane active"
-                        id="more-info"
-                      >
-                        <p>{product.description}</p>
+                    <Tabs
+                      orientation="vertical"
+                      defaultValue="description"
+                      className="w-[100%]"
+                    >
+                      <div className="col-12">
+                        <div className="w-full overflow-x-auto pb-2">
+                          <TabsList className="grid w-[400px] grid-cols-2">
+                            <TabsTrigger value="description">
+                              Description
+                            </TabsTrigger>
+                            <TabsTrigger value="reviews">Reviews</TabsTrigger>
+                          </TabsList>
+                        </div>
                       </div>
-                      <div className="pro-info-tab tab-pane" id="data-sheet">
-                        <table className="table-data-sheet">
-                          <tbody>
-                            <tr className="odd">
-                              <td>Compositions</td>
-                              <td>Cotton</td>
-                            </tr>
-                            <tr className="even">
-                              <td>Styles</td>
-                              <td>Casual</td>
-                            </tr>
-                            <tr className="odd">
-                              <td>Properties</td>
-                              <td>Short Sleeve</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                      <div className="tab-content col-12">
+                        <TabsContent value="description">
+                          <p>{product.description}</p>
+                        </TabsContent>
+                        {/* </div> */}
+                        {/* <div className="w-full"> */}
+                        <TabsContent value="reviews">
+                          <Feedback productId={productId} />
+                        </TabsContent>
                       </div>
-                      <div className="pro-info-tab tab-pane" id="reviews">
-                        <Feedback productId={productId} />
-                      </div>
-                    </div>
+                    </Tabs>
                   </div>
                   {/* more info end */}
                 </div>
