@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
