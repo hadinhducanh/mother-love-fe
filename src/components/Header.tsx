@@ -4,7 +4,7 @@ import { useAuth } from "../context/auth/AuthContext";
 import { useCart } from "../context/cart/CartContext";
 import AlertModal from "./AlertModal"; // Import AlertModal
 import { useWishlist } from "@/context/wishlist/WishlistContext";
-import { Heart, Search, ShoppingCartIcon, User } from "lucide-react";
+import { Heart, ShoppingCartIcon, User } from "lucide-react";
 const Header = () => {
   const { isLoggedIn, logout, getUserInfo } = useAuth();
   const { cartItems } = useCart();
@@ -116,28 +116,6 @@ const Header = () => {
 
             <div className="col order-3 order-lg-2">
               <div className="header-shop-links h-20">
-                <div className="header-search">
-                  <button className="search-toggle">
-                    <Search size={22} />
-                    <img
-                      className="toggle-close"
-                      src="./src/assets/images/icons/close.png"
-                      alt="Search Toggle"
-                    />
-                  </button>
-                  <div className="header-search-wrap">
-                    <form action="#">
-                      <input type="text" placeholder="Type and hit enter" />
-                      <button>
-                        <img
-                          src="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718435826/h4uucmb4drdjyoienlzg.png"
-                          alt="Search"
-                        />
-                      </button>
-                    </form>
-                  </div>
-                </div>
-
                 <div className="header-wishlist">
                   <Link to="/wishlist" className="d-flex flex-col items-center">
                     {/* <img

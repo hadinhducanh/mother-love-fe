@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react";
 import Slider from "react-slick";
 import agent from "../api/agent";
 import { BrandObj } from "../model/Brand";
+import Loading from "./Loading";
 
 export const Brand: FC = () => {
   const settings = {
@@ -42,8 +43,8 @@ export const Brand: FC = () => {
   const [brands, setBrands] = useState<BrandObj[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [pageNo, ] = useState<number>(0);
-  const [pageSize, ] = useState<number>(10);
+  const [pageNo] = useState<number>(0);
+  const [pageSize] = useState<number>(10);
 
   const fetchProducts = (pageNo: number, pageSize: number) => {
     setLoading(true);
@@ -66,7 +67,11 @@ export const Brand: FC = () => {
   }, [pageNo, pageSize]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
 
   if (error) {

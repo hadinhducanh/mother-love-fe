@@ -17,8 +17,8 @@ import Feedback from "@/components/Feedback/Feedback";
 
 const Product = () => {
   const proThumbIMGSettings = {
-    arrows: true,
-    dots: false,
+    arrows: false,
+    dots: true,
     autoplay: true,
     infinite: true,
     slidesToShow: 4,
@@ -189,22 +189,25 @@ const Product = () => {
                       <div className="single-product-content">
                         <div className="head">
                           <div className="head-left">
-                            <h3 className="title">{product.productName}</h3>
+                            <h3 className="title text-4xl">
+                              {product.productName}
+                            </h3>
 
-                            <div className="ratting">
+                            <div className="ratting mb-3">
                               <i className="fa fa-star"></i>
                               <i className="fa fa-star"></i>
                               <i className="fa fa-star"></i>
                               <i className="fa fa-star-half-o"></i>
                               <i className="fa fa-star-o"></i>
                             </div>
+                            <div className="price">
+                              <p className="price text-3xl text-[#ff708a] font-[Dosis] font-san font-semibold">
+                                Price: {product.price.toLocaleString()}VND
+                              </p>
+                            </div>
                           </div>
 
-                          <div className="head-right ">
-                            <span className="price fs-30">
-                              Price: {product.price.toLocaleString()}
-                            </span>
-                          </div>
+                          <div className="head-right "></div>
                         </div>
 
                         <div className="description">
@@ -249,12 +252,6 @@ const Product = () => {
                           >
                             <i className="ti-heart"></i>
                           </button>
-                        </div>
-
-                        <div className="tags">
-                          <h5>Tags:</h5>
-                          <a href="#">{product.category.categoryName}</a>
-                          <a href="#">{product.brand.brandName}</a>
                         </div>
                       </div>
                     </div>

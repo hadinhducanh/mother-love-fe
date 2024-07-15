@@ -1,10 +1,9 @@
+import Banner from "../components/Banner";
 
-import Banner from '../components/Banner';
-
-import { CartItems, useCart } from '../context/cart/CartContext';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { WishlistItem, useWishlist } from '@/context/wishlist/WishlistContext';
+import { CartItems, useCart } from "../context/cart/CartContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { WishlistItem, useWishlist } from "@/context/wishlist/WishlistContext";
 
 const Wishlist = () => {
   const { wishlistItems, removeFromWishlist } = useWishlist();
@@ -15,11 +14,10 @@ const Wishlist = () => {
   };
 
   const handleAddToCart = (item: WishlistItem) => {
-    
-    const cartItem = { ...item, quantity: 1 }; 
-    addToCart(cartItem as CartItems); 
+    const cartItem = { ...item, quantity: 1 };
+    addToCart(cartItem as CartItems);
     removeFromWishlist(item.productId);
-    toast.success("Product added to cart!"); 
+    toast.success("Product added to cart!");
   };
 
   return (
@@ -27,7 +25,7 @@ const Wishlist = () => {
       <Banner
         pageName={"Wishlist"}
         singleName={"Wishlist"}
-        pictureUrl={"./src/assets/images/hero/hero-1.jpg"}
+        pictureUrl="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718358912/vrajlukd4rlhqd4rij09.jpg"
       />
       <div className="page-section section section-padding">
         <div className="container">
@@ -66,13 +64,23 @@ const Wishlist = () => {
                                 <a href="#">{item.productName}</a>
                               </td>
                               <td className="pro-price">
-                                <span className="amount">{item.price.toLocaleString()}</span>
+                                <span className="amount">
+                                  {item.price.toLocaleString()}
+                                </span>
                               </td>
                               <td className="pro-add-cart">
-                                <a onClick={() => handleAddToCart(item)}>Add to Cart</a>
+                                <a onClick={() => handleAddToCart(item)}>
+                                  Add to Cart
+                                </a>
                               </td>
                               <td className="pro-remove">
-                                <a onClick={() => handleRemoveItem(item.productId)}>×</a>
+                                <a
+                                  onClick={() =>
+                                    handleRemoveItem(item.productId)
+                                  }
+                                >
+                                  ×
+                                </a>
                               </td>
                             </tr>
                           );

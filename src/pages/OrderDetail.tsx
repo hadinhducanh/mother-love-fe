@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import Banner from "@/components/Banner";
-import agent from '@/api/agent';
-import Loading from '@/components/Loading';
-import FeedbackModal from '@/components/Feedback/FeedbackModal';
+import agent from "@/api/agent";
+import Loading from "@/components/Loading";
+import FeedbackModal from "@/components/Feedback/FeedbackModal";
 
-import { useAuth } from '@/context/auth/AuthContext';
+import { useAuth } from "@/context/auth/AuthContext";
 
-import { OrderResponse, OrderDetail as OrderDetailType } from '@/model/Order';
-import ViewFeedbackModal from '@/components/Feedback/ViewFeedbackModal';
+import { OrderResponse, OrderDetail as OrderDetailType } from "@/model/Order";
+import ViewFeedbackModal from "@/components/Feedback/ViewFeedbackModal";
 
 export const OrderDetail = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -52,7 +52,7 @@ export const OrderDetail = () => {
       const response = await agent.Orders.getOrderFeedbacks(Number(orderId));
       setFeedbacks(response);
     } catch (error) {
-      console.error('Failed to fetch feedbacks', error);
+      console.error("Failed to fetch feedbacks", error);
     }
   };
 
@@ -65,42 +65,56 @@ export const OrderDetail = () => {
     }
   };
 
-  const handleFeedbackClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleFeedbackClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
     e.preventDefault();
     setShowFeedbackModal(true);
   };
 
-  const handleViewFeedbackClick = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleViewFeedbackClick = async (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
     e.preventDefault();
     await fetchFeedbacks();
     setShowViewFeedbackModal(true);
   };
 
-  const handleFeedbackSubmit = async (feedbacks: { rating: number; comment: string; image: string; productId: number }[]) => {
+  const handleFeedbackSubmit = async (
+    feedbacks: {
+      rating: number;
+      comment: string;
+      image: string;
+      productId: number;
+    }[]
+  ) => {
     try {
-      const transformedFeedbacks = feedbacks.map(feedback => ({
+      const transformedFeedbacks = feedbacks.map((feedback) => ({
         rating: feedback.rating,
         comment: feedback.comment,
-        image: feedback.image,  
-        productId: feedback.productId
+        image: feedback.image,
+        productId: feedback.productId,
       }));
-      console.log('transformedFeedbacks', transformedFeedbacks);
+      console.log("transformedFeedbacks", transformedFeedbacks);
       if (!userId) {
         throw new Error("User is not logged in");
       }
-  
-      await agent.Orders.addFeedback(userId, Number(orderId), transformedFeedbacks);
-  
+
+      await agent.Orders.addFeedback(
+        userId,
+        Number(orderId),
+        transformedFeedbacks
+      );
+
       setShowFeedbackModal(false);
-  
+
       // Set feedback submitted state to true
       setFeedbackSubmitted(true);
-  
     } catch (error) {
-      console.error('Failed to submit feedback', error);
+      console.error("Failed to submit feedback", error);
     }
   };
-  
+
   if (loading) {
     return <Loading />;
   }
@@ -120,7 +134,7 @@ export const OrderDetail = () => {
       <Banner
         pageName="Order Detail"
         singleName="Order Detail"
-        pictureUrl="./src/assets/images/hero/hero-1.jpg"
+        pictureUrl="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718358912/vrajlukd4rlhqd4rij09.jpg"
       />
 
       <div className="page-section section section-padding">
@@ -140,7 +154,9 @@ export const OrderDetail = () => {
                   </thead>
                   <tbody>
                     {listOrderDetail.map((orderItem: OrderDetailType) => {
-                      const images = orderItem.product.image.replace(/[\[\]]/g, "").split(",");
+                      const images = orderItem.product.image
+                        .replace(/[\[\]]/g, "")
+                        .split(",");
                       return (
                         <tr key={orderItem.orderDetailId}>
                           <td className="pro-thumbnail">
@@ -148,10 +164,16 @@ export const OrderDetail = () => {
                               <img src={images[0]} alt="Product" />
                             </a>
                           </td>
-                          <td className="pro-title">{orderItem.product.productName}</td>
-                          <td className="pro-price">{orderItem.unitPrice.toLocaleString()}</td>
+                          <td className="pro-title">
+                            {orderItem.product.productName}
+                          </td>
+                          <td className="pro-price">
+                            {orderItem.unitPrice.toLocaleString()}
+                          </td>
                           <td className="pro-quantity">{orderItem.quantity}</td>
-                          <td className="pro-subtotal">{orderItem.totalPrice.toLocaleString()}</td>
+                          <td className="pro-subtotal">
+                            {orderItem.totalPrice.toLocaleString()}
+                          </td>
                         </tr>
                       );
                     })}
@@ -163,15 +185,21 @@ export const OrderDetail = () => {
               {orderDto.status === "COMPLETED" && (
                 <div className="cart-buttons mb-30">
                   {!orderDto.feedBack ? (
-                    <a href='#' onClick={handleFeedbackClick}>Feed Back</a>
+                    <a href="#" onClick={handleFeedbackClick}>
+                      Feed Back
+                    </a>
                   ) : (
-                    <a href='#' onClick={handleViewFeedbackClick}>View Feedback</a> 
+                    <a href="#" onClick={handleViewFeedbackClick}>
+                      View Feedback
+                    </a>
                   )}
                 </div>
               )}
               {orderDto.status === "PENDING" && (
                 <div className="cart-buttons mb-30">
-                  <a href='#' onClick={handleCheckout}>Checkout</a>
+                  <a href="#" onClick={handleCheckout}>
+                    Checkout
+                  </a>
                   {checkoutError && <div>Error: {checkoutError}</div>}
                 </div>
               )}
@@ -183,18 +211,30 @@ export const OrderDetail = () => {
                   <tbody>
                     <tr className="cart-subtotal">
                       <th>Subtotal</th>
-                      <td><span className="amount">{orderDto.totalAmount.toLocaleString()}</span></td>
+                      <td>
+                        <span className="amount">
+                          {orderDto.totalAmount.toLocaleString()}
+                        </span>
+                      </td>
                     </tr>
                     {voucherDto && (
                       <tr className="cart-subtotal">
                         <th>Voucher ({voucherDto.voucherCode})</th>
-                        <td><span className="amount">-{voucherDto.discount.toLocaleString()}</span></td>
+                        <td>
+                          <span className="amount">
+                            -{voucherDto.discount.toLocaleString()}
+                          </span>
+                        </td>
                       </tr>
                     )}
                     <tr className="order-total">
                       <th>Total</th>
                       <td>
-                        <strong><span className="amount">{orderDto.afterTotalAmount.toLocaleString()}</span></strong>
+                        <strong>
+                          <span className="amount">
+                            {orderDto.afterTotalAmount.toLocaleString()}
+                          </span>
+                        </strong>
                       </td>
                     </tr>
                   </tbody>
@@ -221,11 +261,13 @@ export const OrderDetail = () => {
         <ViewFeedbackModal
           show={showViewFeedbackModal}
           onHide={() => setShowViewFeedbackModal(false)}
-          feedbacks={feedbacks} 
+          feedbacks={feedbacks}
         />
       )}
 
-      {feedbackSubmitted && <p style={{ color: 'green' }}>Feedback successfully!</p>}
+      {feedbackSubmitted && (
+        <p style={{ color: "green" }}>Feedback successfully!</p>
+      )}
     </>
   );
 };

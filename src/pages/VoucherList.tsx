@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Banner from "@/components/Banner";
 import agent from "@/api/agent";
 import { VoucherObjbyID } from "@/model/Voucher";
@@ -35,13 +35,16 @@ const VoucherList = () => {
       <Banner
         pageName={"Voucher"}
         singleName={"Voucher"}
-        pictureUrl={"./src/assets/images/hero/hero-1.jpg"}
+        pictureUrl="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718358912/vrajlukd4rlhqd4rij09.jpg"
       />
       <div className="page-section section section-padding">
         <div className="container">
           <div className="row">
             {vouchers.map((voucher) => (
-              <div className="col-lg-4 col-md-6 mb-4" key={voucher.customerVoucherId}>
+              <div
+                className="col-lg-4 col-md-6 mb-4"
+                key={voucher.customerVoucherId}
+              >
                 <div className="voucher-item">
                   <div className="voucher-content">
                     <div className="voucher-middle">
@@ -50,7 +53,9 @@ const VoucherList = () => {
                         alt={voucher.voucher.voucherName}
                         className="img-fluid"
                       />
-                      <p className="voucher-code">{voucher.voucher.voucherCode}</p>
+                      <p className="voucher-code">
+                        {voucher.voucher.voucherCode}
+                      </p>
                     </div>
                     <div className="voucher-details">
                       <h4>{voucher.voucher.voucherName}</h4>
@@ -65,7 +70,7 @@ const VoucherList = () => {
         </div>
       </div>
 
-      <style >{`
+      <style>{`
         .voucher-item {
           border: 1px solid #ddd;
           padding: 20px;

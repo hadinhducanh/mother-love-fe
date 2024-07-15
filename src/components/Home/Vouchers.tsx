@@ -74,8 +74,8 @@ const Vouchers: React.FC = () => {
         <div className="container">
           <div className="row">
             <div className="section-title text-center col mb-30">
-              <h1>CLIENTS REVIEW</h1>
-              <p>Clients say about us</p>
+              <h1>VOUCHERS</h1>
+              <p>Your vouchers</p>
             </div>
           </div>
 
@@ -85,7 +85,10 @@ const Vouchers: React.FC = () => {
                 <div className="voucher-item">
                   <div className="voucher-content">
                     <div className="voucher-middle">
-                      <img src="./src/assets/images/voucher/voucher.png" alt={voucher.voucherName} />
+                      <img
+                        src="./src/assets/images/voucher/voucher.png"
+                        alt={voucher.voucherName}
+                      />
                       <p className="voucher-code">{voucher.voucherCode}</p>
                     </div>
                     <div className="voucher-left">
