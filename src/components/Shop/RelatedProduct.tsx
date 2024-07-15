@@ -133,7 +133,10 @@ export const RelatedProduct: FC<ProductProps> = ({ currentProductId }) => {
                     </div>
 
                     <div className="content">
-                      <div className="content-left">
+                      <div
+                        className="content-left"
+                        style={{ flexBasis: "calc(100% - 120px)" }}
+                      >
                         <h4 className="title">
                           <a href={`/single-product/${productData.productId}`}>
                             {productData.productName}
@@ -150,7 +153,9 @@ export const RelatedProduct: FC<ProductProps> = ({ currentProductId }) => {
                       </div>
 
                       <div className="content-right">
-                        <span className="price">{productData.price}</span>
+                        <span className="price">
+                          {productData.price.toLocaleString()}VND
+                        </span>
                       </div>
                     </div>
                   </div>
