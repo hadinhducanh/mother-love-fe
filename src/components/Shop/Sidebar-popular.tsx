@@ -57,7 +57,7 @@ const SidebarPopular = () => {
                   {product.productName}
                 </a>
                 <span className="price">
-                  <span>{product.price}</span>
+                  <span>{product.price.toLocaleString()}VND</span>
                 </span>
                 <div className="ratting">
                   <i className="fa fa-star"></i>

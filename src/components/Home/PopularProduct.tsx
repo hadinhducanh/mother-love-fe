@@ -137,7 +137,7 @@ const PopularProduct: FC = () => {
                         </div>
 
                         <span className="price">
-                          {product.price.toLocaleString()}
+                          {product.price.toLocaleString()}VND
                         </span>
                       </div>
                     </div>

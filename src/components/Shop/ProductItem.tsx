@@ -79,7 +79,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
                 color: "#ff708a",
               }}
             >
-              {product.price.toLocaleString()}{" "}
+              {product.price.toLocaleString()}VND
             </span>
           </div>
         </div>
