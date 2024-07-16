@@ -5,11 +5,9 @@ import { useAuth } from "@/context/auth/AuthContext";
 import agent from "@/api/agent";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router";
 
 export const Contact = () => {
   const { userId, isLoggedIn } = useAuth();
-  const navigate = useNavigate();
 
   const [reportData, setReportData] = useState({
     content: "",
@@ -42,20 +40,9 @@ export const Contact = () => {
         ...prevData,
         content: "",
       }));
-    } catch (error) {
+    } catch (error : any) {
       console.error("Error creating report:", error);
-      toast.error("Failed to create report.", {});
-    }
-  };
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const submitEvent = e as unknown as SubmitEvent; // Type assertion to handle SubmitEvent
-    const submitButton = submitEvent.submitter as HTMLInputElement; // Type assertion to handle HTMLInputElement
-    if (submitButton?.value === "Send") {
-      handleSubmit(e);
-    } else {
-      navigate("/login-register");
+      toast.error(`Failed to create report: ${error.data.content}`, {});
     }
   };
 
@@ -74,7 +61,7 @@ export const Contact = () => {
             <div className="row row-30 mbn-40">
               <div className="contact-form-wrap col-md-6 col-12 mb-40">
                 <h3>Report</h3>
-                <form id="contact-form" onSubmit={handleFormSubmit}>
+                <form id="contact-form" onSubmit={handleSubmit}>
                   <div className="contact-form">
                     <div className="row">
                       <div className="col-12 mb-30">
@@ -86,7 +73,6 @@ export const Contact = () => {
                         />
                       </div>
                       <div className="col-12 mb-30">
-                        <p style={{fontWeight:600}}>Report type</p>
                         <select
                           name="reportType"
                           value={reportData.reportType}
@@ -100,7 +86,9 @@ export const Contact = () => {
                         {isLoggedIn ? (
                           <input type="submit" value="Send" />
                         ) : (
-                          <input type="submit" value="Login or register to report" />
+                          <button type="button" onClick={() => alert("Please log in or register to report.")}>
+                          Login or register to report
+                        </button>
                         )}
                       </div>
                     </div>

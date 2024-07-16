@@ -51,6 +51,8 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
       localStorage.removeItem("cart");
       const orderData = await agent.Orders.createOrder(userId, addressId, voucherId, orderItems);
 
+      localStorage.setItem("orderId", JSON.stringify(orderData.orderDto.orderId));
+
   
   
       const vnPayResponse = await agent.Payment.vnPay(orderData.orderDto.orderId);
