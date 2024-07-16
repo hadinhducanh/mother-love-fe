@@ -98,6 +98,7 @@ const requests = {
   updateDefaultAddress: async (userId: number | null, addressOldId: number | null, addressNewId: number | undefined) => axiosInstance.put(`address/default?userId=${userId}&addressOldId=${addressOldId}&addressNewId=${addressNewId}`, {}).then(responseBody),
   updateAddress: async (updatedAddress: any) => axiosInstance.put(`address`, updatedAddress).then(responseBody),
   createOrder: async (userId: number, addressId: number, voucherId: number, orderItems: any) => axiosInstance.post(`orders?userId=${userId}&addressId=${addressId}&voucherId=${voucherId}`, orderItems).then(responseBody),
+  createReport: async (reportData: {}) => axiosInstance.post('reports', reportData).then(responseBody),
 };
 
 // Helper to create list endpoints with default sort parameters
@@ -177,6 +178,12 @@ const Payment = {
 const Feedback = {
   listByProduct: (productId: number, pageNo: number, pageSize: number) => requests.get(`feedbacks/product/${productId}?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=feedbackId&sortDir=asc`),
 }
+
+// Reports API methods
+const Reports = {
+  createReport: async (reportData: {}) => requests.createReport(reportData),
+};
+
 const agent = {
   Products,
   Brand,
@@ -187,7 +194,8 @@ const agent = {
   Orders,
   Blog,
   Payment,
-  Feedback
+  Feedback,
+  Reports // Add Reports to the agent
 };
 
 export default agent;

@@ -162,7 +162,7 @@ const Header = () => {
                     </li>
                     <li>
                       <NavLink className="nav-link" to="/contact">
-                        CONTACT
+                        REPORT
                       </NavLink>
                     </li>
                   </ul>

@@ -1,12 +1,70 @@
+import { useState } from "react";
 import Banner from "../components/Banner";
 import { Brand } from "../components/Brand";
+import { useAuth } from "@/context/auth/AuthContext";
+import agent from "@/api/agent";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router";
 
 export const Contact = () => {
+  const { userId, isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const [reportData, setReportData] = useState({
+    content: "",
+    reportType: 0, // Default to "About website"
+    response: "",
+    image: "",
+    reason: "",
+    questioner: {
+      userId: userId,
+    },
+    answerer: {
+      userId: 2, // Adjust this according to your needs
+    },
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setReportData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await agent.Reports.createReport(reportData);
+      toast.success("Report created successfully!", {});
+      setReportData((prevData) => ({
+        ...prevData,
+        content: "",
+      }));
+    } catch (error) {
+      console.error("Error creating report:", error);
+      toast.error("Failed to create report.", {});
+    }
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const submitEvent = e as unknown as SubmitEvent; // Type assertion to handle SubmitEvent
+    const submitButton = submitEvent.submitter as HTMLInputElement; // Type assertion to handle HTMLInputElement
+    if (submitButton?.value === "Send") {
+      handleSubmit(e);
+    } else {
+      navigate("/login-register");
+    }
+  };
+
   return (
     <>
+      <ToastContainer position="bottom-left" />
       <Banner
-        pageName={"Contact"}
-        singleName={"Contact"}
+        pageName={"Report"}
+        singleName={"Report"}
         pictureUrl="https://res.cloudinary.com/dhgg72vfy/image/upload/v1718358912/vrajlukd4rlhqd4rij09.jpg"
       />
       <div>
@@ -14,65 +72,36 @@ export const Contact = () => {
         <div className="page-section section section-padding">
           <div className="container">
             <div className="row row-30 mbn-40">
-              <div className="contact-info-wrap col-md-6 col-12 mb-40">
-                <h3>Get in Touch</h3>
-                <p>
-                  Jadusona is the best theme for elit, sed do eiusmod tempor
-                  dolor sit ame tse ctetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et lorna aliquatd minim veniam,
-                </p>
-                <ul className="contact-info">
-                  <li>
-                    <i className="fa fa-map-marker" />
-                    <p>
-                      256, 1st AVE, You address <br />
-                      will be here
-                    </p>
-                  </li>
-                  <li>
-                    <i className="fa fa-phone" />
-                    <p>
-                      <a href="#">+01 235 567 89</a>
-                      <a href="#">+01 235 286 65</a>
-                    </p>
-                  </li>
-                  <li>
-                    <i className="fa fa-globe" />
-                    <p>
-                      <a href="#">info@example.com</a>
-                      <a href="#">www.example.com</a>
-                    </p>
-                  </li>
-                </ul>
-              </div>
               <div className="contact-form-wrap col-md-6 col-12 mb-40">
-                <h3>Leave a Message</h3>
-                <form id="contact-form" action="assets/php/mail.php">
+                <h3>Report</h3>
+                <form id="contact-form" onSubmit={handleFormSubmit}>
                   <div className="contact-form">
                     <div className="row">
-                      <div className="col-lg-6 col-12 mb-30">
-                        <input
-                          type="text"
-                          name="name"
-                          placeholder="Your Name"
-                        />
-                      </div>
-                      <div className="col-lg-6 col-12 mb-30">
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="Email Address"
+                      <div className="col-12 mb-30">
+                        <textarea
+                          name="content"
+                          placeholder="Report Content"
+                          value={reportData.content}
+                          onChange={handleInputChange}
                         />
                       </div>
                       <div className="col-12 mb-30">
-                        <textarea
-                          name="message"
-                          placeholder="Message"
-                          defaultValue={""}
-                        />
+                        <p style={{fontWeight:600}}>Report type</p>
+                        <select
+                          name="reportType"
+                          value={reportData.reportType}
+                          onChange={handleInputChange}
+                        >
+                          <option value={0}>About website</option>
+                          <option value={1}>About staff</option>
+                        </select>
                       </div>
                       <div className="col-12">
-                        <input type="submit" defaultValue="send" />
+                        {isLoggedIn ? (
+                          <input type="submit" value="Send" />
+                        ) : (
+                          <input type="submit" value="Login or register to report" />
+                        )}
                       </div>
                     </div>
                   </div>
@@ -84,7 +113,6 @@ export const Contact = () => {
         </div>
         {/* Contact Section End */}
       </div>
-
       <Brand />
     </>
   );

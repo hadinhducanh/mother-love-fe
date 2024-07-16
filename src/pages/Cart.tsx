@@ -5,7 +5,7 @@ import agent from "../api/agent"; // Ensure to import agent from your API module
 import { VoucherObjbyID } from "@/model/Voucher";
 import { useAuth } from "@/context/auth/AuthContext";
 import Modal, { Styles } from "react-modal";
-import { Separator } from "@/components/ui/separator";
+
 
 const Cart = () => {
   const {
