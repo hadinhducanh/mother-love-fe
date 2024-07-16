@@ -76,7 +76,7 @@ const UpdateAddressDialog: React.FC<UpdateAddressDialogProps> = ({
   }, [address, form]);
 
   const handleSubmit = async (data: Partial<AddressFormData>) => {
-    console.log("Submitting update with data:", data); // Check if data is correct
+
     setLoading(true);
     setError(null);
 
@@ -93,7 +93,7 @@ const UpdateAddressDialog: React.FC<UpdateAddressDialogProps> = ({
       onUpdate({ ...address, ...data });
       onClose(); // Close the dialog upon successful update
     } catch (error) {
-      console.error("Failed to update address:", error);
+     
       setError("An error occurred while updating the address.");
     } finally {
       setLoading(false);

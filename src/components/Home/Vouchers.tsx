@@ -62,7 +62,7 @@ const Vouchers: React.FC = () => {
         toast.error("You must to login to save voucher!");
       }
     } catch (error: any) {
-      console.error("Failed to save voucher:", error);
+     
       toast.error("You already saved this voucher!");
     }
   };

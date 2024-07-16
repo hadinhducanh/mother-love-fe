@@ -61,7 +61,7 @@ export const UpdateAddressForm: React.FC<UpdateAddressFormProps> = ({
         setErrorData("Data format is incorrect");
       }
     } catch (error) {
-      console.error("Error fetching cities:", error);
+    
       setErrorData("Failed to fetch cities");
     } finally {
       setLoadingCities(false);

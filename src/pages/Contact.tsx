@@ -41,8 +41,7 @@ export const Contact = () => {
         content: "",
       }));
     } catch (error : any) {
-      console.error("Error creating report:", error);
-      toast.error(`Failed to create report: ${error.data.content}`, {});
+      toast.error(` ${error.data.content}`, {});
     }
   };
 

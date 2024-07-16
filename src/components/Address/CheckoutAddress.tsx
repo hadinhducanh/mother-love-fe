@@ -37,7 +37,6 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
           setUserId(userInfo.userId);
         }
       } catch (error) {
-        console.error("Failed to fetch user info:", error);
       }
     };
 
@@ -116,7 +115,6 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
         )
       );
     } catch (error) {
-      console.error("Failed to delete address:", error);
     }
   };
 
@@ -148,16 +146,12 @@ const CheckoutAddress: React.FC<Props> = ({ onSelectAddress }) => {
         onSelectAddress(updatedAddress.addressId.toString());
       }
     } catch (error) {
-      console.error("Failed to update address:", error);
     }
   };
 
   if (error) {
     return <div>Error: {error}</div>;
   }
-  console.log("selected address id", selectedAddressId);
-  console.log("selected address", selectedAddress);
-
   return (
     <div className="page-section section section-padding">
       <div className="container">

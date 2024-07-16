@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useCart } from "@/context/cart/CartContext";
 import agent from "@/api/agent";
 import { useAuth } from "@/context/auth/AuthContext";
+import { useNavigate } from "react-router";
 
 interface Props {
   selectedAddressId: string | null;
@@ -12,6 +13,7 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
   const { userId } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const renderCartItems = () => {
     return cartItems.map((item) => (
@@ -53,11 +55,8 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
 
       localStorage.setItem("orderId", JSON.stringify(orderData.orderDto.orderId));
 
-  
-  
       const vnPayResponse = await agent.Payment.vnPay(orderData.orderDto.orderId);
   
-
       window.location.href = vnPayResponse.paymentUrl;
   
     } catch (error) {
@@ -67,8 +66,10 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
       setLoading(false);
     }
   };
-  
-  
+
+  const handleBack = () => {
+    navigate("/cart");
+  };
 
   return (
     <div>
@@ -104,6 +105,9 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
                       </div>
                       <button className="place-order" onClick={handlePlaceOrder} disabled={loading}>
                         {loading ? "Placing Order..." : "Place order"}
+                      </button>
+                      <button className="place-order" onClick={handleBack} style={{ marginLeft: '20px' }}>
+                        Back
                       </button>
                       {error && <p style={{ color: "red" }}>{error}</p>}
                     </div>

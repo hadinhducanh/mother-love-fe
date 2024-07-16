@@ -5,6 +5,8 @@ import agent from "../api/agent"; // Ensure to import agent from your API module
 import { VoucherObjbyID } from "@/model/Voucher";
 import { useAuth } from "@/context/auth/AuthContext";
 import Modal, { Styles } from "react-modal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const Cart = () => {
@@ -51,15 +53,14 @@ const Cart = () => {
       e.preventDefault();
       const subtotal = calculateSubtotal();
       if (subtotal >= (selectedVoucher.voucher.minOrderAmount ?? 0)) {
-        console.log("Applied voucher:", selectedVoucher);
         setDiscountApplied(true);
+        toast.success("Voucher applied successfully!");
       } else {
-        console.log(
-          "Order subtotal is less than minimum order amount for this voucher."
-        );
+       
+        toast.error("Order subtotal is less than the minimum order amount for this voucher.");
       }
     }
-  };
+  };;
 
   const handleVoucherChange = (voucherCode: string) => {
     const selected = vouchers.find(
@@ -118,7 +119,7 @@ const Cart = () => {
       /> */}
       <div>
         {/* Cart Section Start */}
-
+        <ToastContainer position="bottom-left" />
         <div
           className="page-section section section-padding pt-30"
           style={{ backgroundColor: "#f5f7fd" }}

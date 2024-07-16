@@ -49,7 +49,6 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
           setUser(userInfo);
         }
       } catch (error) {
-        console.error("Failed to fetch user info:", error);
       }
     };
 
@@ -104,7 +103,6 @@ const NewAddressDialog: React.FC<NewAddressDialogProps> = ({
   const onSubmit = async (data: Partial<AddressFormData>) => {
     setLoading(true);
     setError(null);
-    console.log("submit", data);
 
     try {
       const addedAddress = await agent.Address.addNewAddress(data); // Assuming agent handles API calls
