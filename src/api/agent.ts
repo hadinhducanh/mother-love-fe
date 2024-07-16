@@ -167,6 +167,11 @@ const Orders = {
     requests.post(`feedbacks?userId=${userId}&orderId=${orderId}`, feedback),
   getOrderFeedbacks: async (orderId: number) => requests.get(`feedbacks/order/${orderId}`), 
   cancelOrder: async (orderId: number, reason: string) => requests.post('order-cancels', { orderId, reason }), 
+  getOrdersByStatus: (pageNo: number, pageSize: number, sortBy: string = "orderId", status: string, sortDir: string = "asc") => {
+    return requests.get(`orders/search?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=${sortBy}&status=${status}&sortDir=${sortDir}`);
+  },
+  getOrderByStatusAndDate: (pageNo: number, pageSize: number, sortBy: string = "orderId", sortDir: string = "asc", status: string, orderDateFrom: string, orderDateTo: string) =>
+    requests.get(`orders/search?pageNo=${pageNo}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}&status=${status}&orderDateFrom=${orderDateFrom}&orderDateTo=${orderDateTo}`),
 };
 
 // Payment API methods

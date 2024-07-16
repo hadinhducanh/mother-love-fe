@@ -20,6 +20,8 @@ export const OrdersList = () => {
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [filterApplied, setFilterApplied] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+
   const renderDateAndTime = (dateTime: string) => {
     const date = new Date(dateTime);
     const formattedDate = date.toLocaleDateString();
@@ -33,16 +35,30 @@ export const OrdersList = () => {
 
     try {
       if (userId != null) {
-        if (filterApplied) {
+        if (filterApplied && startDate && endDate && selectedStatus) {
           const sortDirection = "asc";
-          const response = await agent.Orders.getOrdersByDateRange(
+          const response = await agent.Orders.getOrderByStatusAndDate(
             pageSettings.pageNo,
             pageSettings.pageSize,
             "orderId",
             sortDirection,
-            startDate ? `${startDate}T00:00:00` : "",
-            endDate ? `${endDate}T23:59:59` : "",
-            userId
+            selectedStatus,
+            `${startDate}T00:00:00`,
+            `${endDate}T23:59:59`
+          );
+
+          if (response && Array.isArray(response.content)) {
+            setOrders(response.content);
+            setTotalPages(response.totalPages);
+          } else {
+            throw new Error("Fetched data is not in expected format");
+          }
+        } else if (selectedStatus) {
+          const response = await agent.Orders.getOrdersByStatus(
+            pageSettings.pageNo,
+            pageSettings.pageSize,
+            "orderId",
+            selectedStatus
           );
 
           if (response && Array.isArray(response.content)) {
@@ -77,7 +93,7 @@ export const OrdersList = () => {
     if (userId != null) {
       fetchOrders();
     }
-  }, [userId, pageSettings.pageNo, filterApplied]);
+  }, [userId, pageSettings.pageNo, filterApplied, selectedStatus, startDate, endDate]);
 
   const handlePageClick = (pageNumber: number) => {
     setPageSettings((prev) => ({
@@ -101,11 +117,16 @@ export const OrdersList = () => {
   const handleResetFilter = () => {
     setStartDate("");
     setEndDate("");
+    setSelectedStatus(null);
     setFilterApplied(false);
     setPageSettings({
       ...pageSettings,
       pageNo: 0,
     });
+  };
+
+  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStatus(event.target.value);
   };
 
   if (loading) {
@@ -239,8 +260,26 @@ export const OrdersList = () => {
         </div>
       </div>
 
+      {/* Status Filter */}
+      <div className="mb-4">
+        <h5>Filter by Status</h5>
+        <select
+          className="form-control"
+          value={selectedStatus || ""}
+          onChange={handleStatusChange}
+        >
+          <option value="">All</option>
+          <option value="PENDING">PENDING</option>
+          <option value="CANCELLED">CANCELLED</option>
+          <option value="PRE_ORDER">PRE_ORDER</option>
+          <option value="COMPLETED">COMPLETED</option>
+          <option value="CONFIRMED">CONFIRMED</option>
+          
+        </select>
+      </div>
+
       <div className="myaccount-table table-responsive text-center">
-      <table className="table table-bordered">
+        <table className="table table-bordered">
           <thead className="thead-light">
             <tr>
               <th>Date</th>

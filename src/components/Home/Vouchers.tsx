@@ -86,7 +86,7 @@ const Vouchers: React.FC = () => {
                   <div className="voucher-content">
                     <div className="voucher-middle">
                       <img
-                        src="./src/assets/images/voucher/voucher.png"
+                        src="https://res.cloudinary.com/dnslrwedn/image/upload/v1721144152/hrxxbbb6ec34thwtqmoz.png"
                         alt={voucher.voucherName}
                       />
                       <p className="voucher-code">{voucher.voucherCode}</p>

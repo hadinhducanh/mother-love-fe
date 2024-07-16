@@ -50,17 +50,17 @@ const CheckoutTotalCart: React.FC<Props> = ({ selectedAddressId }) => {
         throw new Error("User is not logged in");
       }
   
-      localStorage.removeItem("cart");
+     
       const orderData = await agent.Orders.createOrder(userId, addressId, voucherId, orderItems);
 
       localStorage.setItem("orderId", JSON.stringify(orderData.orderDto.orderId));
 
       const vnPayResponse = await agent.Payment.vnPay(orderData.orderDto.orderId);
-  
+      localStorage.removeItem("cart");
       window.location.href = vnPayResponse.paymentUrl;
   
     } catch (error) {
-      console.error("Failed to create order or VNPay:", error);
+
       setError("Failed to place order. Please try again later.");
     } finally {
       setLoading(false);

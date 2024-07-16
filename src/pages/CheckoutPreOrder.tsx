@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import agent from "@/api/agent";
 import { useAuth } from "@/context/auth/AuthContext";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 interface Props {
   selectedAddressId: string | null;
 }
@@ -56,13 +59,13 @@ const CheckoutPreOrder: React.FC<Props> = ({ selectedAddressId }) => {
       }
 
      await agent.Orders.createPreOrder(userId, addressId, voucherId, orderItems);
+     toast.success("Pre-order placed successfully");
 
       localStorage.removeItem("preOrder"); 
 
 
 
     } catch (error) {
-      console.error("Failed to create order or VNPay:", error);
       setError("Failed to place order. Please try again later.");
     } finally {
       setLoading(false);
@@ -71,6 +74,7 @@ const CheckoutPreOrder: React.FC<Props> = ({ selectedAddressId }) => {
 
   return (
     <div>
+       <ToastContainer position="bottom-left" />
       <div>
         {/* Checkout Section Start */}
         <div className="page-section section section-padding">
