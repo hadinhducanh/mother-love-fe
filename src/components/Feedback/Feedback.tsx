@@ -26,11 +26,9 @@ const Feedback: React.FC<ProductFeedbackProps> = ({ productId }) => {
           pageNo,
           pageSize
         );
-        console.log("feedbackByProduct", response.product);
         setFeedback(response);
         setTotalPages(response.feedbackDetails.totalPages);
       } catch (error) {
-        console.error("Failed to fetch feedback", error);
       }
     };
     fetchFeedbackByProduct();
