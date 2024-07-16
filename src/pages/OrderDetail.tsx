@@ -115,6 +115,18 @@ export const OrderDetail = () => {
     }
   };
 
+  const handleCancelOrder = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    try {
+      await agent.Orders.cancelOrder(Number(orderId), "string");
+      alert('Order cancelled successfully');
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to cancel order", error);
+      alert('Failed to cancel order');
+    }
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -199,6 +211,17 @@ export const OrderDetail = () => {
                 <div className="cart-buttons mb-30">
                   <a href="#" onClick={handleCheckout}>
                     Checkout
+                  </a>
+                  <a href="#" onClick={handleCancelOrder}>
+                    Cancel
+                  </a>
+                  {checkoutError && <div>Error: {checkoutError}</div>}
+                </div>
+              )}
+               {orderDto.status === "PRE_ORDER" && (
+                <div className="cart-buttons mb-30">
+                  <a href="#" onClick={handleCancelOrder}>
+                    Cancel
                   </a>
                   {checkoutError && <div>Error: {checkoutError}</div>}
                 </div>

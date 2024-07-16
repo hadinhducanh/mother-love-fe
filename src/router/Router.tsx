@@ -23,7 +23,7 @@ import MyAccount from "@/pages/MyAccount";
 import { Success } from "@/pages/Success";
 import Fail from "@/pages/Fail";
 import { PreOrder } from "@/pages/PreOrder";
-import PrivateRoute from './PrivateRoute'; // Đảm bảo import PrivateRoute từ đúng đường dẫn
+
 
 const AppWithProvider = () => {
   return (
@@ -47,17 +47,17 @@ export const router = createBrowserRouter([
       { path: "cart", element: <Cart /> },
       { path: "checkout", element: <Checkout /> },
       { path: "pre-order", element: <PreOrder /> },
-      { path: "voucher-list", element: <PrivateRoute element={<VoucherList />} /> },
+      { path: "voucher-list", element: <VoucherList /> },
       { path: "login-register", element: <LoginRegister /> },
-      { path: "my-order", element: <PrivateRoute element={<MyOrder />} /> },
-      { path: "my-address", element: <PrivateRoute element={<MyAddress />} /> },
-      { path: "my-account", element: <PrivateRoute element={<MyAccount />} /> },
+      { path: "my-order", element: <MyOrder /> },
+      { path: "my-address", element: <MyAddress /> },
+      { path: "my-account", element:<MyAccount /> },
       { path: "wishlist", element: <Wishlist /> },
       { path: "blog", element: <Blog /> },
       { path: "contact", element: <Contact /> },
       { path: "single-product/:id", element: <Product /> },
       { path: "single-blog/:id", element: <BlogDetail /> },
-      { path: "orders/:orderId", element: <PrivateRoute element={<OrderDetail />} /> },
+      { path: "orders/:orderId", element: <OrderDetail /> },
       { path: "*", element: <NotFound /> },
       { path: "success", element: <Success /> },
       { path: "fail", element: <Fail /> },

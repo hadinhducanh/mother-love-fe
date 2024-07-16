@@ -165,7 +165,8 @@ const Orders = {
     requests.get('orders/search', { pageNo, pageSize, sortBy, sortDir, orderDateFrom, orderDateTo, userId }),
   addFeedback: async (userId: number, orderId: number, feedback: { rating: number, comment: string, image: string, productId: number }[]) => 
     requests.post(`feedbacks?userId=${userId}&orderId=${orderId}`, feedback),
-  getOrderFeedbacks: async (orderId: number) => requests.get(`feedbacks/order/${orderId}`), // New method to get feedbacks by orderId
+  getOrderFeedbacks: async (orderId: number) => requests.get(`feedbacks/order/${orderId}`), 
+  cancelOrder: async (orderId: number, reason: string) => requests.post('order-cancels', { orderId, reason }), 
 };
 
 // Payment API methods
