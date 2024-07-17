@@ -289,7 +289,7 @@ const Cart = () => {
                 >
                   <div className="voucher-middle">
                     <img
-                      src="./src/assets/images/voucher/voucher.png"
+                      src="https://res.cloudinary.com/dnslrwedn/image/upload/v1721144152/hrxxbbb6ec34thwtqmoz.png"
                       alt={voucher.voucher.voucherName}
                       className="img-fluid"
                     />
@@ -304,7 +304,7 @@ const Cart = () => {
                         padding: "3px 10px",
                         borderRadius: "5px 5px 0 0",
                         fontSize: "12px",
-                      }}
+                      }} 
                     >
                       {voucher.voucher.voucherCode}
                     </p>
