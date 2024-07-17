@@ -36,7 +36,7 @@ const HeroSection = () => {
               <h1>
                 Premium Milk <br /> for Moms and Babies!
               </h1>
-              <a href="#">SHOP NOW</a>
+              <a href="/shop">SHOP NOW</a>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@ const HeroSection = () => {
                 Get 35% off <br />
                 Latest Baby Milk Product
               </h1>
-              <a href="#">SHOP NOW</a>
+              <a href="/shop">SHOP NOW</a>
             </div>
           </div>
         </div>
