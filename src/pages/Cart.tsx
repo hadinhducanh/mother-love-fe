@@ -155,7 +155,8 @@ const Cart = () => {
                                 </a>
                               </td>
                               <td className="pro-title">
-                                <a href="#">{item.productName}</a>
+                                <a href={`single-product/${item.productId}`}>{item.productName}</a>
+                            
                               </td>
                               <td className="pro-price">
                                 <span className="amount">

@@ -177,7 +177,13 @@ export const OrderDetail = () => {
                             </a>
                           </td>
                           <td className="pro-title">
-                            {orderItem.product.productName}
+                            <a href={`/single-product/${orderItem.product.productId}`}>
+                            {orderItem.product.productName} </a>
+                            
+
+
+
+        
                           </td>
                           <td className="pro-price">
                             {orderItem.unitPrice.toLocaleString()}
