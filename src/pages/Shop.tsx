@@ -72,8 +72,8 @@ const Shop: React.FC = () => {
 
         // Call the searchProducts API
         response = await axios.get(
-          "https://motherlove-api.onrender.com/api/v1/product/search",
-          // "http://localhost:8080/api/v1/product/search",
+          // "https://motherlove-api.onrender.com/api/v1/product/search",
+          "http://localhost:8080/api/v1/product/search",
           {
             params: searchParams,
           }

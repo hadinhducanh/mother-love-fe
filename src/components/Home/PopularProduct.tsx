@@ -109,7 +109,7 @@ const PopularProduct: FC = () => {
                           <button
                             onClick={() => handleAddToCart(product.productId)}
                           >
-                            add to cart
+                            add to cart 
                           </button>
                           <button
                             onClick={() =>

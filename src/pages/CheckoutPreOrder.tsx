@@ -4,6 +4,7 @@ import { useAuth } from "@/context/auth/AuthContext";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router";
 
 interface Props {
   selectedAddressId: string | null;
@@ -14,6 +15,7 @@ const CheckoutPreOrder: React.FC<Props> = ({ selectedAddressId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preOrderItem, setPreOrderItem] = useState<{ productId: number, productName: string } | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const preOrder = localStorage.getItem("preOrder");
@@ -61,7 +63,8 @@ const CheckoutPreOrder: React.FC<Props> = ({ selectedAddressId }) => {
      await agent.Orders.createPreOrder(userId, addressId, voucherId, orderItems);
      toast.success("Pre-order placed successfully");
 
-      localStorage.removeItem("preOrder"); 
+      localStorage.removeItem("preOrder");
+      navigate("/my-order");
 
 
 
